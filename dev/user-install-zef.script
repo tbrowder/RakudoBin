@@ -1,0 +1,51 @@
+Script started on 2023-08-27 12:13:45-05:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="119" LINES="21"]
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ ./z*1*sh
+[?2004lUsage: ./zef-1-install-user.sh go
+  (as a normal user)
+  Installs zef for a normal user.
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ ./z*1*sh g
+[?2004l===> Testing: zef:ver<0.11.7>:auth<github:ugexe>:api<0>
+===> Testing [OK] for zef:ver<0.11.7>:auth<github:ugexe>:api<0>
+===> Installing: zef:ver<0.11.7>:auth<github:ugexe>:api<0>
+
+1 bin/ script [zef] installed to:
+/home/tbrowde/.raku/bin
+Don't forget to add '~/.raku/bin' to your PATH,
+e.g. by adding this to .profile:
+export PATH=~/.raku/bin:$PATH
+Installed zef for user tbrowde
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ which zef
+[?2004l[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ s
+[?2004l[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ which zef
+[?2004l/home/tbrowde/.raku/bin/zef
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ r zef ver   --version
+[?2004lv0.11.7
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ zef upgrade zef
+[?2004l===> Searching for: zef
+===> Updating fez mirror: http://360.zef.pm/
+===> Updating cpan mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/cpan1.json
+===> Updating p6c mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/p6c1.json
+===> Updated p6c mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/p6c1.json
+===> Updated fez mirror: http://360.zef.pm/
+===> Updated cpan mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/cpan1.json
+The following distributions will be upgraded: zef:ver<0.18.0>:auth<github:ugexe>:api<0>
+===> Updating: zef:ver<0.18.0>:auth<github:ugexe>:api<0>
+===> Testing: zef:ver<0.19.1>:auth<github:ugexe>:api<0>
+===> Testing [OK] for zef:ver<0.19.1>:auth<github:ugexe>:api<0>
+===> Installing: zef:ver<0.19.1>:auth<github:ugexe>:api<0>
+===> Install [FAIL] for zef:ver<0.19.1>:auth<github:ugexe>:api<0>: MoarVM panic: Internal error: zeroed target thread ID in work pass
+
+MoarVM panic: Internal error: zeroed target thread ID in work pass
+
+!!!> Failed upgrading *all* modules
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ zef us pgrade zef
+[?2004l===> Searching for: zef
+===> Updating rea mirror: https://raw.githubusercontent.com/Raku/REA/main/META.json
+===> Updated rea mirror: https://raw.githubusercontent.com/Raku/REA/main/META.json
+All requested distributions are already at their latest versions
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ zwfb   ef --version
+[?2004l0.19.1
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ [?2004l
+exit
+
+Script done on 2023-08-27 12:17:26-05:00 [COMMAND_EXIT_CODE="0"]

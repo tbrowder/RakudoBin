@@ -1,0 +1,160 @@
+Script started on 2023-08-27 12:23:50-05:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="119" LINES="21"]
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ zef install Text::Utild s
+[?2004lAll candidates are currently installed
+No reason to proceed. Use --force-install to continue anyway
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ zef install Text::Utils --force-install
+[?2004l===> Searching for: Text::Utils
+===> Testing: Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+[Text::Utils] Times-Roman, 12 pts, bbox width = 14.016
+[Text::Utils] Times-Roman, 12 pts, bbox width = 14.016
+===> Testing [OK] for Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+===> Installing: Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sef     sef     zef search Text::Utils
+[?2004l===> Found 24 results
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+ID|From                            |Package                                          |Description                                                         
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+0 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.0.3>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+1 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.0.4>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+2 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.0.5>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+3 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.0.6>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+4 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.1.0>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+5 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.2.0>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+6 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.3.0>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+7 |Zef::Repository::Ecosystems<fez>|Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+8 |Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+9 |Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.3.0>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+10|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.2.0>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+11|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.1.0>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+12|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.0.6>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+13|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.0.5>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+14|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.0.4>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+15|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.0.3>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+16|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.0.2>:auth<cpan:TBROWDER>:api<3>|Miscellaneous text utilities                                        
+17|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.0.1>:auth<cpan:TBROWDER>:api<3>|Miscellaneous text utilities                                        
+18|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<3.0.0>:auth<cpan:TBROWDER>:api<3>|Miscellaneous text utilities                                        
+19|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<2.2.1>:auth<cpan:TBROWDER>:api<2>|Miscellaneous text utilities                                        
+20|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<2.1.1>:auth<cpan:TBROWDER>:api<2>|Provides some additional text functions (replaces module Text::More)
+21|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<2.1.0>:auth<cpan:TBROWDER>:api<2>|Provides some additional text functions (replaces module Text::More)
+22|Zef::Repository::Ecosystems<rea>|Text::Utils:ver<2.0.1>:auth<cpan:TBROWDER>:api<2>|Provides some additional text functions (replaces module Text::More)
+23|Zef::Repository::LocalCache     |Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3> |Miscellaneous text utilities                                        
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ zel   f list --installed -v
+[?2004l===> Found via inst#/home/tbrowde/.raku
+Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+#	Text::Utils
+zef:ver<0.11.7>:auth<github:ugexe>:api<0>
+#	Zef
+#	Zef::Build
+#	Zef::CLI
+#	Zef::Client
+#	Zef::Config
+#	Zef::Distribution
+#	Zef::Distribution::DependencySpecification
+#	Zef::Distribution::Local
+#	Zef::Extract
+#	Zef::Fetch
+#	Zef::Identity
+#	Zef::Install
+#	Zef::Report
+#	Zef::Repository
+#	Zef::Repository::Ecosystems
+#	Zef::Repository::LocalCache
+#	Zef::Service::FetchPath
+#	Zef::Service::FileReporter
+#	Zef::Service::InstallRakuDistribution
+#	Zef::Service::Shell::DistributionBuilder
+#	Zef::Service::Shell::LegacyBuild
+#	Zef::Service::Shell::PowerShell
+#	Zef::Service::Shell::PowerShell::download
+#	Zef::Service::Shell::PowerShell::unzip
+#	Zef::Service::Shell::Test
+#	Zef::Service::Shell::curl
+#	Zef::Service::Shell::git
+#	Zef::Service::Shell::p5tar
+#	Zef::Service::Shell::prove
+#	Zef::Service::Shell::tar
+#	Zef::Service::Shell::unzip
+#	Zef::Service::Shell::wget
+#	Zef::Service::TAP
+#	Zef::Test
+#	Zef::Utils::FileSystem
+#	Zef::Utils::SystemQuery
+#	Zef::Utils::URI
+zef:ver<0.19.1>:auth<github:ugexe>:api<0>
+#	Zef
+#	Zef::Build
+#	Zef::CLI
+#	Zef::Client
+#	Zef::Config
+#	Zef::Distribution
+#	Zef::Distribution::DependencySpecification
+#	Zef::Distribution::Local
+#	Zef::Extract
+#	Zef::Fetch
+#	Zef::Identity
+#	Zef::Install
+#	Zef::Report
+#	Zef::Repository
+#	Zef::Repository::Ecosystems
+#	Zef::Repository::LocalCache
+#	Zef::Service::FetchPath
+#	Zef::Service::FileReporter
+#	Zef::Service::InstallRakuDistribution
+#	Zef::Service::Shell::DistributionBuilder
+#	Zef::Service::Shell::LegacyBuild
+#	Zef::Service::Shell::Test
+#	Zef::Service::Shell::curl
+#	Zef::Service::Shell::git
+#	Zef::Service::Shell::prove
+#	Zef::Service::Shell::tar
+#	Zef::Service::Shell::unzip
+#	Zef::Service::Shell::wget
+#	Zef::Service::TAP
+#	Zef::Test
+#	Zef::Utils::FileSystem
+#	Zef::Utils::SystemQuery
+#	Zef::Utils::URI
+===> Found via inst#/opt/rakudo-pkg/share/perl6/core
+CORE:ver<6.d>:auth<perl>
+#	BUILDPLAN
+#	CompUnit::Repository::Staging
+#	MoarVM::Profiler
+#	MoarVM::SIL
+#	MoarVM::SL
+#	MoarVM::Spesh
+#	NativeCall
+#	NativeCall::Compiler::GNU
+#	NativeCall::Compiler::MSVC
+#	NativeCall::Types
+#	Pod::To::Text
+#	SIL
+#	SL
+#	Telemetry
+#	Test
+#	experimental
+#	newline
+#	snapper
+===> Found via inst#/opt/rakudo-pkg/share/perl6/site
+Font::AFM:ver<1.24.6>:auth<zef:dwarring>
+#	Font::AFM
+#	Font::Metrics::courier
+#	Font::Metrics::courier-bold
+#	Font::Metrics::courier-boldoblique
+#	Font::Metrics::courier-oblique
+#	Font::Metrics::helvetica
+#	Font::Metrics::helvetica-bold
+#	Font::Metrics::helvetica-boldoblique
+#	Font::Metrics::helvetica-oblique
+#	Font::Metrics::symbol
+#	Font::Metrics::times-bold
+#	Font::Metrics::times-bolditalic
+#	Font::Metrics::times-italic
+#	Font::Metrics::times-roman
+#	Font::Metrics::zapfdingbats
+Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+#	Text::Utils
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ [?2004l
+exit
+
+Script done on 2023-08-27 12:30:04-05:00 [COMMAND_EXIT_CODE="0"]

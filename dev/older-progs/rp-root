@@ -1,0 +1,107 @@
+#!/usr/bin/env raku
+
+use lib <../lib>;
+use RakudoPkg;
+
+my $user    = $*USER.lc;
+my $is-root = $user eq 'root' ?? True !! False;
+my $host    = $*KERNEL.hostname;
+my $system  = $*KERNEL.hardware // "Unknown system";
+my $distro  = $*DISTRO.name;
+my $version = $*DISTRO.version;
+
+my $inst    = 0;
+my $minst   = 0;
+if not @*ARGS {
+    say qq:to/HERE/;
+    Usage: {$*PROGRAM.basename} <install | remove> <raku | zef>
+
+    This is a root-only program currently running on:
+
+        Host:    $host
+        User:    $user
+        Distro:  $distro
+        Version: $version
+        System:  $system
+
+    HERE
+    exit
+}
+
+# use this area to test subs without being root
+=begin comment
+install-path :$user, :debug;    
+say "DEBUG exit"; exit;
+=end comment
+
+# we must be using the Debian rakudo package
+my $rak = "/usr/bin/local/raku";
+unless $rak.IO.f {
+    print qq:to/HERE/;
+    FATAL: This program requires the Debian 'rakudo' package to be installed.
+           As root, use program 'install-debian-rakudo' to do so.
+    HERE
+    exit;
+}
+
+unless $is-root {
+    say "FATAL: This program must be executed by the root user.";
+    exit;
+}
+
+# modes
+my $m-inst = 0;
+my $m-rm   = 0;
+# items
+my $i-rak  = 0;
+my $i-zef  = 0;
+# options
+my $debug  = 0;
+
+for @*ARGS {
+    # modes
+    when /^ i  / { ++$m-inst; $m-rm   = 0; }
+    when /^ re / { ++$m-rm;   $m-inst = 0; }
+
+    # items
+    when /^ ra / { ++$i-rak; $i-zef = 0; }
+    when /^ z  / { ++$i-zef; $i-rak = 0; }
+    # options
+    when /^ d / { ++$debug }
+
+    default {
+        note "FATAL: Unknown arg '$_'";
+        exit;
+    }
+}
+
+if $m-inst {
+    if $i-rak {
+        say "Installing rakudo-pkg in /opt...";
+        say "All publicly accessible modules will be removed...";
+        my $res = prompt "Continue (y/N)? ";
+        handle-prompt :$res;
+        install-raku
+    }
+    elsif $i-zef {
+        say "Installing zef in {$*HOME}...";
+        my $res = prompt "Continue (y/N)? ";
+        handle-prompt :$res;
+        install-zef
+    }
+}
+elsif $m-rm {
+    if $i-rak {
+        say "Removing rakudo-pkg from /opt...";
+        my $res = prompt "Continue (y/N)? ";
+        handle-prompt :$res;
+        remove-raku
+    }
+    elsif $i-zef {
+        say "Removing zef completely in {$*HOME}...";
+        my $res = prompt "Continue (y/N)? ";
+        handle-prompt :$res;
+        remove-zef
+    }
+}
+

@@ -1,0 +1,54 @@
+Script started on 2023-08-27 12:18:54-05:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="119" LINES="21"]
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sudo -s
+[?2004l[?2004hroot@bigtom:/home/tbrowde/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts# which zef
+[?2004l[?2004hroot@bigtom:/home/tbrowde/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts# [?2004l
+exit
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sudo -i
+[?2004l[?2004hroot@bigtom:~# which zef
+[?2004l/root/.raku/bin/zef
+[?2004hroot@bigtom:~# zef --version
+[?2004l0.19.1
+[?2004hroot@bigtom:~# zef install Text::Utile
+[?2004l===> Searching for: Text::Utile
+===> Updating rea mirror: https://raw.githubusercontent.com/Raku/REA/main/META.json
+===> Updated rea mirror: https://raw.githubusercontent.com/Raku/REA/main/META.json
+^C
+[?2004hroot@bigtom:~# a zef install Text::Utils
+[?2004l===> Searching for: Text::Utils
+===> Searching for missing dependencies: Font::AFM:ver<1.24.6>
+===> Testing: Font::AFM:ver<1.24.6>:auth<zef:dwarring>
+===> Testing: Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+[Text::Utils] Times-Roman, 12 pts, bbox width = 14.016
+[Text::Utils] Times-Roman, 12 pts, bbox width = 14.016
+===> Testing [OK] for Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+===> Testing [OK] for Font::AFM:ver<1.24.6>:auth<zef:dwarring>
+===> Installing: Font::AFM:ver<1.24.6>:auth<zef:dwarring>
+===> Installing: Text::Utils:ver<3.3.1>:auth<zef:tbrowder>:api<3>
+[?2004hroot@bigtom:~# which zwf  ef
+[?2004l/root/.raku/bin/zef
+[?2004hroot@bigtom:~# raku
+[?2004lWelcome to 𝐑𝐚𝐤𝐮𝐝𝐨™ v2021.05.
+Implementing the 𝐑𝐚𝐤𝐮™ programming language v6.d.
+Built on MoarVM version 2021.05.
+
+You may want to `zef install Readline` or `zef install Linenoise` or use rlwrap for a line editor
+
+To exit type 'exit' or '^D'
+> use Text::Utils
+Nil
+> [?2004hroot@bigtom:~# [?2004l
+logout
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ raku
+[?2004lWelcome to 𝐑𝐚𝐤𝐮𝐝𝐨™ v2021.05.
+Implementing the 𝐑𝐚𝐤𝐮™ programming language v6.d.
+Built on MoarVM version 2021.05.
+
+You may want to `zef install Readline` or `zef install Linenoise` or use rlwrap for a line editor
+
+To exit type 'exit' or '^D'
+> use Text::Utils
+Nil
+> [?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ [?2004l
+exit
+
+Script done on 2023-08-27 12:22:43-05:00 [COMMAND_EXIT_CODE="0"]

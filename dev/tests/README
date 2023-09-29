@@ -1,0 +1,25 @@
+Test in the following sequence:
+==============================
+
+Parent directory scripts
+------------------------
+
+Run the cleaning scripts 0 and 1 
+to have a system cleaned of Raku and
+Zef.
+
+Run the rakudo-pkg install script 2.
+
+Run the root zef install script
+(note the script uses option --install-to=home).
+Then upgrade zef (use without and with the option '--force-install').
+
+Run the user zef install script
+(note the script uses option --install-to=home).
+Then upgrade zef (use without and with the option '--force-install').
+
+Current directory
+-----------------
+
+
+

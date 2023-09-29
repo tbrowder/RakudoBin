@@ -1,0 +1,54 @@
+# step 0
+apt-get remove rakudo-pkg
+rm -rf /opt/rakudo-pkg
+rm -rf /root/.raku /root/.zef /root/zef
+rm -rf /etc/profile.d/rakudo-pkg.sh
+apt-get update
+
+# # clean repository info
+# rm /etc/apt/sources.list.d/nxadm-pkgs-rakudo-pkg.list
+# apt-get clean
+# rm -rf /var/lib/apt/lists/*
+# apt-get update
+
+# running as the root user
+apt-get install -y debian-keyring  # debian only
+apt-get install -y debian-archive-keyring  # debian only
+apt-get install -y apt-transport-https
+
+# For Debian Stretch, Ubuntu 16.04 and later
+keyring_location=/usr/share/keyrings/nxadm-pkgs-rakudo-pkg-archive-keyring.gpg
+
+# For Debian Jessie, Ubuntu 15.10 and earlier
+# keyring_location=/etc/apt/trusted.gpg.d/nxadm-pkgs-rakudo-pkg.gpg
+
+curl -1sLf 'https://dl.cloudsmith.io/public/nxadm-pkgs/rakudo-pkg/gpg.0DD4CA7EB1C6CC6B.key' |  gpg --dearmor >> ${keyring_location}
+
+curl -1sLf 'https://dl.cloudsmith.io/public/nxadm-pkgs/rakudo-pkg/config.deb.txt?distro=debian&codename=buster' > /etc/apt/sources.list.d/nxadm-pkgs-rakudo-pkg.list
+
+apt-get update
+apt-get install rakudo-pkg
+
+echo "Installation of raku is complete"
+
+#!/usr/bin/env raku
+
+constant $raku-path     = "/opt/rakudo-pkg/bin";
+constant $site-bin-path = "/opt/rakudo-pkg/share/perl6/site/bin";
+
+if not @*ARGS {
+    say qq:to/HERE/;
+    Usage: {$*PROGRAM.basename} go
+
+    Checks for the correct paths for using the Raku
+    executable and site module executable installed
+    by Zef.
+
+    The correct raku path is:
+        {$raku-path}
+    and the correct site module bin path is:
+        {$site-bin-path}
+    HERE
+    exit;
+}
+

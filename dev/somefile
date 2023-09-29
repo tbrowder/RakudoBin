@@ -1,0 +1,11 @@
+# antononcube
+say $_ for "file.txt".IO.lines[^(*-3)]
+# lizmat
+say $_ for "somefile.txt".IO.lines.head(*-3)
+some info
+some info
+line 5 from the end
+line 4 from the end
+line 3 from the end
+line 2 from the end
+line 1 from the end

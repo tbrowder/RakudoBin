@@ -1,0 +1,38 @@
+#!/usr/bin/env raku
+
+my $usable = "/opt/rakudo-pkg/bin/raku".IO.e ?? True !! False;
+
+use lib <../lib>;
+use RakudoPkg;
+
+my $user    = $*USER;
+my $is-root = $user eq 'root' ?? True !! False;
+
+if not $usable {
+    say "WARNING: This program is not usable because 'rakudo-pkg' is not installed.";
+}
+
+my $inst    = 0;
+if not @*ARGS {
+    say qq:to/HERE/;
+    Usage: {$*PROGRAM.basename} install
+
+    Installs the Raku module installer 'zef' for a normal user.
+
+    HERE
+    exit
+}
+
+unless not $is-root {
+    say "FATAL: This program must be executed by a normal user";
+    exit;
+}
+
+for @*ARGS {
+    when /^:i i/ { ++$inst }
+    default {
+        note "FATAL: Unknown arg '$_'";
+        exit;
+    }
+}
+

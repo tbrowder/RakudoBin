@@ -1,0 +1,52 @@
+Script started on 2023-08-27 12:07:43-05:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="119" LINES="21"]
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sudo ./z        sudo ./z*0*sh
+[?2004lUsage: ./zef-0-install-root.sh go
+  (as root, sudo ok)
+  Installs zef for root.
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sudo ./z*0*sh g
+[?2004l===> Testing: zef:ver<0.11.7>:auth<github:ugexe>:api<0>
+===> Testing [OK] for zef:ver<0.11.7>:auth<github:ugexe>:api<0>
+===> Installing: zef:ver<0.11.7>:auth<github:ugexe>:api<0>
+
+1 bin/ script [zef] installed to:
+/root/.raku/bin
+Don't forget to add '~/.raku/bin' to your PATH,
+e.g. by adding this to .profile:
+export PATH=~/.raku/bin:$PATH
+Installed zef for root
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sido   udo -i
+[?2004l[?2004hroot@bigtom:~# which ra  zef
+[?2004l/root/.raku/bin/zef
+[?2004hroot@bigtom:~# zef --version
+[?2004lv0.11.7
+[?2004hroot@bigtom:~# zef upgrade zef
+[?2004l===> Searching for: zef
+===> Updating fez mirror: http://360.zef.pm/
+===> Updating cpan mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/cpan1.json
+===> Updating p6c mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/p6c1.json
+===> Updated p6c mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/p6c1.json
+===> Updated cpan mirror: https://raw.githubusercontent.com/ugexe/Perl6-ecosystems/master/cpan1.json
+===> Updated fez mirror: http://360.zef.pm/
+Unsure of how to handle the following distributions: zef:ver<0.18.0>:auth<github:ugexe>:api<0> 
+All requested distributions are already at their latest versions
+[?2004hroot@bigtom:~# zee f install zef --iz nstall-to=home
+[?2004lAll candidates are currently installed
+No reason to proceed. Use --force-install to continue anyway
+[?2004hroot@bigtom:~# zef install zef --install-to=home -# force     -force-install
+[?2004l===> Searching for: zef
+===> Testing: zef:ver<0.19.1>:auth<github:ugexe>:api<0>
+===> Testing [OK] for zef:ver<0.19.1>:auth<github:ugexe>:api<0>
+===> Installing: zef:ver<0.19.1>:auth<github:ugexe>:api<0>
+
+1 bin/ script [zef] installed to:
+/root/.raku/bin
+[?2004hroot@bigtom:~# which zef
+[?2004l/root/.raku/bin/zef
+[?2004hroot@bigtom:~# zwf    ef --version
+[?2004l0.19.1
+[?2004hroot@bigtom:~# [?2004l
+logout
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ [?2004l
+exit
+
+Script done on 2023-08-27 12:12:28-05:00 [COMMAND_EXIT_CODE="0"]

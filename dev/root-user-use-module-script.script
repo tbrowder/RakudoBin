@@ -1,0 +1,32 @@
+Script started on 2023-08-27 12:32:22-05:00 [TERM="xterm" TTY="/dev/pts/0" COLUMNS="119" LINES="21"]
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sudo -i 
+[?2004l[?2004hroot@bigtom:~# zer   f install Github::PublicKeys:< ver<0.0.1>
+[?2004l-bash: syntax error near unexpected token `newline'
+[?2004hroot@bigtom:~# zef install Github::PublicKeys:ver<0.0.1>"root@bigtom:~# zef install [1@"
+[?2004l===> Searching for: Github::PublicKeys:ver<0.0.1>
+===> Testing: Github::PublicKeys:ver<0.0.1>:auth<zef:tbrowder>
+===> Testing [OK] for Github::PublicKeys:ver<0.0.1>:auth<zef:tbrowder>
+===> Installing: Github::PublicKeys:ver<0.0.1>:auth<zef:tbrowder>
+
+1 bin/ script [gh-add-keys] installed to:
+/opt/rakudo-pkg/share/perl6/site/bin
+[?2004hroot@bigtom:~# [?2004l
+logout
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ sudo -i 
+[?2004l[?2004hroot@bigtom:~# gh-add-keys
+[?2004l-bash: gh-add-keys: command not found
+[?2004hroot@bigtom:~# echo $PATH
+[?2004l/root/.raku/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/rakudo-pkg/bin:/opt/rakudo-pkg/share/perl6/bin
+[?2004hroot@bigtom:~# # path is wronh g
+[?2004l-bash: path: command not found
+[?2004hroot@bigtom:~# [?2004l
+logout
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ gh-add-keys
+[?2004lbash: gh-add-keys: command not found
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ echo $PATH
+[?2004l/home/tbrowde/.raku/bin:/usr/local/bin:/bin:/usr/bin:/usr/local/games:/usr/games:/opt/rakudo-pkg/bin:/usr/sbin
+[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ # pth  ath is wrong
+[?2004l[?2004h]0;tbrowde@bigtom: ~/mydata/tbrowde-home/0-myservers/0-raku-zef-inst-scripts[01;32mbigtom[00m:[01;34m0-raku-zef-inst-scripts[00m$ [?2004l
+exit
+
+Script done on 2023-08-27 12:36:30-05:00 [COMMAND_EXIT_CODE="0"]

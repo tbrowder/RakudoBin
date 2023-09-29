@@ -1,0 +1,30 @@
+#!/usr/bin/env raku
+
+use lib <../lib>;
+use RakudoPkgHelper;
+
+my $user    = $*USER;
+my $is-root = $user eq 'root' ?? True !! False;
+
+my $inst    = 0;
+my $minst   = 0;
+if not @*ARGS {
+    say qq:to/HERE/;
+    Usage: {$*PROGRAM.basename} install 
+
+    HERE
+    exit
+}
+
+# this can be used by root or an ordinary user
+say "This is being executed by the '$user' user.";
+
+for @*ARGS {
+    when /^:i i/ { ++$inst; }
+    default {
+        note "FATAL: Unknown arg '$_'";
+        exit;
+    }
+}
+
+
