@@ -1,0 +1,126 @@
+=begin pod
+
+=head1 NAME
+
+B<RakudoPkg> - Provides tools for easing installation and use of the C<rakudo-pkg> system for Debian and Ubuntu
+
+=head1 DESCRIPTION
+
+This module distribution cannot be installed by C<zef>. Its repository must be downloaded
+onto the desired host and then installed by the root user from its top-level directory
+in a similar manner to the way C<zef> is installed on a new system.
+
+The package contains programs for the root user to bootstrap the C<rakudo-pkg>
+installation by use of a system C<rakudo> package installation.
+After successful bootstrapping, the system's C<rakudo> package should be deleted
+to avoid conflicts.
+
+Note this package is designed for the purpose of setting up and 
+standardizing multi-user Linux hosts
+for classrooms or computer laboratories.
+
+=head2 Procedures for installation
+
+Normally you will be using this module on a system
+which has not had Raku installed other than with its normal
+package installation, but it will uninstall
+completely any previous C<rakudo-pkg> installation in an existing
+C</opt/rakudo-pkg> directory.
+
+There are three steps to follow.
+
+=head3 Step 1 - Install the Debian or Ubuntu C<rakudo> package and its C<zef>
+
+Since C<zef> depends on C<raku>, all we need to do is install its package (note the package name
+is different):
+
+=begin code
+$ sudo apt-get install perl6-zef
+=end code
+
+We will use the distribution's likely older version to 'bootstrap' our desired Rakudo framework.
+
+=head3 Step 2 - Install the C<rakudo-pkg> framework
+
+=begin code
+$ git clone https://github.com/tbrowder/RakudoPkg.git
+$ cd RakudoPkg
+$ sudo -s
+# raku -I ./bin/install-rakudo-pkg
+=end code
+
+The command does the following:
+
+=item deletes any existing C</opt/rakudo-pkg> directory
+=item installs the C<rakudo-pkg> framework
+=item installs the new C<rakudo> package
+
+Prompts are shown at critical points so you can
+abort the process if necessary.
+
+=head3 Step 3 - Remove the system's C<rakudo> package
+
+After becoming a normal user again:
+
+=begin code
+$ sudo apt-get remove rakudo
+=end code
+
+After this step, you may have to logout and login again
+to update your path.
+
+Note the Raku package manager C<zef> is not involved at this point. Any previous
+installation by any user is not touched. The author is planning a separate
+module, tentatively named C<ZefAdmin>, which will help install C<Zef> for
+non-conflicting use by both the root user and normal users.
+
+=head2 Procedures for B<complete> removal
+
+Should you ever want to remove the C<rakudo-pkg> installation,
+run the following RakudoPkg program as root: C<remove-rakudo-pkg>.
+
+=begin code
+$ cd RakudoPkg
+$ sudo ./bin/remove-rakudo-pkg
+=end code
+
+The pertinent parts of that bash script are shown here:
+
+=begin code
+echo "Starting removal of 'rakudo-pkg'..."
+
+apt-get remove rakudo-pkg
+rm -rf /opt/rakudo-pkg
+rm -rf /etc/profile.d/rakudo-pkg.sh
+apt-get update
+
+# clean repository info
+rm /etc/apt/sources.list.d/nxadm-pkgs-rakudo-pkg.list
+apt-get clean
+rm -rf /var/lib/apt/lists/*
+apt-get update
+
+echo "Removal of 'rakudo-pkg' is complete."
+exit
+=end code
+
+Note the removal does not delete anything in any users' home
+directory, so there may be C<raku>- or C<zef>-related artifacts remaining
+in those places.
+
+=head1 Related modules
+
+=item ZefAdmin (NYI)
+=item SysAdmin (NYI)
+
+=head1 AUTHOR
+
+Tom Browder <tbrowder@acm.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+© 2023 Tom Browder
+
+This library is free software; you may redistribute it or modify it under the Artistic License 2.0.
+
+=end pod

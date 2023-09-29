@@ -1,0 +1,100 @@
+=begin pod
+
+=head1 NAME
+
+B<RakudoPkg> - Provides tools for easing use of the 'rakudo-pkg' system for Debian and Ubuntu
+
+=head1 SYNOPSIS
+
+=begin code :lang<raku>
+
+use RakudoPkg;
+
+=end code
+
+=head1 DESCRIPTION
+
+B<RakudoPkg> is a Raku module with programs for the root user to bootstrap the 'rakudo-pkg'
+installation by use of a system 'rakudo' package installation.
+After successful bootstrapping, the system's 'rakudo' package should be deleted
+to avoid conflicts.
+
+After the system's 'rakudo' is removed, the 'root' user can manage his or her 'zef' with
+the included program 'manage-zef'. A regular user can use it, too.
+The program enables the user to install or remove selected Raku module packages.
+
+Note this package is designed for the purpose of standardizing multi-user Linux hosts
+for classrooms or computer laboratories.
+
+=head2 Procedures
+
+Normally you will be using this module on a system
+which has not had Raku installed other than with its normal
+package installation, but it can uninstall
+completely any previous such installations.
+
+=head3 Step 1 - Install the Debian or Ubuntu C<rakudo> package
+
+=begin code
+$ sudo apt-get install rakudo
+=end code
+
+We use the distro's version to 'bootstrap' our desired Rakudo framework.
+
+=head3 Step 2 - Install the C<rakudo-pkg> framework
+
+=begin code
+$ sudo rp-root install raku
+=end code
+
+The command does the following:
+
+=item deletes any existing /opt/rakudo-pkg directory
+=item installs the rakudo-pkg framework
+=item installs the new rakudo package
+
+=head3 Step 3 - Remove the system's 'rakudo' package
+
+=begin code
+$ sudo apt-get remove rakudo
+=end code
+
+=head3 Install the C<zef> module installer
+
+=begin code
+$ sudo rp-root install zef
+=end code
+
+The command does the following:
+
+=item deletes any existing .raku, .zef, or zef directories for root.
+=item installs and updates zef for root
+
+=head3 Install a curated set of modules for public use
+
+A list of modules the author uses is in C<%?RESOURCES>, but another
+list may be provided if desired. The input list must be a text file with one
+module name per line (along with any adverbs desired).
+
+=head3 Install zef for a user
+
+=begin code
+$ rp-user install zef
+=end code
+
+The command does the following:
+
+=item deletes any existing .raku, .zef, or zef directories for the user.
+=item installs and updates zef for the user.
+
+=head1 AUTHOR
+
+Tom Browder <tbrowder@acm.org>
+
+=head1 COPYRIGHT AND LICENSE
+
+© 2023 Tom Browder
+
+This library is free software; you may redistribute it or modify it under the Artistic License 2.0.
+
+=end pod
