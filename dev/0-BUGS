@@ -1,0 +1,40 @@
+Documentation issues
+====================
+
+In the instructions, move section 'Zef Module Manager' to
+follow section 'Add rakudo to the PATH'.
+
+Change section named 'Add rakudo to the PATH'.
+to 'Add raku to the PATH'.
+
+In section 'Clean up', change the first sentence into two
+sentences to read
+"First remove the package by running 'apt-get remove rakudo-pkg'.
+Then you can safely remove directory '/opt/rakudo-pkg' with any
+leftover files."
+
+Change the section named 'Clean up' to 'Removing rakudo-pkg'.
+
+Execution issues
+================
+
+When using the rakudo-pkg script to install zef as root, it
+installed its version 0.11.7 in '/root/.raku/bin'.
+Note the installation used the '--install-to=home' option. 
+
+When I, as root, executed 'zef upgrade zef' I got a message
+about unsure how to handle ver 0.18.0 because it's installed.
+
+I tried again, with --force-install and --install-to=home
+it upgraded fine.
+
+More testing
+============
+
+Redo steps above except: do note use '--install-to' for 
+root installation of zef only (except in the existing 
+scripts with the rakudo-pkg).
+
+A Makefile for zef upgrade might be useful.
+
+

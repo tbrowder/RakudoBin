@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# run as normal user (uses sudo as last step)
+# original:
+#   curl -1sLf \
+#     'https://dl.cloudsmith.io/public/nxadm-pkgs/rakudo-pkg/setup.deb.sh' \
+#     | sudo -E bash
+curl \
+  'https://dl.cloudsmith.io/public/nxadm-pkgs/rakudo-pkg/setup.deb.sh' 
+

@@ -1,0 +1,107 @@
+Start with a clean slate:
+
+Step 0 - Clean out root
+=======================
+
++ sudo apt-get remove rakudo-pkg
++ sudo rm -rf /opt/rakudo-pkg
++ sudo rm -rf /root/.raku /root/.zef /root/zef
+
+See script: step-0-clean-root-of-raku-zef.sh
+
+Step 1 - Clean out tbrowde (normal user)
+========================================
+
++ rm -rf ~/.raku ~/.zef ~/zef
+
+See script: step-1-clean-tbrowde-of-raku-zef.sh
+
+Step 2 - Install rakudo-pkg
+===========================
+
++ sudo ./step-2-install-rakudo-pkg.sh
+
+See script: step-2-install-rakudo-pkg.sh
+
+Setting paths
+-------------
+
+Rakudo-pkg instructions mention two ways to
+set paths to Raku (confusingly, it doesn't
+mention why there is the second method):
+
+1. The path is set by an automatically 
+intalled '/etc/profile.d/rakudo-pkg.sh'
+file which is a symlink to '/opt/rakudo-pkg/bin/rakudo-pkg_path.sh'
+whose contents sets
+
+  RAKUDO_PATHS=/opt/rakudo-pkg/bin:/opt/rakudo-pkg/share/perl6/bin
+  export PATH="$PATH:$RAKUDO-PATHS"
+
+2. There is also a script to set the path manually: 
+  '/opt/rakudo-pkg/bin/add-rakudo-to-path'. Its contents are a complex
+bash script to do accomplish the same as method 1.
+
+After installing raku:
+---------------------
+
+Before root runs "raku", he has a path to raku, root 
+does NOT have .raku, zef, or .zef directories. 
+After root runs "raku" and exits, root DOES
+have .raku and .raku/store directories
+
+Before a user runs "raku", he has a path to raku, he
+does NOT have .raku, zef, or .zef directories. 
+After the user runs "raku" and exits, he DOES
+have .raku and .raku/store directories
+ 
+ENSURE THE PREV PARA IS CORRECT!!!
+
+Step 3 - Install zef for root
+=============================
+
+Run '/opt/rakudo-pkg/bin/install-zef' and zef will
+be installed to '~/.raku/bin/zef' and modules to
+'~/.raku'.
+
+See script:  
+
+
+Step 4 - Install zef for a user (tbrowde)
+=========================================
+
+Run '/opt/rakudo-pkg/bin/install-zef' and zef will
+be installed to '~/.raku/bin/zef' and modules to
+'~/.raku'.
+
+See script:  
+
+Alternative for minimalist systems like containers
+==================================================
+
+As root run
+
+  /opt/rakudo-pkg/bin/zef-as-root install SuperMAIN
+
+ERROR: That file doesn't seem to exist.
+
+
+=LATER needs attention after above is satisfactory
+
+For root: 
+
+  # sudo su; cd
+
+Copy the .bashrc from host olg2 whose contents are
+in the file 'olg2-root-bashrc.txt' (in this directory).
+
+Add the following env vars for users and root (from gfldex, 2023-08-20):
+
+export RAKUDO_MAX_THREADS=16
+export RAKUDO_ERROR_COLOR=yes
+export TEST_JOBS=12
+export ZEF_TEST_DEGREE=12
+
+Ensure paths to raku and zef are correct and set for myself
+and root.
+
