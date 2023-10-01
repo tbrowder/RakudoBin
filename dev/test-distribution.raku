@@ -1,5 +1,7 @@
 #!/usr/bin/env raku
 
+# note: this is under git version control in https://github.com/tbrowder/SysAdmin/dev
+
 use lib "lib";
 use MyFoo;
 
