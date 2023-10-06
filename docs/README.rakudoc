@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-B<SysAdmin> - Provides Raku tools to help Linux system administrators manage common user account tasks
+B<SysAdmin> - Provides Raku and bash tools to help system administrators manage common user account tasks
 
 =head1 SYNOPSIS
 
@@ -14,7 +14,7 @@ use SysAdmin;
 
 =head1 DESCRIPTION
 
-B<SysAdmin> is ...
+B<SysAdmin> currentlyis ...
 
 =head1 AUTHOR
 

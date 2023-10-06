@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if [[ -z $1 ]]; then
+    echo "Usage: $0 go"
+    echo "  Removes '/opt/rakudo' completely."
+    echo "  It does NOT remove anything in any users' home directory."
+    exit
+fi
+
+# cleaning out rakudo
+# run as root user
+if [[ $EUID != 0 ]]; then
+    echo "Please run as root"
+    exit
+fi
+
+#echo "DEBUG exit"
+#exit
+
+echo "Starting removal of '/opt/rakudo'..."
+
+rm -rf /opt/rakudo
+rm -rf /etc/profile.d/rakudo-bin.sh
+apt-get update
+
+echo "Removal of '/opt/rakudo' is complete."
+exit
+
+
