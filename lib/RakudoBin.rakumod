@@ -454,36 +454,64 @@ sub download-rakudo-bin(
     :$date! where {/^ \d**4 '.' \d\d $/}, 
     :os($OS)!, 
     :$spec, 
-    :$release = 1,
+    :$release is copy = 1 where { /^ \d+ $/ },
     $debug,
     ) is export {
 
     my $err;
-    my ($sys, $arch, $tool);
+    my ($sys, $arch, $tool, $type);
     if $os ~~ /:i lin/ {
         $sys = "linux";
+        $arch = "x86_64";
+        $tool = "gcc";
+        $type = "tar.gz";
     }
     elsif $os ~~ /:i win/ {
         $sys = "win";
+        $arch = "x86_64";
+        $tool = "msvc"
+        $type = "msi"; # default, else "zip" if $spec.defined
     }
     elsif $os ~~ /:i mac/ {
         $sys = "macos";
+        $tool = "clang"
+        $arch = "arm64"; # default, else "x86_64" if $spec.defined
+        $type = "tar.gz";
     }
     else {
-        ++$err
+        say "FATAL: Unrecgnized OS '$os'. Try 'lin', 'win', or 'mac'.";
+        exit;
     }
+    if 29 < $release < 1 {
+        say "FATAL: Release must be between 1 and 29. You entered '$release'.":
+        exit;
+    }
+
 
     if $spec.defined {
-    }
-    else {
+        $arch = "x86_84" if $os eq "macos";
+        $type " "zip" if $os eq "win";
     }
 
-    # final download file name
+    $release = sprintf "%02d", $release;
+if $reoease
+    # final download file name              backend
+    #                                            date    release
+    #                                                       sys   arch   tool
+    #                                                       sys   arch       type 
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-linux-x86_64-gcc.tar.gz
+    #                                                             spec=arch
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-macos-arm64-clang.tar.gz
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-macos-x86_64-clang.tar.gz
+    #                                                                       spec=type
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.msi
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.zip
+    #   
+    #   "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+    #       plus a C<.asc> and C<.checksums.txt> extensions.
+    my $f1 = "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+    my $f2 = "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}.asc";
+    my $f3 = "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}.checksums.txt";
 }
 
 # install-rakudo-bin :date<2022.09>, :os<windows>, :spec<msi>; # or :spec<zip>

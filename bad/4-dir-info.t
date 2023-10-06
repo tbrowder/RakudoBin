@@ -1,5 +1,5 @@
 use Test;
-use RakudoPkg;
+use RakudoBin;
 
 my $debug = 0;
 

@@ -1,5 +1,5 @@
 use Test;
-use RakudoPkg;
+use RakudoBin;
 
 my $res  = my-resources;
 my $mfil = $res<files/modules.txt>.absolute;

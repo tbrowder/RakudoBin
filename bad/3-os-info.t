@@ -1,5 +1,5 @@
 use Test;
-use RakudoPkg;
+use RakudoBin;
 
 my (%sys, %sys2); # defined in BEGIN block near the EOF
 
