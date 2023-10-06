@@ -1,0 +1,155 @@
+Note the actual download link is shown below:
+
+https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-linux-x86_64-gcc.tar.gz
+https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-macos-arm64-clang.tar.gz
+https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-macos-x86_64-clang.tar.gz
+https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.msi
+https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.zip
+
+Binary Releases
+===============
+
+Archives contain a precompiled Rakudo and the Zef module manager. The filenames follow the pattern rakudo-[backend]-[version]-[build revision]-[OS]-[architecture]-[toolchain]. The archives have executables located in bin/ and share/perl6/site/bin/. See the contained README.md file for further information.
+These don't work on Alpine. See below.
+
+In addition to the files above, each file has two other sibling files with the same
+name plus a C<.asc> and C<.checksums.txt> extensions.
+
+Verifying
+=========
+
+How to verify downloads
+To verify that a downloaded file is not corrupted, download the *.checksums.txt corresponding to the download you want to verify. Then run
+
+sha256 -c file_you_downloaded
+
+In addition one can verify the download is authentic by checking its signature. One can either validate the checksum file which contains a self contained signature or alternatively validate the downloaded file directly using the separate *.asc file.
+
+To verify via the checksum file do
+
+gpg2 --verify file_you_downloaded.checksums.txt
+
+To verify via the signature file do
+
+gpg2 --verify file_you_downloaded.asc file_you_downloaded
+
+Should you miss the public key matching the signature (that's expected and normal the first time one validates a download) import the respective key from the list of Keys of the releasers.
+
+Keys of the releasers
+=====================
+
+The following people have released and signed files on rakudo.org. You are encouraged, to not just download the keys from here, but cross-check the keys / fingerprints with other sources. Devs are encouraged to list their fingerprints at least on their GitHub profile.
+
+Justin DeVuyst
+Fingerprint: 59E6 3473 6AFD CF9C 6DBA C382 602D 51EA CA88 7C01
+Key: justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc
+GitHub
+Patrick Böker
+Fingerprint: DB2B A39D 1ED9 67B5 84D6 5D71 C09F F113 BB64 10D0
+Key: patrick_boeker-DB2BA39D1ED967B584D65D71C09FF113BB6410D0.asc
+Homepage
+GitHub
+Rakudo GitHub automation
+Fingerprint: 3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE
+Key: rakudo_github_automation-3E7E3C6EAF916676AC549285A2919382E961E2EE.asc
+Alexander Kiryuhin
+Fingerprint: FE75 0D15 2426 F3E5 0953 176A DE8F 8F5E 97A8 FCDE
+Key: alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc
+GitHub
+
+The github fingerprints for the releasers are:
+
+Justin DeVuyst
+PGP Fingerprint: 59E6 3473 6AFD CF9C 6DBA C382 602D 51EA CA88 7C01
+
+Patrick Böker
+PGP Fingerprint: DB2B A39D 1ED9 67B5 84D6 5D71 C09F F113 BB64 10D0
+
+Alexander Kiryuhin
+PGP Fingerprint: FE75 0D15 2426 F3E5 0953 176A DE8F 8F5E 97A8 FCDE
+
+Distro packages
+===============
+
+When on *nix, the easiest way to install Rakudo is to use the packages provided by your distribution. The packages on non-rolling release distributions can be out of date so you may wish to use a user-maintained repository (see below).
+
+Fedora
+dnf install rakudo
+
+Ubuntu / Debian
+apt-get install rakudo
+
+openSUSE
+openSUSE Tumbleweed (rolling release)
+zypper install rakudo
+
+openSUSE Leap (stable)
+
+Alpine
+The compiled tarballs above don't work on Alpine because they are built with glibc, but Alpine provides musl instead. When trying to run the executables one receives a highly misleading /bin/sh: ./rakudo: not found error. Installing the gcompat glib compatibility wrapper allows running those tarballs. But it's a lot easier and provides for a smaller installation size to just use the distro packages Alpine provides. They are usually up-to-date.
+apk add rakudo zef
+
+Gentoo (rolling release)
+emerge --ask --verbose dev-lang/rakudo
+
+Alpine Linux
+apk add rakudo
+
+NixOS
+NixOS: nix-env -iA nixos.rakudo
+
+Non-NixOS: nix-env -iA nixpkgs.rakudo
+
+User repositories
+=================
+
+For Arch Linux see:
+https://aur.archlinux.org/packages/rakudo-bin
+https://aur.archlinux.org/packages/rakudo
+https://aur.archlinux.org/packages/rakudo-git
+
+Windows
+=======
+
+Scoop
+-----
+
+Install Rakudo-on-MoarVM with Scoop: scoop install rakudo-moar
+
+Rakudo Star Bundle
+==================
+
+Chocolatey
+Install the Rakudo Star Bundle with chocolatey: choco install rakudostar
+
+https://community.chocolatey.org/packages/rakudostar
+
+Scoop
+Install the Rakudo Star Bundle with Scoop: scoop install rakudo-star
+
+https://scoop.sh
+
+Scoop
+Install the Rakudo Star Bundle with Scoop: scoop install rakudo-star
+
+MacOS
+===
+
+Homebrew
+There is a Homebrew package available:
+brew install rakudo
+
+MacPorts
+There is a rakudo MacPort available:
+sudo port install rakudo
+
+Other installation methods
+Rakubrew
+A download, installation and version management tool for Rakudo. Works on all major platforms.
+https://rakubrew.org/
+
+
+Rakudo Star Bundle
+This option contains the Rakudo Compiler, a collection of modules from the Raku ecosystem, and language documentation. The Rakudo Star Bundle is released shortly after a Rakudo release.
+
+

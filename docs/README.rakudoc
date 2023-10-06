@@ -9,15 +9,37 @@ B<RakudoBin> - Provides Raku and system scripting bash tools to install and remo
 =begin code :lang<raku>
 use RakudoBin;
 
-install-rakudo-bin
+install-rakudo-bin :date<2022-09>, :os<linux>;
+install-rakudo-bin :date<2022-09>, :os<windows>, :spec<msi>; # or :spec<zip>
+install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
+
 =end code
 
 =head1 DESCRIPTION
 
-B<RakudoBin> currently will install binary version of Rakudo for Linux hosts.
-The specific name must be entered in the C</opt/rakudo-bin-name.txt" file. 
+B<RakudoBin> currently will install a binary version of Rakudo for Linux hosts.
+For example, the name of a recent Rakudo binary release has the following
+archive names for the three OSs listed at L<https://rakudo.org/downloads>:
 
-It may eventually be able to do the same for MacOS and, hopefully, Windows.
+=begin code
+rakudo-moar-2023.09-01-linux-x86_64-gcc.tar.gz
+rakudo-moar-2023.09-01-macos-arm64-clang.tar.gz
+rakudo-moar-2023.09-01-macos-x86_64-clang.tar.gz
+rakudo-moar-2023.09-01-win-x86_64-msvc.msi
+rakudo-moar-2023.09-01-win-x86_64-msvc.zip
+=end code
+
+Generally, the only thing you need to choose is the date and the OS
+and enter it into the binary C<install-rakudo-bin :$date, :$os> and it will be downloaded along
+with the accompanying files for checking the validity of the archive.
+
+The C<:spec> argument has a default of C<msi> for Windows and C<arm> for MacOS. 
+The release will be C<01> unless you enter another valid number with C<:release>.
+
+The archive and its sister files will be downloaded into a temporary directory, checked
+for valididty, and unpacked into directory C</opt/rakudo-YYYY-MM-RR>. 
+
+This module may eventually be able to do the same for MacOS and, hopefully, Windows.
 
 =head1 AUTHOR
 
