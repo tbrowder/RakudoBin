@@ -2,19 +2,22 @@
 
 =head1 NAME
 
-B<SysAdmin> - Provides Raku and bash tools to help system administrators manage common user account tasks
+B<RakudoBin> - Provides Raku and system scripting bash tools to install and remove the Rakudo binary version
 
 =head1 SYNOPSIS
 
 =begin code :lang<raku>
+use RakudoBin;
 
-use SysAdmin;
-
+install-rakudo-bin
 =end code
 
 =head1 DESCRIPTION
 
-B<SysAdmin> currentlyis ...
+B<RakudoBin> currently will install binary version of Rakudo for Linux hosts.
+The specific name must be entered in the C</opt/rakudo-bin-name.txt" file. 
+
+It may eventually be able to do the same for MacOS and, hopefully, Windows.
 
 =head1 AUTHOR
 
