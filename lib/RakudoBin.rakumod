@@ -513,18 +513,17 @@ sub download-rakudo-bin(
     #       plus a C<.asc> and C<.checksums.txt> extensions.
 
     # actual download file basename:
-    my $inbase  = rakudo-moar-{$dotted-date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+    my $inbase  = "rakudo-moar-{$dotted-date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
 
     # directory basename to unpack the archive in:
-    my $dirbase = rakudo-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+    my $dirbase = "rakudo-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
 
     # remote download directory
-    my $remote directory
     my $remote-dir = "https://rakudo.org/dl/rakudo";
     # files to download:
-    my $archive = "{$remotedir}/{$inbase}";
-    my $asc     = "{$remotedir}/{$inbase}.asc";
-    my $check   = "{$remotedir}/{$inbase}.checksums.txt";
+    my $archive = "{$remote-dir}/{$inbase}";
+    my $asc     = "{$remote-dir}/{$inbase}.asc";
+    my $check   = "{$remote-dir}/{$inbase}.checksums.txt";
 }
 
 # install-rakudo-bin :date<2022.09>, :os<windows>, :spec<msi>; # or :spec<zip>
