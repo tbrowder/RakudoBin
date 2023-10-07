@@ -61,12 +61,19 @@ The github fingerprints for the releasers are:
 
 Justin DeVuyst
 PGP Fingerprint: 59E6 3473 6AFD CF9C 6DBA C382 602D 51EA CA88 7C01
+Key: justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc
 
 Patrick Böker
 PGP Fingerprint: DB2B A39D 1ED9 67B5 84D6 5D71 C09F F113 BB64 10D0
+Key: patrick_boeker-DB2BA39D1ED967B584D65D71C09FF113BB6410D0.asc
 
 Alexander Kiryuhin
 PGP Fingerprint: FE75 0D15 2426 F3E5 0953 176A DE8F 8F5E 97A8 FCDE
+Key: alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc
+
+Rakudo GitHub automation
+PGP Fingerprint: 3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE
+Key: rakudo_github_automation-3E7E3C6EAF916676AC549285A2919382E961E2EE.asc
 
 Distro packages
 ===============
