@@ -489,7 +489,6 @@ sub download-rakudo-bin(
         exit;
     }
 
-
     if $spec.defined {
         $arch = "x86_84" if $os eq "macos";
         $type = "zip" if $os eq "win";
@@ -512,22 +511,39 @@ sub download-rakudo-bin(
     #   "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
     #       plus a C<.asc> and C<.checksums.txt> extensions.
 
-    # actual download file basename:
+    # actual download file basename on the remote site:
     my $inbase  = "rakudo-moar-{$dotted-date}-{$release}-{$sys}-{$arch}-{$tool}.{$type}";
 
     # directory basename to unpack the archive in:
-    my $dirbase = "rakudo-{$date}-{$release}.{$type}";
+    # final location of the archive
+    my $rak-dir = "/opt/rakudo-{$date}-{$release}";
+    if $rak-dir.IO.d {
+        say "WARNING: Rakudo directory '$rak-dir' exists.";
+        my $res = prompt "  Do you want to delete it (y/N)? ";
+        if $res ~~ /:i y/ {
+            say "  Okay, deleting the directory...";
+            shell "rm -rf $rak-sir";
+        }
+        else {
+            say "  Okay, aborting installation.";
+            exit;
+        }
+    }
+
+    my $filebase = "rakudo-{$date}-{$release}.{$type}";
 
     # remote download directory
     my $remote-dir = "https://rakudo.org/dl/rakudo";
+
     # files to download:
     my $r-archive = "{$remote-dir}/{$inbase}";
     my $r-asc     = "{$remote-dir}/{$inbase}.asc";
     my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
+
     # files renamed upon download to:
-    my $f-archive = "{$dirbase}";
-    my $f-asc     = "{$dirbase}.asc";
-    my $f-check   = "{$dirbase}.checksums.txt";
+    my $f-archive = "{$filebase}";
+    my $f-asc     = "{$filebase}.asc";
+    my $f-check   = "{$filebase}.checksums.txt";
 
     # I want to rename the files as they download
     shell "curl -1sLf $r-archive -o $f-archive";
@@ -555,4 +571,3 @@ sub download-rakudo-bin(
 
 }
 
-# install-rakudo-bin :date<2022.09>, :os<windows>, :spec<msi>; # or :spec<zip>
