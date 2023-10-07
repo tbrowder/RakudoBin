@@ -454,7 +454,7 @@ sub download-rakudo-bin(
     :$date! where {/^ \d**4 '-' \d\d $/}, 
     :OS(:$os)!, 
     :$spec, 
-    :$release where { /^ \d+ $/ } = 1,
+    :$release is copy where { /^ \d+ $/ } = 1,
     :$debug,
     ) is export {
 
@@ -513,17 +513,46 @@ sub download-rakudo-bin(
     #       plus a C<.asc> and C<.checksums.txt> extensions.
 
     # actual download file basename:
-    my $inbase  = "rakudo-moar-{$dotted-date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+    my $inbase  = "rakudo-moar-{$dotted-date}-{$release}-{$sys}-{$arch}-{$tool}.{$type}";
 
     # directory basename to unpack the archive in:
-    my $dirbase = "rakudo-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+    my $dirbase = "rakudo-{$date}-{$release}.{$type}";
 
     # remote download directory
     my $remote-dir = "https://rakudo.org/dl/rakudo";
     # files to download:
-    my $archive = "{$remote-dir}/{$inbase}";
-    my $asc     = "{$remote-dir}/{$inbase}.asc";
-    my $check   = "{$remote-dir}/{$inbase}.checksums.txt";
+    my $r-archive = "{$remote-dir}/{$inbase}";
+    my $r-asc     = "{$remote-dir}/{$inbase}.asc";
+    my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
+    # files renamed upon download to:
+    my $f-archive = "{$dirbase}";
+    my $f-asc     = "{$dirbase}.asc";
+    my $f-check   = "{$dirbase}.checksums.txt";
+
+    # I want to rename the files as they download
+    shell "curl -1sLf $r-archive -o $f-archive";
+    shell "curl -1sLf $r-asc     -o $f-asc";
+    shell "curl -1sLf $r-check   -o $f-check";
+
+    print qq:to/HERE/;
+    See downloaded files:
+        $f-archive
+        $f-asc
+        $f-check
+    HERE
+
+    =begin comment
+    #shell "curl -1sLf '$archive'";
+    # -1 - use TLS 1 or higher
+    # -s - silent
+    # -L - follow redirects
+    # -f - fail quickly with first error
+    # save to same name, use -O
+    shell "curl -OL $archive";
+    # save to different name, use -o
+    shell "curl -L1sf -o $desired-name $archive";
+    =end comment
+
 }
 
 # install-rakudo-bin :date<2022.09>, :os<windows>, :spec<msi>; # or :spec<zip>
