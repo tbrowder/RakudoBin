@@ -203,10 +203,6 @@ sub handle-prompt(:$res) is export {
     }
 }
 
-sub get-desired-archive($f) {
-    # read file /opt/rakudo-bin-file.txt
-}
-
 sub install-raku(:$debug) is export {
     my $dir = "/opt/rakudo-bin";
     if $dir.IO.d {
@@ -310,15 +306,6 @@ sub remove-raku() is export {
     else {
         say "Directory '$dir' does not exist!";
     }
-}
-
-sub install-zef() is export {
-    #    shell "/opt/rakudo-pkg/bin/install-zef"; # for root or normal user
-    say "DEBUG: sub 'install-zef' is not yet usable...";
-}
-
-sub remove-zef() is export {
-    say "DEBUG: sub 'remove-zef' is not yet usable...";
 }
 
 sub install-path(:$user, :$restore, :$debug) is export {
