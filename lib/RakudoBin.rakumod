@@ -452,10 +452,10 @@ sub get-backup-name($f, :$use-date --> Str) is export {
 
 sub download-rakudo-bin(
     :$date! where {/^ \d**4 '.' \d\d $/}, 
-    :os($OS)!, 
+    :OS(:$os)!, 
     :$spec, 
-    :$release is copy = 1 where { /^ \d+ $/ },
-    $debug,
+    :$release where { /^ \d+ $/ } = 1,
+    :$debug,
     ) is export {
 
     my $err;
@@ -469,12 +469,12 @@ sub download-rakudo-bin(
     elsif $os ~~ /:i win/ {
         $sys = "win";
         $arch = "x86_64";
-        $tool = "msvc"
+        $tool = "msvc";
         $type = "msi"; # default, else "zip" if $spec.defined
     }
     elsif $os ~~ /:i mac/ {
         $sys = "macos";
-        $tool = "clang"
+        $tool = "clang";
         $arch = "arm64"; # default, else "x86_64" if $spec.defined
         $type = "tar.gz";
     }
@@ -490,11 +490,11 @@ sub download-rakudo-bin(
 
     if $spec.defined {
         $arch = "x86_84" if $os eq "macos";
-        $type " "zip" if $os eq "win";
+        $type = "zip" if $os eq "win";
     }
 
     $release = sprintf "%02d", $release;
-if $reoease
+   
     # final download file name              backend
     #                                            date    release
     #                                                       sys   arch   tool

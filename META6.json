@@ -9,14 +9,14 @@
   ],
   "description": "Provides Raku tools to help Linux system administrators manage common user account tasks",
   "license": "Artistic-2.0",
-  "name": "SysAdmin",
+  "name": "RakudoBin",
   "perl": "6.d",
   "provides": {
-    "SysAdmin": "lib/SysAdmin.rakumod"
+    "RakudoBin": "lib/RakudoBin.rakumod"
   },
   "resources": [
   ],
-  "source-url": "",
+  "source-url": "https://github.com/tbrowder/RakudoBin.git",
   "tags": [
   ],
   "test-depends": [
