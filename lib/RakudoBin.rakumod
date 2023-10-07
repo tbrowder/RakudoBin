@@ -451,13 +451,15 @@ sub get-backup-name($f, :$use-date --> Str) is export {
 }
 
 sub download-rakudo-bin(
-    :$date! where {/^ \d**4 '.' \d\d $/}, 
+    :$date! where {/^ \d**4 '-' \d\d $/}, 
     :OS(:$os)!, 
     :$spec, 
     :$release where { /^ \d+ $/ } = 1,
     :$debug,
     ) is export {
 
+    my $dotted-date = $date;
+    $dotted-date ~~ s/'-'/./;
     my $err;
     my ($sys, $arch, $tool, $type);
     if $os ~~ /:i lin/ {
@@ -509,9 +511,20 @@ sub download-rakudo-bin(
     #   
     #   "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
     #       plus a C<.asc> and C<.checksums.txt> extensions.
-    my $f1 = "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
-    my $f2 = "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}.asc";
-    my $f3 = "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}.checksums.txt";
+
+    # actual download file basename:
+    my $inbase  = rakudo-moar-{$dotted-date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+
+    # directory basename to unpack the archive in:
+    my $dirbase = rakudo-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
+
+    # remote download directory
+    my $remote directory
+    my $remote-dir = "https://rakudo.org/dl/rakudo";
+    # files to download:
+    my $archive = "{$remotedir}/{$inbase}";
+    my $asc     = "{$remotedir}/{$inbase}.asc";
+    my $check   = "{$remotedir}/{$inbase}.checksums.txt";
 }
 
 # install-rakudo-bin :date<2022.09>, :os<windows>, :spec<msi>; # or :spec<zip>
