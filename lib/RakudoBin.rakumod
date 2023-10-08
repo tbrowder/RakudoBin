@@ -1,5 +1,28 @@
 unit module  RakudoBin;
 
+=begin comment
+# github fingerprints of the release crew
+Justin DeVuyst
+PGP Fingerprint: 59E6 3473 6AFD CF9C 6DBA C382 602D 51EA CA88 7C01
+Patrick Böker
+PGP Fingerprint: DB2B A39D 1ED9 67B5 84D6 5D71 C09F F113 BB64 10D0
+Alexander Kiryuhin
+PGP Fingerprint: FE75 0D15 2426 F3E5 0953 176A DE8F 8F5E 97A8 FCDE
+Rakudo GitHub automation
+PGP Fingerprint: 3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE
+
+# set of just the keys
+#9825 1a7a 6987 4dd7 0120 8671 09fd ca31  key.md5
+#f482 cbee 44a4 25fb 4e93 1cd1 a7a3 a054 d060 5299  key.sha1sum
+=end comment
+
+our %keys = set %(
+'59E6 3473 6AFD CF9C 6DBA C382 602D 51EA CA88 7C01',
+'DB2B A39D 1ED9 67B5 84D6 5D71 C09F F113 BB64 10D0',
+'FE75 0D15 2426 F3E5 0953 176A DE8F 8F5E 97A8 FCDE',
+'3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE',
+);
+
 # Debian releases
 our %debian-vnames is export = %(
     etch => 4,
@@ -203,6 +226,10 @@ sub handle-prompt(:$res) is export {
     }
 }
 
+sub set-rakudo-paths is export {
+}
+
+=begin comment
 sub install-raku(:$debug) is export {
     my $dir = "/opt/rakudo-bin";
     if $dir.IO.d {
@@ -276,6 +303,7 @@ sub install-raku(:$debug) is export {
     }
 
 } # sub install-raku
+=end comment
 
 sub remove-raku() is export {
     my $dir = "/opt/rakudo-pkg";
@@ -509,7 +537,7 @@ sub download-rakudo-bin(
         my $res = prompt "  Do you want to delete it (y/N)? ";
         if $res ~~ /:i y/ {
             say "  Okay, deleting the directory...";
-            shell "rm -rf $rak-sir";
+            shell "rm -rf $rak-dir";
         }
         else {
             say "  Okay, aborting installation.";
@@ -542,7 +570,14 @@ sub download-rakudo-bin(
         $f-archive
         $f-asc
         $f-check
+
+    Checking binary validity...
     HERE
+
+    verify-checksum $f-check;
+
+    say "Checking signature...";
+    verify-signature $f-check;
 
     =begin comment
     #shell "curl -1sLf '$archive'";
@@ -556,5 +591,57 @@ sub download-rakudo-bin(
     shell "curl -L1sf -o $desired-name $archive";
     =end comment
 
+}
+
+sub verify-checksum($fcheck) is export {
+    # To verify that a downloaded file is not corrupted, 
+    # download the *.checksums.txt corresponding to the 
+    # download you want to verify. Then run
+    #
+    #    $ sha256 -c file_you_downloaded
+    #
+    # WRONG format for Debian:
+    # pertinent line in the checksums file, not in standard format:
+    #   SHA256 (rakudo-moar-2023.09-01-linux-x86_64-gcc.tar.gz) = 44ec... (sha256 hash)
+    # shell "sha256sum -c $fcheck";
+
+    # reformat it to:  the-check-sum file-name
+    #
+    # get the hash from the existing file
+    my $sha;
+    for $fcheck.IO.lines -> $line is copy {
+        next unless $line ~~ /:i sha256 /;
+        # elim parens
+        $line ~~ s/'('//;
+        $line ~~ s/')'//;
+        my @w = $line.words;
+        $sha  = @w[3];
+        last;
+    }
+    my $fnam = $fcheck;
+    my $fcheck-new = $fcheck;
+    $fnam ~~ s/\.checksums\.txt//;
+    $fcheck-new ~~ s/checksums\.txt/sha256sum/;
+
+    spurt $fcheck-new, "$sha $fnam";
+    shell "sha256sum -c $fcheck-new";
+}
+
+sub verify-signature($fcheck) is export {
+    # In addition one can verify the download is authentic 
+    # by checking its signature. One can validate the 
+    # checksum file which contains a self contained signature.
+    # To verify via the checksum file do
+    #
+    #    $ gpg2 --verify file_you_downloaded.checksums.txt
+    # shell "gpg --verify $fcheck";
+
+    # we are going to read the signature and compare it with known Github
+    # keys from our releasers
+}
+
+sub set-path() is export {
+    # sets the path for the rakudo-bin installation
+    # the path must come BEFORE
 }
 
