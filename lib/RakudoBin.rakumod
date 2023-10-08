@@ -1,4 +1,4 @@
-unit module  RakudoBin;
+unit module RakudoBin;
 
 =begin comment
 # github fingerprints of the release crew
@@ -639,29 +639,50 @@ sub verify-signature(:$asc-file!, :$debug) is export {
     my $fpfil = "sig.fingerprints";
     shell "gpg $asc-file 2> $fpfil";
 
-=begin comment
-# typical contents:
-gpg: WARNING: no command supplied.  Trying to guess what you mean ...
-gpg: assuming signed data in 'rakudo-2023-09-01.tar.gz'
-gpg: Signature made Fri Sep 22 02:45:10 2023 CDT
-gpg:                using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
-gpg: Good signature from "Patrick Böker (Main key) <patrick.boeker@posteo.de>" [unknown]
-gpg: WARNING: This key is not certified with a trusted signature!
-gpg:          There is no indication that the signature belongs to the owner.
-Primary key fingerprint: DB2B A39D 1ED9 67B5 84D6  5D71 C09F F113 BB64 10D0
-     Subkey fingerprint: DDA5 BDA3 F5CD CE99 F9ED  56C1 2CC6 E973 818F 386B
-=end comment
+    =begin comment
+    # typical contents:
+    gpg: WARNING: no command supplied.  Trying to guess what you mean ...
+    gpg: assuming signed data in 'rakudo-2023-09-01.tar.gz'
+    gpg: Signature made Fri Sep 22 02:45:10 2023 CDT
+    gpg:                using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
+    gpg: Good signature from "Patrick Böker (Main key) <patrick.boeker@posteo.de>" [unknown]
+    gpg: WARNING: This key is not certified with a trusted signature!
+    gpg:          There is no indication that the signature belongs to the owner.
+    Primary key fingerprint: DB2B A39D 1ED9 67B5 84D6  5D71 C09F F113 BB64 10D0
+         Subkey fingerprint: DDA5 BDA3 F5CD CE99 F9ED  56C1 2CC6 E973 818F 386B
+    =end comment
+
     # we are going to read the signature and compare it with known Github
     # keys from our releasers
+    my @keys;
     my @w;
     for $fpfil.IO.lines {
         when /^Primary/ {
             @w = $_.words;
+            my $k = @w[3..*].join('');
+            die "FATAL: Key length is NOT 40 characters" if $k.comb.elems != 40;
+            @keys.push: $k.uc;
         }
         when /^Subkey/ {
             @w = $_.words;
+            my $k = @w[2..*].join('');
+            die "FATAL: Key length is NOT 40 characters" if $k.comb.elems != 40;
+            @keys.push: $k.uc;
         }
     }
+    # check the keys
+    my $ok = False;
+    for @keys -> $k {
+        # all we need is one hit
+        if %keys{$k}:exists {
+            # bingo!
+            my $signer = %keys{$k};
+            note "DEBUG: signer=$signer; fingerprint: $k";
+            $ok = True;
+            last;
+        } 
+    }
+    die "FATAL: Signer key not found among known signers.";
 }
 
 sub set-path() is export {
