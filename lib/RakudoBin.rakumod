@@ -19,10 +19,10 @@ PGP Fingerprint: 3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE
 # remove spaces between four-character sets
 # to make sets of 40-character fingerprints
 our %keys = %(
-'59E634736AFDCF9C6DBAC382602D51EACA887C01' => '',
-'DB2BA39D1ED967B584D65D71C09FF113BB6410D0' => '',
-'FE750D152426F3E50953176ADE8F8F5E97A8FCDE' => '',
-'3E7E3C6EAF916676AC549285A2919382E961E2EE' => '',
+    '59E634736AFDCF9C6DBAC382602D51EACA887C01' => 'Justin DeVuyst',
+    'DB2BA39D1ED967B584D65D71C09FF113BB6410D0' => 'Patrick Böker',
+    'FE750D152426F3E50953176ADE8F8F5E97A8FCDE' => 'Alexander Kiryuhin',
+    '3E7E3C6EAF916676AC549285A2919382E961E2EE' => 'Rakudo GitHub automation',
 );
 
 # Debian releases
@@ -636,9 +636,11 @@ sub verify-signature(:$asc-file!, :$debug) is export {
     # To verify via the asc file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
-    # shell "gpg $asc-file 2> sig.fingerprints";
+    my $fpfil = "sig.fingerprints";
+    shell "gpg $asc-file 2> $fpfil";
 
 =begin comment
+# typical contents:
 gpg: WARNING: no command supplied.  Trying to guess what you mean ...
 gpg: assuming signed data in 'rakudo-2023-09-01.tar.gz'
 gpg: Signature made Fri Sep 22 02:45:10 2023 CDT
@@ -651,6 +653,15 @@ Primary key fingerprint: DB2B A39D 1ED9 67B5 84D6  5D71 C09F F113 BB64 10D0
 =end comment
     # we are going to read the signature and compare it with known Github
     # keys from our releasers
+    my @w;
+    for $fpfil.IO.lines {
+        when /^Primary/ {
+            @w = $_.words;
+        }
+        when /^Subkey/ {
+            @w = $_.words;
+        }
+    }
 }
 
 sub set-path() is export {
