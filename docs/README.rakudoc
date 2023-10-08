@@ -17,6 +17,16 @@ install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
 
 =head1 DESCRIPTION
 
+This module distribution is not designed to be installed by C<zef>. 
+Its repository must be downloaded
+onto the desired host and then used by the root user from its top-level directory
+following the instructions below.
+
+The package contains programs for the root user to bootstrap the C<rakudo> binary
+download installation by use of a system C<rakudo> package installation.
+After successful bootstrapping, the system's C<rakudo> package should be deleted
+to avoid conflicts.
+
 B<RakudoBin> currently will install a binary version of Rakudo for Linux hosts.
 For example, the name of a recent Rakudo binary release has the following
 archive names for the three OSs listed at L<https://rakudo.org/downloads>:
@@ -40,6 +50,13 @@ The archive and its sister files will be downloaded into a temporary directory, 
 for valididty, and unpacked into directory C</opt/rakudo-YYYY-MM-RR>. 
 
 This module may eventually be able to do the same for MacOS and, hopefully, Windows.
+
+Note this package is designed for the purpose of setting up and 
+standardizing multi-user Linux hosts
+for classrooms or computer laboratories.
+
+=head2 Procedures
+
 
 =head1 AUTHOR
 
