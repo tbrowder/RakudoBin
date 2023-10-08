@@ -593,7 +593,7 @@ sub download-rakudo-bin(
 
 }
 
-sub verify-checksum($fcheck) is export {
+sub verify-checksums(:$checksums-file!, :$debug) is export {
     # To verify that a downloaded file is not corrupted, 
     # download the *.checksums.txt corresponding to the 
     # download you want to verify. Then run
@@ -627,14 +627,14 @@ sub verify-checksum($fcheck) is export {
     shell "sha256sum -c $fcheck-new";
 }
 
-sub verify-signature($fcheck) is export {
+sub verify-signature(:$asc-file!, :$debug) is export {
     # In addition one can verify the download is authentic 
     # by checking its signature. One can validate the 
-    # checksum file which contains a self contained signature.
-    # To verify via the checksum file do
+    # .asc which contains a self contained signature.
+    # To verify via the asc file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
-    # shell "gpg --verify $fcheck";
+    # shell "gpg $f-asc > sig.fingerprints";
 
     # we are going to read the signature and compare it with known Github
     # keys from our releasers
