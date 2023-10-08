@@ -16,11 +16,13 @@ PGP Fingerprint: 3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE
 #f482 cbee 44a4 25fb 4e93 1cd1 a7a3 a054 d060 5299  key.sha1sum
 =end comment
 
-our %keys = set %(
-'59E6 3473 6AFD CF9C 6DBA C382 602D 51EA CA88 7C01',
-'DB2B A39D 1ED9 67B5 84D6 5D71 C09F F113 BB64 10D0',
-'FE75 0D15 2426 F3E5 0953 176A DE8F 8F5E 97A8 FCDE',
-'3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE',
+# remove spaces between four-character sets
+# to make sets of 40-character fingerprints
+our %keys = %(
+'59E634736AFDCF9C6DBAC382602D51EACA887C01' => '',
+'DB2BA39D1ED967B584D65D71C09FF113BB6410D0' => '',
+'FE750D152426F3E50953176ADE8F8F5E97A8FCDE' => '',
+'3E7E3C6EAF916676AC549285A2919382E961E2EE' => '',
 );
 
 # Debian releases
@@ -634,8 +636,19 @@ sub verify-signature(:$asc-file!, :$debug) is export {
     # To verify via the asc file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
-    # shell "gpg $asc-file > sig.fingerprints";
+    # shell "gpg $asc-file 2> sig.fingerprints";
 
+=begin comment
+gpg: WARNING: no command supplied.  Trying to guess what you mean ...
+gpg: assuming signed data in 'rakudo-2023-09-01.tar.gz'
+gpg: Signature made Fri Sep 22 02:45:10 2023 CDT
+gpg:                using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
+gpg: Good signature from "Patrick Böker (Main key) <patrick.boeker@posteo.de>" [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: DB2B A39D 1ED9 67B5 84D6  5D71 C09F F113 BB64 10D0
+     Subkey fingerprint: DDA5 BDA3 F5CD CE99 F9ED  56C1 2CC6 E973 818F 386B
+=end comment
     # we are going to read the signature and compare it with known Github
     # keys from our releasers
 }
