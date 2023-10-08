@@ -1,5 +1,9 @@
 =begin pod
 
+Note this package is designed for the purpose of setting up and 
+standardizing multi-user Linux hosts
+for classrooms or computer laboratories.
+
 =head1 NAME
 
 B<RakudoPkg> - Provides tools for easing installation and use of the C<rakudo-pkg> system for Debian and Ubuntu
