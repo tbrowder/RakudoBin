@@ -20,19 +20,19 @@ Expecting success:
   stdout: {$out1.IO.slurp.chomp} 
   stderr: {$err1.IO.slurp.chomp}
   merge:
-    $merge1
+    {$merge1}
 
 Failure:
   stdout: {$out2.IO.slurp.chomp}
   stderr: {$err2.IO.slurp.chomp}
   merge:
-    $merge2
+    {$merge2}
 
 Bad format:
   stdout: {$out3.IO.slurp.chomp}
   stderr: {$err3.IO.slurp.chomp}
   merge:
-    $merge3
+    {$merge3}
 HERE
 
 
