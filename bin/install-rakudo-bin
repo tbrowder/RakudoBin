@@ -80,6 +80,8 @@ if $rdir.IO.d {
 
 say "Installing rakudo-pkg in /opt...";
 my $res = prompt "Continue (y/N)? ";
+=finish
+
 handle-prompt :$res;
 install-raku;
 

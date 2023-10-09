@@ -482,6 +482,7 @@ sub download-rakudo-bin(
         say "FATAL: Unrecgnized OS '$os'. Try 'lin', 'win', or 'mac'.";
         exit;
     }
+
     if 29 < $release < 1 {
         say "FATAL: Release must be between 1 and 29. You entered '$release'.":
         exit;
@@ -557,10 +558,10 @@ sub download-rakudo-bin(
     Checking binary validity...
     HERE
 
-    verify-checksum $f-check;
+    verify-checksum :checksums-file($f-check);
 
     say "Checking signature...";
-    verify-signature $f-check;
+    verify-signature :asc-file($f-asc);
 
     =begin comment
     #shell "curl -1sLf '$archive'";
@@ -612,11 +613,24 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
 
     spurt $fcheck-new, "$sha $fnam";
     # collect results
-    my $resfil = "res.out";
-    shell "sha256sum -c $fcheck-new > $resfil";
+    #   my $resfil = "res.out";
+    #   shell "sha256sum -c $fcheck-new > $resfil";
+
+    my $results = run('sha256sum', '-c', '--', $fcheck-new, :merge).out.slurp.chomp;
+
     # read results from stdout
     # proper output:  file-name: OK 
     # failure output: file-name: FAILED
+    my $ok = False;
+    if $results ~~ /:i \s* $fcheck-new \s* ':' \s* OK / {
+        $ok = True;
+    }
+    elsif $results ~~ /:i \s* $fcheck-new \s* ':' \s* FAILED / {
+        $ok = False;
+    }
+    else {
+        die "FATAL: Unexpected output: '$results'";
+    }
 
 
 
@@ -630,9 +644,10 @@ sub verify-signature(:$asc-file!, :$debug) is export {
     # To verify via the asc file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
+    #  my $fpfil = "sig.fingerprints";
+    #  shell "gpg $asc-file 2> $fpfil";
 
-    my $fpfil = "sig.fingerprints";
-    shell "gpg $asc-file 2> $fpfil";
+    my $results = run('gpg', '--', $asc-file, :merge).out.slurp.chomp;
 
     =begin comment
     # typical contents of $fpfil:
@@ -651,7 +666,7 @@ sub verify-signature(:$asc-file!, :$debug) is export {
     # keys from our releasers
     my @keys;
     my @w;
-    for $fpfil.IO.lines {
+    for $results.IO.lines {
         when /^Primary/ {
             @w = $_.words;
             my $k = @w[3..*].join('');
