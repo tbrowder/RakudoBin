@@ -21,7 +21,7 @@ if not @*ARGS {
         Version: $version
         System:  $system
 
-    It requires an installed system package: 
+    It requires an installed system package, on Debian:
 
         'sudo apt-get install rakudo'
 
