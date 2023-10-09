@@ -575,6 +575,10 @@ sub download-rakudo-bin(
     =end comment
 
 }
+sub set-path() is export {
+    # sets the path for the rakudo-bin installation
+    # the path must come BEFORE
+}
 
 sub verify-checksum(:$checksums-file!, :$debug) is export {
     # To verify that a downloaded file is not corrupted, 
@@ -607,21 +611,31 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
     $fcheck-new ~~ s/checksums\.txt/sha256sum/;
 
     spurt $fcheck-new, "$sha $fnam";
-    shell "sha256sum -c $fcheck-new";
-}
+    # collect results
+    my $resfil = "res.out";
+    shell "sha256sum -c $fcheck-new > $resfil";
+    # read results from stdout
+    # proper output:  file-name: OK 
+    # failure output: file-name: FAILED
+
+
+
+
+} # sub verify-checksum(:$checksums-file!, :$debug) is export {
 
 sub verify-signature(:$asc-file!, :$debug) is export {
-    # In addition one can verify the download is authentic 
+    # One can verify the download is authentic 
     # by checking its signature. One can validate the 
     # .asc which contains a self contained signature.
     # To verify via the asc file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
+
     my $fpfil = "sig.fingerprints";
     shell "gpg $asc-file 2> $fpfil";
 
     =begin comment
-    # typical contents:
+    # typical contents of $fpfil:
     gpg: WARNING: no command supplied.  Trying to guess what you mean ...
     gpg: assuming signed data in 'rakudo-2023-09-01.tar.gz'
     gpg: Signature made Fri Sep 22 02:45:10 2023 CDT
@@ -633,7 +647,7 @@ sub verify-signature(:$asc-file!, :$debug) is export {
          Subkey fingerprint: DDA5 BDA3 F5CD CE99 F9ED  56C1 2CC6 E973 818F 386B
     =end comment
 
-    # we are going to read the signature and compare it with known Github
+    # We are going to read the signature and compare it with known Github
     # keys from our releasers
     my @keys;
     my @w;
@@ -651,6 +665,7 @@ sub verify-signature(:$asc-file!, :$debug) is export {
             @keys.push: $k.uc;
         }
     }
+
     # check the keys
     my $ok = False;
     for @keys -> $k {
@@ -664,10 +679,7 @@ sub verify-signature(:$asc-file!, :$debug) is export {
         } 
     }
     die "FATAL: Signer key not found among known signers.";
-}
 
-sub set-path() is export {
-    # sets the path for the rakudo-bin installation
-    # the path must come BEFORE
-}
+} # sub verify-signature(:$asc-file!, :$debug) is export {
+
 
