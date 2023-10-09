@@ -1,21 +1,5 @@
 unit module RakudoBin;
 
-=begin comment
-# github fingerprints of the release crew
-Justin DeVuyst
-PGP Fingerprint: 59E6 3473 6AFD CF9C 6DBA C382 602D 51EA CA88 7C01
-Patrick Böker
-PGP Fingerprint: DB2B A39D 1ED9 67B5 84D6 5D71 C09F F113 BB64 10D0
-Alexander Kiryuhin
-PGP Fingerprint: FE75 0D15 2426 F3E5 0953 176A DE8F 8F5E 97A8 FCDE
-Rakudo GitHub automation
-PGP Fingerprint: 3E7E 3C6E AF91 6676 AC54 9285 A291 9382 E961 E2EE
-
-# set of just the keys
-#9825 1a7a 6987 4dd7 0120 8671 09fd ca31  key.md5
-#f482 cbee 44a4 25fb 4e93 1cd1 a7a3 a054 d060 5299  key.sha1sum
-=end comment
-
 # remove spaces between four-character sets
 # to make sets of 40-character fingerprints
 our %keys = %(
@@ -200,7 +184,7 @@ sub get-paths($dir = '.' --> Hash) is export {
     }
     my %h = files => @fils, dirs => @dirs;
     %h
-}
+} # sub get-paths($dir = '.' --> Hash) is export {
  
 sub my-resources is export {
     %?RESOURCES
@@ -307,8 +291,7 @@ sub install-raku(:$debug) is export {
 } # sub install-raku
 =end comment
 
-sub remove-raku() is export {
-    my $dir = "/opt/rakudo-pkg";
+sub remove-raku($dir) is export {
     my $pkg = "rakudo-pkg";
     if $dir.IO.d {
         my $res = prompt "You really want to remove directory '$dir' (y/N)? ";
@@ -323,9 +306,9 @@ sub remove-raku() is export {
         # first remove any symlinks to avoid dangling links
         # DO NOT USE manage-symlinks :delete;
 
-        shell "apt-get remove rakudo-pkg";
         shell "rm -rf $dir" if $dir.IO.d;
-        say "Package '$pkg' and directory '$dir' have been removed.";
+        say "Directory '$dir' has been removed.";
+
         # rm any rakudo-pkg.sh in /etc/profile.d
         my $rfil = "/etc/profile.d/rakudo-pkg.sh";
         if $rfil.IO.f {
@@ -336,7 +319,7 @@ sub remove-raku() is export {
     else {
         say "Directory '$dir' does not exist!";
     }
-}
+} #sub remove-raku($dir) is export {
 
 sub install-path(:$user, :$restore, :$debug) is export {
     # $user is 'root' or other valid user name.
@@ -442,9 +425,7 @@ sub handle-path-file($f, :$user, :$restore, :$debug) is export {
     my $mlines = 0; # checking for three matching lines
     for @lines {
     }
-
-
-}
+} # sub handle-path-file($f, :$user, :$restore, :$debug) is export {
 
 sub get-backup-name($f, :$use-date --> Str) is export {
     # Given a file name, return a backup name consisting
@@ -465,7 +446,7 @@ sub get-backup-name($f, :$use-date --> Str) is export {
         $nam = "{$f}.orig";
      }
      $nam
-}
+} # sub get-backup-name($f, :$use-date --> Str) is export {
 
 sub download-rakudo-bin(
     :$date! where {/^ \d**4 '-' \d\d $/}, 
