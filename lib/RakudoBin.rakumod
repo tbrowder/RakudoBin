@@ -646,24 +646,35 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     # To verify via the file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
+    #
+    # Using gpgv
+    #
+    #    $ gpgv --verify --output file --log-file logfile sigfile datafile
+    #
+    #    where sigfile  = detached signature file (.asc)
+    #          datafile = signed data file        (.checksums.txt)
 
     my $results;
+    my $logfile = "logfile.txt";
+    my $output = "output.txt";
     if 0 {
         $results = "sig.fingerprints";
         shell "gpg --batch --verify $checksums-file 2> $results";
     }
     else {
-        $results = run('gpg', '--verify', '--', $asc-file, $checksums-file, :err, :enc<latin1>).out.slurp; #.chomp;
+        # $ gpgv --verify --output file --log-file logfile sigfile datafile
+        $results = run('gpgv', '--verify', '--output', $output, '--log-file', $logfile, 
+                       '--', $asc-file, $checksums-file, :err, :enc<latin1>); #.chomp;
     }
 
-    if 1 and $debug {
+    if 0 and $debug {
         #note "DEBUG: contents of \$asc-file '$asc-file'";
         note "DEBUG: contents of \$checksums-file '$checksums-file'";
         note "  $_" for $results.IO.lines;
     }
 
     =begin comment
-    # typical contents of stderril:
+    # typical contents of stderr
     gpg: Signature made Fri Sep 22 02:45:12 2023 CDT
     gpg:                using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
     gpg: Good signature from "Patrick Böker (Main key) <patrick.boeker@posteo.de>" [unknown]
@@ -677,6 +688,7 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     # keys from our releasers
     my @keys;
     my @w;
+    =begin comment
     for $results.IO.lines {
         when /^Primary/ {
             @w = $_.words;
@@ -691,7 +703,9 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
             @keys.push: $k.uc;
         }
     }
+    =end comment
 
+    =begin comment
     # check the keys
     my $ok = False;
     for @keys -> $k {
@@ -705,6 +719,7 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
         } 
     }
     die "FATAL: Signer key not found among known signers.";
+    =end comment
 
 } # sub verify-signature(:$asc-file!, :$debug) is export {
 
