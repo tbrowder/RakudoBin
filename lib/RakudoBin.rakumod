@@ -536,12 +536,12 @@ sub download-rakudo-bin(
 
     # files to download:
     my $r-archive = "{$remote-dir}/{$inbase}";
-    my $r-asc     = "{$remote-dir}/{$inbase}.asc";
+    my $r-asc     = "{$remote-dir}/{$inbase}.asc"; 
     my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
 
     # files renamed upon download to:
     my $f-archive = "{$filebase}";
-    my $f-asc     = "{$filebase}.asc";
+    my $f-asc     = "{$filebase}.asc"; 
     my $f-check   = "{$filebase}.checksums.txt";
 
     # I want to rename the files as they download
@@ -561,7 +561,7 @@ sub download-rakudo-bin(
     verify-checksum :checksums-file($f-check);
 
     say "Checking signature...";
-    verify-signature :asc-file($f-asc), :$debug;
+    verify-signature :asc-file($f-asc), :checksums-file($f-check), :$debug;
 
     =begin comment
     #shell "curl -1sLf '$archive'";
@@ -616,7 +616,7 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
     #   my $resfil = "res.out";
     #   shell "sha256sum -c $fcheck-new > $resfil";
 
-    my $results = run('sha256sum', '-c', '--', $fcheck-new, :merge).out.slurp.chomp;
+    my $results = run('sha256sum', '-c', '--', $fcheck-new, :merge, :enc<latin1>).out.slurp.chomp;
 
     # read results from stdout
     # proper output:  file-name: OK 
@@ -634,33 +634,32 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
 
 } # sub verify-checksum(:$checksums-file!, :$debug) is export {
 
-sub verify-signature(:$asc-file!, :$debug) is export {
+sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     # One can verify the download is authentic 
     # by checking its signature. One can validate the 
-    # .asc which contains a self contained signature.
-    # To verify via the asc file do
+    # .checksums.txt which contains a self contained signature.
+    # To verify via the file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
 
     my $results;
-    if 1 {
+    if 0 {
         $results = "sig.fingerprints";
-        shell "gpg --batch $asc-file 2> $results";
+        shell "gpg --batch --verify $checksums-file 2> $results";
     }
     else {
-        $results = run('gpg', '--batch', '--', $asc-file, :merge).out.slurp.chomp;
+        $results = run('gpg', '--verify', '--', $checksums-file, :merge, :enc<latin1>).out.slurp; #.chomp;
     }
 
-    if $debug {
-        note "DEBUG: contents of \$asc-file '$asc-file'";
-        say "  $_" for $results.IO.lines;
+    if 0 and $debug {
+        #note "DEBUG: contents of \$asc-file '$asc-file'";
+        note "DEBUG: contents of \$checksums-file '$checksums-file'";
+        note "  $_" for $results.IO.lines;
     }
 
     =begin comment
-    # typical contents of $fpfil:
-    gpg: WARNING: no command supplied.  Trying to guess what you mean ...
-    gpg: assuming signed data in 'rakudo-2023-09-01.tar.gz'
-    gpg: Signature made Fri Sep 22 02:45:10 2023 CDT
+    # typical contents of stderril:
+    gpg: Signature made Fri Sep 22 02:45:12 2023 CDT
     gpg:                using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
     gpg: Good signature from "Patrick Böker (Main key) <patrick.boeker@posteo.de>" [unknown]
     gpg: WARNING: This key is not certified with a trusted signature!
