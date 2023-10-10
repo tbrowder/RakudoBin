@@ -546,8 +546,13 @@ sub download-rakudo-bin(
 
     # I want to rename the files as they download
     shell "curl -1sLf $r-archive -o $f-archive";
+    say "  See file $f-archive";
+
     shell "curl -1sLf $r-asc     -o $f-asc";
+    say "  See file $f-asc";
+
     shell "curl -1sLf $r-check   -o $f-check";
+    say "  See file $f-check";
 
     print qq:to/HERE/;
     See downloaded files:
@@ -648,10 +653,10 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
         shell "gpg --batch --verify $checksums-file 2> $results";
     }
     else {
-        $results = run('gpg', '--verify', '--', $checksums-file, :merge, :enc<latin1>).out.slurp; #.chomp;
+        $results = run('gpg', '--verify', '--', $asc-file, $checksums-file, :err, :enc<latin1>).out.slurp; #.chomp;
     }
 
-    if 0 and $debug {
+    if 1 and $debug {
         #note "DEBUG: contents of \$asc-file '$asc-file'";
         note "DEBUG: contents of \$checksums-file '$checksums-file'";
         note "  $_" for $results.IO.lines;
