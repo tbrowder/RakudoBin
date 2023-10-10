@@ -35,10 +35,9 @@ Bad format:
     {$merge3}
 HERE
 
-my $io = IO::Handle.new: :encoding<iso-8859-1>;
 for $merge1, $merge2, $merge3 -> $f {
-    $f.$io.lines -> $line {
-        say "  $line";
+    my $fh = open $f, :r, :encoding<iso-8859-1>;
+    while $fh.get {
     }
 }
 
