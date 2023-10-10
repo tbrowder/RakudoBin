@@ -561,7 +561,7 @@ sub download-rakudo-bin(
     verify-checksum :checksums-file($f-check);
 
     say "Checking signature...";
-    verify-signature :asc-file($f-asc);
+    verify-signature :asc-file($f-asc), :$debug;
 
     =begin comment
     #shell "curl -1sLf '$archive'";
@@ -622,18 +622,15 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
     # proper output:  file-name: OK 
     # failure output: file-name: FAILED
     my $ok = False;
-    if $results ~~ /:i \s* $fcheck-new \s* ':' \s* OK / {
+    if $results ~~ /:i \s* $fnam \s* ':' \s* OK / {
         $ok = True;
     }
-    elsif $results ~~ /:i \s* $fcheck-new \s* ':' \s* FAILED / {
+    elsif $results ~~ /:i \s* $fnam \s* ':' \s* FAILED / {
         $ok = False;
     }
     else {
-        die "FATAL: Unexpected output: '$results'";
+        die "FATAL: Unexpected output: '$results'; (expected '$fnam')";
     }
-
-
-
 
 } # sub verify-checksum(:$checksums-file!, :$debug) is export {
 
@@ -644,10 +641,20 @@ sub verify-signature(:$asc-file!, :$debug) is export {
     # To verify via the asc file do
     #
     #    $ gpg2 --verify file_you_downloaded.checksums.txt
-    #  my $fpfil = "sig.fingerprints";
-    #  shell "gpg $asc-file 2> $fpfil";
 
-    my $results = run('gpg', '--', $asc-file, :merge).out.slurp.chomp;
+    my $results;
+    if 1 {
+        $results = "sig.fingerprints";
+        shell "gpg --batch $asc-file 2> $results";
+    }
+    else {
+        $results = run('gpg', '--batch', '--', $asc-file, :merge).out.slurp.chomp;
+    }
+
+    if $debug {
+        note "DEBUG: contents of \$asc-file '$asc-file'";
+        say "  $_" for $results.IO.lines;
+    }
 
     =begin comment
     # typical contents of $fpfil:
