@@ -721,10 +721,10 @@ sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
     my $ok = False;
     for @keys -> $k {
         # all we need is one hit
-our %key-fingerprints = %(
-        if %keys{$k}:exists {
+#our %key-fingerprints = %(
+        if %key-fingerprints{$k}:exists {
             # bingo!
-            my $signer = %keys{$k};
+            my $signer = %key-fingerprints{$k};
             note "DEBUG: signer=$signer; fingerprint: $k";
             $ok = True;
             last;
@@ -798,9 +798,9 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     my $ok = False;
     for @keys -> $k {
         # all we need is one hit
-        if %keys{$k}:exists {
+        if %key-fingerprints{$k}:exists {
             # bingo!
-            my $signer = %keys{$k};
+            my $signer = %key-fingerprints{$k};
             note "DEBUG: signer=$signer; fingerprint: $k";
             $ok = True;
             last;
