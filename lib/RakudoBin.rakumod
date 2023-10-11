@@ -658,7 +658,7 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
 
     my $results;
     my $logfile = "logfile.txt";
-    my $output  = "output.txt";
+    #my $output  = "output.txt";
     if 0 {
         $results = "sig.fingerprints";
         shell "gpg --batch --verify $checksums-file 2> $results";
@@ -667,9 +667,9 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
         # $ gpgv --verify --output file --log-file logfile sigfile datafile
         # $results = run('gpgv', '-vv', '--verify', '--output', $output, '--log-file', $logfile, 
         #                '--', $asc-file, $checksums-file, :err, :enc<latin1>); #.chomp;
-        $results = run('gpgv', '-vv', '--output', $output, '--log-file', $logfile, 
+        $results = run('gpgv', '--log-file', $logfile, 
                        '--', $checksums-file, :enc<latin1>); #.chomp;
-        say "results: $results";
+        #say "results: $results";
     }
 
     if 0 and $debug {
