@@ -514,6 +514,9 @@ sub download-rakudo-bin(
     #   "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
     #       plus a C<.asc> and C<.checksums.txt> extensions.
 
+    # keys of signers
+    #   "https://rakudo.org/keys/*.asc
+
     # actual download file basename on the remote site:
     my $inbase  = "rakudo-moar-{$dotted-date}-{$release}-{$sys}-{$arch}-{$tool}.{$type}";
 

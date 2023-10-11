@@ -1,3 +1,7 @@
 How to add a key to a keyring programmatically:
 
 
+Download public keys of the signers with wget or curl
+from "https://rakudo.org/keys/*"
+
+
