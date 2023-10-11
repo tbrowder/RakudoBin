@@ -581,6 +581,7 @@ sub download-rakudo-bin(
     =end comment
 
 }
+
 sub set-path() is export {
     # sets the path for the rakudo-bin installation
     # the path must come BEFORE
@@ -645,15 +646,11 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     # .checksums.txt which contains a self contained signature.
     # To verify via the file do
     #
-    #    $ gpg2 --verify file_you_downloaded.checksums.txt
-    #
-    # Using gpgv
-    #
-    #    $ gpgv --output outfile --log-file logfile pgpfile
+    #    $ gpgv --output outfile --log-file logfile sigfile datafile
     #
     #    where sigfile  = detached signature file (.asc)
     #          datafile = signed data file        (.checksums.txt)
-
+    #
     # pertinent line out of logfile.txt:
     #
     #    2023-10-10 19:34:05 gpgv[64502]  using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
@@ -661,50 +658,45 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     my $logfile = "logfile.txt";
     my $outfile = "outfile.txt";
     # $ gpgv --output file --log-file logfile sigfile datafile
-    # $results = run('gpgv', '-vv', '--output', $output, '--log-file', $logfile, 
-    #                '--', $checksums-file, :err, :enc<latin1>); #.chomp;
     my $res = run('gpgv', '-vv', '--output', $outfile, 
                   '--log-file', $logfile, '--', 
                   $checksums-file, :merge, :enc<latin1>).out.slurp.chomp; 
 
     if 0 and $debug {
+        note "========================================";
         note "DEBUG: contents of \$logfile '$logfile':";
         note "  $_" for $logfile.IO.lines;
+        note "DEBUG: end of contents of \$logfile '$logfile':";
+        note "========================================";
+        note "DEBUG: contents of \$res '$res':";
+        note "  $_" for $res.lines;
+        note "DEBUG: end of contents of \$res '$res':";
+        note "========================================";
+        note "DEBUG: contents of \$outfile '$outfile':";
+        note "  $_" for $outfile.IO.lines;
+        note "DEBUG: end of contents of \$outfile '$outfile':";
+        note "========================================";
     }
 
-    =begin comment
-    # typical contents of stderr
-    gpg: Signature made Fri Sep 22 02:45:12 2023 CDT
-    gpg:                using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
-    gpg: Good signature from "Patrick Böker (Main key) <patrick.boeker@posteo.de>" [unknown]
-    gpg: WARNING: This key is not certified with a trusted signature!
-    gpg:          There is no indication that the signature belongs to the owner.
-    Primary key fingerprint: DB2B A39D 1ED9 67B5 84D6  5D71 C09F F113 BB64 10D0
-         Subkey fingerprint: DDA5 BDA3 F5CD CE99 F9ED  56C1 2CC6 E973 818F 386B
-    =end comment
+    # We are going to read the logfile signature fingerprints and 
+    # compare them with known Github key fingerprints keys from 
+    # our releasers.
 
-    # We are going to read the signature and compare it with known Github
-    # keys from our releasers
     my @keys;
     my @w;
-    =begin comment
-    for $results.IO.lines {
-        when /^Primary/ {
-            @w = $_.words;
-            my $k = @w[3..*].join('');
-            die "FATAL: Key length is NOT 40 characters" if $k.comb.elems != 40;
-            @keys.push: $k.uc;
-        }
-        when /^Subkey/ {
-            @w = $_.words;
-            my $k = @w[2..*].join('');
+    #    2023-10-10 19:34:05 gpgv[64502]  using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
+    note "DEBUG: checking \$logfile $logfile";
+    for $logfile.IO.lines {
+        #note "DEBUG: logfile line: $_";
+        #                                         FINGERPRINT
+        when /:i \h+ using \h+ eddsa \h+ key \h+ (\S+) \h* / {
+            my $k = ~$0;
+            note "DEBUG: found a key: $k";
             die "FATAL: Key length is NOT 40 characters" if $k.comb.elems != 40;
             @keys.push: $k.uc;
         }
     }
-    =end comment
 
-    =begin comment
     # check the keys
     my $ok = False;
     for @keys -> $k {
@@ -717,8 +709,7 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
             last;
         } 
     }
-    die "FATAL: Signer key not found among known signers.";
-    =end comment
+    die "FATAL: Signer key not found among known signers." unless $ok;;
 
 } # sub verify-signature(:$asc-file!, :$debug) is export {
 
