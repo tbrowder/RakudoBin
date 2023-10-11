@@ -649,33 +649,25 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     #
     # Using gpgv
     #
-    #    $ gpgv --verify --output outfile --log-file logfile sigfile datafile
+    #    $ gpgv --output outfile --log-file logfile pgpfile
     #
     #    where sigfile  = detached signature file (.asc)
     #          datafile = signed data file        (.checksums.txt)
-    #
-    #    $ gpgv --verify --output outfile --log-file logfile pgpfile
 
-    my $results;
+    # pertinent line out of logfile.txt:
+    #
+    #    2023-10-10 19:34:05 gpgv[64502]  using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
+
     my $logfile = "logfile.txt";
-    #my $output  = "output.txt";
-    if 0 {
-        $results = "sig.fingerprints";
-        shell "gpg --batch --verify $checksums-file 2> $results";
-    }
-    else {
-        # $ gpgv --verify --output file --log-file logfile sigfile datafile
-        # $results = run('gpgv', '-vv', '--verify', '--output', $output, '--log-file', $logfile, 
-        #                '--', $asc-file, $checksums-file, :err, :enc<latin1>); #.chomp;
-        $results = run('gpgv', '--log-file', $logfile, 
-                       '--', $checksums-file, :enc<latin1>); #.chomp;
-        #say "results: $results";
-    }
+    my $outfile = "outfile.txt";
+    # $ gpgv --output file --log-file logfile sigfile datafile
+    # $results = run('gpgv', '-vv', '--output', $output, '--log-file', $logfile, 
+    #                '--', $checksums-file, :err, :enc<latin1>); #.chomp;
+    my $res = run('gpgv', '-vv', '--output', $outfile, '--log-file', $logfile, '--', $checksums-file, :enc<latin1>); 
 
     if 0 and $debug {
-        #note "DEBUG: contents of \$asc-file '$asc-file'";
-        note "DEBUG: contents of \$checksums-file '$checksums-file'";
-        note "  $_" for $results.IO.lines;
+        note "DEBUG: contents of \$logfile '$logfile':";
+        note "  $_" for $logfile.IO.lines;
     }
 
     =begin comment
