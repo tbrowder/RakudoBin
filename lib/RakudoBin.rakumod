@@ -1,8 +1,15 @@
 unit module RakudoBin;
 
+my %pub-keys = set %(
+    'alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc',
+    'justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc',
+    'patrick_boeker-DB2BA39D1ED967B584D65D71C09FF113BB6410D0.asc',
+    'rakudo_github_automation-3E7E3C6EAF916676AC549285A2919382E961E2EE.asc',
+);
+
 # remove spaces between four-character sets
 # to make sets of 40-character fingerprints
-our %keys = %(
+our %key-fingerprints = %(
     '59E634736AFDCF9C6DBAC382602D51EACA887C01' => 'Justin DeVuyst',
     'DB2BA39D1ED967B584D65D71C09FF113BB6410D0' => 'Patrick Böker',
     'FE750D152426F3E50953176ADE8F8F5E97A8FCDE' => 'Alexander Kiryuhin',
@@ -714,6 +721,7 @@ sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
     my $ok = False;
     for @keys -> $k {
         # all we need is one hit
+our %key-fingerprints = %(
         if %keys{$k}:exists {
             # bingo!
             my $signer = %keys{$k};
