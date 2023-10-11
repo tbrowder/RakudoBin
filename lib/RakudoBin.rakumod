@@ -9,6 +9,10 @@ our %keys = %(
     '3E7E3C6EAF916676AC549285A2919382E961E2EE' => 'Rakudo GitHub automation',
 );
 
+# need the public key files
+=begin comment
+=end comment
+
 # Debian releases
 our %debian-vnames is export = %(
     etch => 4,
