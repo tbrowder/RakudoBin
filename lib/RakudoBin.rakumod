@@ -566,7 +566,8 @@ sub download-rakudo-bin(
     verify-checksum :checksums-file($f-check);
 
     say "Checking signature...";
-    verify-signature :asc-file($f-asc), :checksums-file($f-check), :$debug;
+    #verify-signature :asc-file($f-asc), :checksums-file($f-check), :$debug;
+    verify-signature-gpg :asc-file($f-asc), :checksums-file($f-check), :$debug;
 
     =begin comment
     #shell "curl -1sLf '$archive'";
@@ -642,6 +643,80 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
 
 sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
     # Uses gpg
+    #
+    # One can verify the download is authentic 
+    # by checking its signature. One can validate the 
+    # .checksums.txt which contains a self contained signature.
+    # To verify via the file do
+    #
+    #    $ gpg --output outfile --verify sigfile datafile
+    #
+    #    where sigfile  = detached signature file (.asc)
+    #          datafile = signed data file        (.checksums.txt)
+    #
+    # pertinent line out of logfile.txt:
+    #
+
+    my $outfile = "outfile.txt";
+    #my $logfile = "logfile.txt";
+    # $ gpgv --output file --log-file logfile sigfile datafile
+    my $res = run('gpg', 
+                  #'-vv', 
+                  '--output', $outfile, 
+                  #'--log-file', $logfile, 
+
+                  '--verify', 
+                  $asc-file, 
+                  $checksums-file, 
+                  :merge, :enc<latin1>
+                 ).out.slurp.chomp; 
+
+    if 1 and $debug {
+        note "========================================";
+        note "DEBUG: contents of \$res '$res':";
+        note "  $_" for $res.lines;
+        note "DEBUG: end of contents of \$res '$res':";
+        note "========================================";
+        note "DEBUG: contents of \$outfile '$outfile':";
+        note "  $_" for $outfile.IO.lines;
+        note "DEBUG: end of contents of \$outfile '$outfile':";
+        note "========================================";
+        note "DEBUG: early exit"; exit;
+    }
+
+    # We are going to read the outfile signature fingerprints and 
+    # compare them with known Github key fingerprints keys from 
+    # our releasers.
+
+    my @keys;
+    my @w;
+    #    2023-10-10 19:34:05 gpgv[64502]  using EDDSA key DDA5BDA3F5CDCE99F9ED56C12CC6E973818F386B
+    note "DEBUG: checking \$outfile $outfile";
+    for $outfile.IO.lines {
+        #note "DEBUG: logfile line: $_";
+        #                                         FINGERPRINT
+        when /:i \h+ using \h+ eddsa \h+ key \h+ (\S+) \h* / {
+            my $k = ~$0;
+            note "DEBUG: found a key: $k";
+            die "FATAL: Key length is NOT 40 characters" if $k.comb.elems != 40;
+            @keys.push: $k.uc;
+        }
+    }
+
+    # check the keys
+    my $ok = False;
+    for @keys -> $k {
+        # all we need is one hit
+        if %keys{$k}:exists {
+            # bingo!
+            my $signer = %keys{$k};
+            note "DEBUG: signer=$signer; fingerprint: $k";
+            $ok = True;
+            last;
+        } 
+    }
+    die "FATAL: Signer key not found among known signers." unless $ok;;
+
 
 } # sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
 
