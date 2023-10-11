@@ -3,4 +3,20 @@ How to add a key to a keyring programmatically:
 Download the public keys of the signers
 from "https://rakudo.org/keys/*"
 
+Done.
 
+Create a keyring
+
+    pgp --create-keyrings
+
+Display the keys
+
+    pgp --list-keys
+
+Import a public key from a file
+
+   pgp --import "joe user.asc"
+
+Deleting keys
+
+   pgp --remove 0x1234ABCD  # where the input is a key ID
