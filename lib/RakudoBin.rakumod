@@ -640,7 +640,14 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
 
 } # sub verify-checksum(:$checksums-file!, :$debug) is export {
 
+sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
+    # Uses gpg
+
+} # sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
+
 sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
+    # Uses gpgv
+    #
     # One can verify the download is authentic 
     # by checking its signature. One can validate the 
     # .checksums.txt which contains a self contained signature.
