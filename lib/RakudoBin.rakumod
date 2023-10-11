@@ -663,7 +663,9 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     # $ gpgv --output file --log-file logfile sigfile datafile
     # $results = run('gpgv', '-vv', '--output', $output, '--log-file', $logfile, 
     #                '--', $checksums-file, :err, :enc<latin1>); #.chomp;
-    my $res = run('gpgv', '-vv', '--output', $outfile, '--log-file', $logfile, '--', $checksums-file, :enc<latin1>); 
+    my $res = run('gpgv', '-vv', '--output', $outfile, 
+                  '--log-file', $logfile, '--', 
+                  $checksums-file, :merge, :enc<latin1>).out.slurp.chomp; 
 
     if 0 and $debug {
         note "DEBUG: contents of \$logfile '$logfile':";
