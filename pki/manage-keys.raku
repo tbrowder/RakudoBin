@@ -25,6 +25,7 @@ my $create-keyring = 0;
 my $list-keys      = 0;
 my $import-key     = 0;
 my $delete-key     = 0;
+my $fingerprint    = 0;
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
@@ -33,10 +34,11 @@ if not @*ARGS.elems {
     Provides PGP key management.
 
     Modes:
-      create-keyring
-      list-keys
-      import-key
-      delete-key
+      c     - create keyring
+      l     - list keys
+      i     - import key X
+      f     - list key fingerprints
+      key=X - where X is a detached key.asc to be imported
     HERE
 
     exit;
@@ -44,19 +46,20 @@ if not @*ARGS.elems {
 
 for @*ARGS {
     when /:i ^c/ {
-        create-keyring()
+        ++$create-keyring;
     }
     when /:i ^l/ {
-        list-keys()
+        ++$list-keys;
     }
     when /:i ^i/ {
-        import-key()
+        ++$import-key;
     }
-    =begin comment
     when /:i ^d/ {
-        delete-key()
+        ++$delete-key;
     }
-    =end comment
+    when /:i ^key '=' (\S+) / {
+        $key = ~$0;
+    }
 }
 
 sub create-keyring() is export {
@@ -91,7 +94,7 @@ sub import-key() is export {
         say run(
             'gpg',
             '--import',
-            $key,
+            $k,
             :merge,
             :enc<latin1>,
            ).out.slurp;
