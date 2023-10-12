@@ -62,7 +62,7 @@ for @*ARGS {
 sub create-keyring() is export {
     # pgp --create-keyrings
     say run(
-        'pgpgpg',
+        'gpg',
         '--create-keyrings',
         :merge,
         :enc<latin1>,
@@ -72,7 +72,7 @@ sub create-keyring() is export {
 sub list-keys() is export {
     # pgp --list-keys
     say run(
-        'pgpgpg',
+        'gpg',
         '--list-keys',
         :merge,
         :enc<latin1>,
@@ -89,7 +89,7 @@ sub import-key() is export {
         }
         my $key = $k.IO.slurp;
         say run(
-            'pgpgpg',
+            'gpg',
             '--import',
             $key,
             :merge,
@@ -101,7 +101,7 @@ sub import-key() is export {
 sub delete-key($key-id) is export {
     # pgp --remove 0x1234ABCD  # where the input is a key ID
     run(
-        'pgpgpg',
+        'gpg',
         '--remove',
         $key-id,
        );
