@@ -1,5 +1,7 @@
 How to add a key to a keyring programmatically:
 
+Note: must have installed 'gpg' and 'pgpgpg' packages installed
+
 Download the public keys of the signers
 from "https://rakudo.org/keys/*"
 
