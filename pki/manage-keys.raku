@@ -26,6 +26,15 @@ my $list-keys      = 0;
 my $import-key     = 0;
 my $delete-key     = 0;
 my $fingerprint    = 0;
+my $key            = 0;
+
+sub z {
+    $create-keyring = 0;
+    $list-keys      = 0;
+    $import-key     = 0;
+    $delete-key     = 0;
+    $fingerprint    = 0;
+}
 
 if not @*ARGS.elems {
     print qq:to/HERE/;
@@ -37,24 +46,34 @@ if not @*ARGS.elems {
       c     - create keyring
       l     - list keys
       i     - import key X
+      d     - delete key X
       f     - list key fingerprints
       key=X - where X is a detached key.asc to be imported
+              or a key ID to be deleted
     HERE
 
     exit;
 }
 
 for @*ARGS {
+    when /:i ^f/ {
+        z;
+        ++$fingerprint;
+    }
     when /:i ^c/ {
+        z;
         ++$create-keyring;
     }
     when /:i ^l/ {
+        z;
         ++$list-keys;
     }
     when /:i ^i/ {
+        z;
         ++$import-key;
     }
     when /:i ^d/ {
+        z;
         ++$delete-key;
     }
     when /:i ^key '=' (\S+) / {
@@ -62,8 +81,40 @@ for @*ARGS {
     }
 }
 
+if $create-keyring {
+    create-keyring;
+}
+elsif $list-keys {
+    list-keys;
+}
+elsif $fingerprint {
+    fingerprint;
+}
+elsif $import-key {
+    if $key {
+        import-key :$key;
+    }
+    else {
+        import-key;
+    }
+}
+elsif $delete-key {
+    delete-key :$key;
+}
+
+#=== subroutines ====
+sub fingerprint () is export {
+    # gpg --fingerprint
+    say run(
+        'gpg',
+        '--fingerprint',
+        :merge,
+        :enc<latin1>,
+       ).out.slurp;
+}
+
 sub create-keyring() is export {
-    # pgp --create-keyrings
+    # gpg --create-keyrings
     say run(
         'gpg',
         '--create-keyrings',
@@ -73,24 +124,40 @@ sub create-keyring() is export {
 }
 
 sub list-keys() is export {
-    # pgp --list-keys
+    # gpg --list-keys
     say run(
         'gpg',
         '--list-keys',
+        '--keyid-format',
+        'short',
         :merge,
         :enc<latin1>,
        ).out.slurp;
 }
 
-#sub import-key($key-file) is export {
-sub import-key() is export {
+sub import-key(:$key) is export {
+    if $key.defined {
+        # the key is a file name
+        if not $key.IO.r {
+            note "FATAL: Key file '$key' not found.";
+            exit;
+        }
+        say run(
+            'gpg',
+            '--import',
+            $key,
+            :merge,
+            :enc<latin1>,
+           ).out.slurp;
+        return;
+    }
+
     for %keys.keys -> $k {
         # the key is a file name
         if not $k.IO.r {
             note "ERROR: Key file '$k' not found.";
             next;
         }
-        my $key = $k.IO.slurp;
         say run(
             'gpg',
             '--import',
@@ -102,13 +169,12 @@ sub import-key() is export {
 }
 
 sub delete-key($key-id) is export {
-    # pgp --remove 0x1234ABCD  # where the input is a key ID
+    # gpg --remove 0x1234ABCD  # where the input is a key ID
     run(
         'gpg',
         '--remove',
         $key-id,
        );
 }
-
 
 
