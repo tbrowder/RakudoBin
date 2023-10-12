@@ -5,12 +5,12 @@ use lib <../lib>;
 #use RakudoBin;
 
 #=begin comment
-my %keys = set %(
-    'alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc',
-    'justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc',
-    'patrick_boeker-DB2BA39D1ED967B584D65D71C09FF113BB6410D0.asc',
-    'rakudo_github_automation-3E7E3C6EAF916676AC549285A2919382E961E2EE.asc',
-);
+my %keys = set <
+    alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc
+    justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc
+    patrick_boeker-DB2BA39D1ED967B584D65D71C09FF113BB6410D0.asc
+    rakudo_github_automation-3E7E3C6EAF916676AC549285A2919382E961E2EE.asc
+>;
 #=end comment
 
 my $create-keyring = 0;
@@ -41,40 +41,52 @@ for @*ARGS {
     when /:i ^l/ {
         list-keys()
     }
-    #=begin comment
     when /:i ^i/ {
         import-key()
     }
+    =begin comment
     when /:i ^d/ {
         delete-key()
     }
-    #=end comment
+    =end comment
 }
 
 sub create-keyring() is export {
     # pgp --create-keyrings
-    run(
+    say run(
         'pgp',
         '--create-keyrings',
-       );
+        :merge,
+        :enc<latin1>,
+       ).out.slurp;
 }
 
 sub list-keys() is export {
     # pgp --list-keys
-    run(
+    say run(
         'pgp',
         '--list-keys',
-       );
+        :merge,
+        :enc<latin1>,
+       ).out.slurp;
 }
 
 #sub import-key($key-file) is export {
 sub import-key() is export {
     for %keys.keys -> $k {
-    run(
-        'pgp',
-        '--import',
-        $k,
-       );
+        # the key is a file name
+        if not $k.IO.d {
+            note "ERROR: Key file '$k' not found.";
+            next;
+        }
+        my $key = $k.IO.slurp;
+        say run(
+            'pgp',
+            '--import',
+            $key,
+            :merge,
+            :enc<latin1>,
+           ).out.slurp;
     }
 }
 
