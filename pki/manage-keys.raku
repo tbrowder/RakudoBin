@@ -21,19 +21,21 @@ my %keys = set <
     rg.asc
 >;
 
-my $create-keyring = 0;
-my $list-keys      = 0;
-my $import-key     = 0;
-my $delete-key     = 0;
-my $fingerprint    = 0;
-my $key            = 0;
+my $create-keyring    = 0;
+my $list-keys         = 0;
+my $list-fingerprints = 0;
+my $import-key        = 0;
+my $delete-key        = 0;
+my $generate-key      = 0;
+my $key               = 0;
 
 sub z {
-    $create-keyring = 0;
-    $list-keys      = 0;
-    $import-key     = 0;
-    $delete-key     = 0;
-    $fingerprint    = 0;
+    $create-keyring    = 0;
+    $list-keys         = 0;
+    $list-fingerprints = 0;
+    $import-key        = 0;
+    $delete-key        = 0;
+    $generate-key      = 0;
 }
 
 if not @*ARGS.elems {
@@ -43,39 +45,47 @@ if not @*ARGS.elems {
     Provides PGP key management.
 
     Modes:
-      c     - create keyring
-      l     - list keys
-      i     - import key X
-      d     - delete key X
-      f     - list key fingerprints
+      cr    - create keyring
+      lk    - list keys
+      lf    - list key fingerprints
+
+      ik    - import key X
+      dk    - delete key X
+      gk    - generate key with ID X
+
       key=X - where X is a detached key.asc to be imported
-              or a key ID to be deleted
+              or a key ID to be deleted or generated
     HERE
 
     exit;
 }
 
 for @*ARGS {
-    when /:i ^f/ {
-        z;
-        ++$fingerprint;
-    }
     when /:i ^c/ {
         z;
         ++$create-keyring;
     }
-    when /:i ^l/ {
+    when /:i ^lk/ {
         z;
         ++$list-keys;
     }
-    when /:i ^i/ {
+    when /:i ^lf/ {
+        z;
+        ++$list-fingerprints;
+    }
+    when /:i ^ik/ {
         z;
         ++$import-key;
     }
-    when /:i ^d/ {
+    when /:i ^dk/ {
         z;
         ++$delete-key;
     }
+    when /:i ^gk/ {
+        z;
+        ++$generate-key;
+    }
+
     when /:i ^key '=' (\S+) / {
         $key = ~$0;
     }
@@ -87,8 +97,8 @@ if $create-keyring {
 elsif $list-keys {
     list-keys;
 }
-elsif $fingerprint {
-    fingerprint;
+elsif $list-fingerprints {
+    list-fingerprints;
 }
 elsif $import-key {
     if $key {
@@ -101,9 +111,12 @@ elsif $import-key {
 elsif $delete-key {
     delete-key :$key;
 }
+elsif $generate-key {
+    generate-key :$key;
+}
 
 #=== subroutines ====
-sub fingerprint () is export {
+sub list-fingerprints() is export {
     # gpg --fingerprint
     say run(
         'gpg',
@@ -173,6 +186,15 @@ sub delete-key($key-id) is export {
     run(
         'gpg',
         '--remove',
+        $key-id,
+       );
+}
+
+sub generate-key($key-id) is export {
+    # gpg --remove 0x1234ABCD  # where the input is a key ID
+    run(
+        'gpg',
+        '--generate-key', 
         $key-id,
        );
 }
