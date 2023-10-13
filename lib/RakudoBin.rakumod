@@ -464,6 +464,7 @@ sub download-rakudo-bin(
     :OS(:$os)!, 
     :$spec, 
     :$release is copy where { /^ \d+ $/ } = 1,
+    :$force = False,
     :$debug,
     ) is export {
 
@@ -558,15 +559,37 @@ sub download-rakudo-bin(
     my $f-asc     = "{$filebase}.asc"; 
     my $f-check   = "{$filebase}.checksums.txt";
 
-    # I want to rename the files as they download
-    shell "curl -1sLf $r-archive -o $f-archive";
-    say "  See file $f-archive";
+    # don't download the files if they are there
+    if not $force {
+        # Rename the files as they download
+        shell "curl -1sLf $r-archive -o $f-archive";
+        say "  See file $f-archive";
 
-    shell "curl -1sLf $r-asc     -o $f-asc";
-    say "  See file $f-asc";
+        shell "curl -1sLf $r-asc     -o $f-asc";
+        say "  See file $f-asc";
 
-    shell "curl -1sLf $r-check   -o $f-check";
-    say "  See file $f-check";
+        shell "curl -1sLf $r-check   -o $f-check";
+        say "  See file $f-check";
+    }
+    else {
+        my $has-archive = $f-archive.IO.f ?? True !! False;
+        my $has-asc     = $f-asc.IO.f     ?? True !! False;
+        my $has-check   = $f-check.IO.f   ?? True !! False;
+
+        # Rename the files as they download
+        if not $has-archive {
+            shell "curl -1sLf $r-archive -o $f-archive";
+            say "  See file $f-archive";
+        }
+        if not $has-asc {
+            shell "curl -1sLf $r-asc     -o $f-asc";
+            say "  See file $f-asc";
+        }
+        if not $has-check {
+            shell "curl -1sLf $r-check   -o $f-check";
+            say "  See file $f-check";
+        }
+    }
 
     print qq:to/HERE/;
     See downloaded files:
@@ -577,11 +600,22 @@ sub download-rakudo-bin(
     Checking binary validity...
     HERE
 
-    verify-checksum :checksums-file($f-check);
+    my $is-ok = verify-checksum :checksums-file($f-check);
+    if $is-ok {
+        say "Files pass the binary validity check.";
+    }
+    else {
+        say "WARNING: Files do NOT pass the binary validity check.";
+        say "         Exiting.";
+    }
 
+    say "You must confirm the signatures on your own for now.";
+
+    =begin comment
     say "Checking signature...";
     #verify-signature :asc-file($f-asc), :checksums-file($f-check), :$debug;
     verify-signature-gpg :asc-file($f-asc), :checksums-file($f-check), :$debug;
+    =end comment
 
     =begin comment
     #shell "curl -1sLf '$archive'";
@@ -602,7 +636,7 @@ sub set-path() is export {
     # the path must come BEFORE
 }
 
-sub verify-checksum(:$checksums-file!, :$debug) is export {
+sub verify-checksum(:$checksums-file!, :$debug --> Bool) is export {
     # To verify that a downloaded file is not corrupted, 
     # download the *.checksums.txt corresponding to the 
     # download you want to verify. Then run
@@ -642,16 +676,17 @@ sub verify-checksum(:$checksums-file!, :$debug) is export {
     # read results from stdout
     # proper output:  file-name: OK 
     # failure output: file-name: FAILED
-    my $ok = False;
+    my $is-ok = False;
     if $results ~~ /:i \s* $fnam \s* ':' \s* OK / {
-        $ok = True;
+        $is-ok = True;
     }
     elsif $results ~~ /:i \s* $fnam \s* ':' \s* FAILED / {
-        $ok = False;
+        $is-ok = False;
     }
     else {
         die "FATAL: Unexpected output: '$results'; (expected '$fnam')";
     }
+    $is-ok;
 
 } # sub verify-checksum(:$checksums-file!, :$debug) is export {
 
