@@ -194,8 +194,10 @@ sub generate-key($key-id) is export {
     # gpg --remove 0x1234ABCD  # where the input is a key ID
     run(
         'gpg',
-        '--generate-key', 
+        '--quick-generate-key', 
         $key-id,
+        'algo default',
+        'usage default',
        );
 }
 
