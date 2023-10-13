@@ -109,10 +109,10 @@ elsif $import-key {
     }
 }
 elsif $delete-key {
-    delete-key :$key;
+    delete-key $key;
 }
 elsif $generate-key {
-    generate-key :$key;
+    generate-key $key;
 }
 
 #=== subroutines ====
@@ -148,7 +148,7 @@ sub list-keys() is export {
        ).out.slurp;
 }
 
-sub import-key(:$key) is export {
+sub import-key($key?) is export {
     if $key.defined {
         # the key is a file name
         if not $key.IO.r {
@@ -181,21 +181,21 @@ sub import-key(:$key) is export {
     }
 }
 
-sub delete-key($key-id) is export {
+sub delete-key($key) is export {
     # gpg --remove 0x1234ABCD  # where the input is a key ID
     run(
         'gpg',
         '--remove',
-        $key-id,
+        $key,
        );
 }
 
-sub generate-key($key-id) is export {
+sub generate-key($key) is export {
     # gpg --remove 0x1234ABCD  # where the input is a key ID
     run(
         'gpg',
         '--quick-generate-key', 
-        $key-id,
+        $key,
         'algo default',
         'usage default',
        );
