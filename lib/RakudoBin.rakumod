@@ -176,7 +176,7 @@ class OS is export {
     }
 }
 
-sub get-paths($dir = '.' --> Hash) is export {
+sub get-dir-paths($dir = '.' --> Hash) is export {
     # Given any directory, recursively collect all files
     # and directories below it.
     my @todo = $dir.IO;
@@ -195,7 +195,7 @@ sub get-paths($dir = '.' --> Hash) is export {
     }
     my %h = files => @fils, dirs => @dirs;
     %h
-} # sub get-paths($dir = '.' --> Hash) is export {
+} # sub get-dir-paths($dir = '.' --> Hash) is export {
  
 sub my-resources is export {
     %?RESOURCES
@@ -221,9 +221,6 @@ sub handle-prompt(:$res) is export {
         say "Exiting...";
         exit;
     }
-}
-
-sub set-rakudo-paths is export {
 }
 
 =begin comment
@@ -560,7 +557,7 @@ sub download-rakudo-bin(
     my $f-check   = "{$filebase}.checksums.txt";
 
     # don't download the files if they are there
-    if not $force {
+    if $force {
         # Rename the files as they download
         shell "curl -1sLf $r-archive -o $f-archive";
         say "  See file $f-archive";
@@ -628,12 +625,14 @@ sub download-rakudo-bin(
     # save to different name, use -o
     shell "curl -L1sf -o $desired-name $archive";
     =end comment
-
 }
 
 sub set-path() is export {
     # sets the path for the rakudo-bin installation
-    # the path must come BEFORE
+    # the path must come BEFORE the /usr/local/bin path
+    # make the path look like this:
+    #
+    #  PATH=$PATH:/opt/rakudo-YYYY-MM-RR:/usr/local/bin
 }
 
 sub verify-checksum(:$checksums-file!, :$debug --> Bool) is export {

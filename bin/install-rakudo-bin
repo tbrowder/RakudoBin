@@ -33,6 +33,7 @@ if not @*ARGS {
 #=begin comment
 say "Downloading...";
 download-rakudo-bin :date<2023-09>, :os<lin>, :debug;
+
 say "DEBUG exit"; exit;
 #=end comment
 
