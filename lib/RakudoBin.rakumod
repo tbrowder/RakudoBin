@@ -556,6 +556,12 @@ sub download-rakudo-bin(
     my $f-asc     = "{$filebase}.asc"; 
     my $f-check   = "{$filebase}.checksums.txt";
 
+    # IMPORTANT: change working dir to /opt/rakudo-YYYY-MM-RR
+    # requires root
+    say "Creating directory download directory '$rak-dir'...";
+    mkdir $rak-dir;
+    chdir $rak-dir;
+
     # don't download the files if they are there
     if $force {
         # Rename the files as they download
@@ -608,24 +614,38 @@ sub download-rakudo-bin(
 
     say "You must confirm the signatures on your own for now.";
 
-    =begin comment
-    say "Checking signature...";
-    #verify-signature :asc-file($f-asc), :checksums-file($f-check), :$debug;
-    verify-signature-gpg :asc-file($f-asc), :checksums-file($f-check), :$debug;
-    =end comment
+    # extract the archive
+    chdir "$rak-dir";;
+    run(
+        'tar',
+        '--strip-components=1',
+        '-xvzf', 
+        $f-archive,
+       );
 
-    =begin comment
-    #shell "curl -1sLf '$archive'";
-    # -1 - use TLS 1 or higher
-    # -s - silent
-    # -L - follow redirects
-    # -f - fail quickly with first error
-    # save to same name, use -O
-    shell "curl -OL $archive";
-    # save to different name, use -o
-    shell "curl -L1sf -o $desired-name $archive";
-    =end comment
-}
+    # set the path
+
+    # delete other raku executables
+
+} # sub download-rakudo-bin(
+
+=begin comment
+say "Checking signature...";
+#verify-signature :asc-file($f-asc), :checksums-file($f-check), :$debug;
+verify-signature-gpg :asc-file($f-asc), :checksums-file($f-check), :$debug;
+=end comment
+
+=begin comment
+#shell "curl -1sLf '$archive'";
+# -1 - use TLS 1 or higher
+# -s - silent
+# -L - follow redirects
+# -f - fail quickly with first error
+# save to same name, use -O
+shell "curl -OL $archive";
+# save to different name, use -o
+shell "curl -L1sf -o $desired-name $archive";
+=end comment
 
 sub set-path() is export {
     # sets the path for the rakudo-bin installation
