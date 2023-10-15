@@ -642,9 +642,9 @@ sub set-path($rak-dir) is export {
         export PATH="$PATH:$RAKUDO_PATHS"
     fi
     =end comment
-    my $f = "/etc/profile.d/rakudo_paths.sh";
-    my $fh = open $f, :w";
-    $fh.print qq:to/HERE/;
+    my $f = "/etc/profile.d/rakudo-paths.sh";
+    my $fh = open $f, :w;
+    $fh.print: qq:to/HERE/;
     # To be run in /etc/profile.d/
     RAKUDO_PATHS=\"$rak-dir/bin:$rak-dir/share/perl6/site/bin:/usr/bin\"
     if ! echo \"\$PATH\" | /bin/grep -Eq \"(^|:)\$RAKUDO_PATHS(\$|:)\" ; then
