@@ -629,6 +629,32 @@ sub download-rakudo-bin(
 
 } # sub download-rakudo-bin(
 
+sub set-path($rak-dir) is export {
+    # sets the path for the rakudo-bin installation
+    # the path must come BEFORE the /usr/bin path
+    # make the path look like this:
+    #
+    #  PATH=$PATH:/opt/rakudo-YYYY-MM-RR/bin:/opt/rakudo-YYYY-MM-RR/share/perl6/site/bin:/usr/bin
+    =begin comment
+    # To be run in /etc/profile.d/
+    RAKUDO_PATHS="$rak-dir/bin:$rak-dir/share/perl6/site/bin:/usr/bin"
+    if ! echo "$PATH" | /bin/grep -Eq "(^|:)$RAKUDO_PATHS($|:)" ; then
+        export PATH="$PATH:$RAKUDO_PATHS"
+    fi
+    =end comment
+    my $f = "/etc/profile.d/rakudo_paths.sh";
+    my $fh = open $f, :w";
+    $fh.print qq:to/HERE/;
+    # To be run in /etc/profile.d/
+    RAKUDO_PATHS=\"$rak-dir/bin:$rak-dir/share/perl6/site/bin:/usr/bin\"
+    if ! echo \"\$PATH\" | /bin/grep -Eq \"(^|:)\$RAKUDO_PATHS(\$|:)\" ; then
+        export PATH=\"\$PATH:\$RAKUDO_PATHS\"
+    fi
+    HERE
+    $fh.close;
+
+}
+
 =begin comment
 say "Checking signature...";
 #verify-signature :asc-file($f-asc), :checksums-file($f-check), :$debug;
@@ -646,14 +672,6 @@ shell "curl -OL $archive";
 # save to different name, use -o
 shell "curl -L1sf -o $desired-name $archive";
 =end comment
-
-sub set-path() is export {
-    # sets the path for the rakudo-bin installation
-    # the path must come BEFORE the /usr/local/bin path
-    # make the path look like this:
-    #
-    #  PATH=$PATH:/opt/rakudo-YYYY-MM-RR:/usr/local/bin
-}
 
 sub verify-checksum(:$checksums-file!, :$debug --> Bool) is export {
     # To verify that a downloaded file is not corrupted, 
