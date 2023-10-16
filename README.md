@@ -19,7 +19,7 @@ install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
 DESCRIPTION
 ===========
 
-This module distribution can be used in three different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing `rakudo` and <zef> executables.
+This module distribution can be used in several different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing `rakudo` and <zef> executables.
 
 Scenario one - a new system without Rakudo installed
 ----------------------------------------------------
@@ -30,7 +30,9 @@ Scenario two - a new system with its system Rakudo package installed
 Scenario three - upgrading a system already using the Rakudo binary download
 ----------------------------------------------------------------------------
 
-to install or upgrade a host is not designed to be installed by `zef`. Its repository must be downloaded onto the desired host and then used by the root user from its top-level directory following the instructions below.
+**WARNING** Note the Rakudo binary download provides its own zef which is normally used by both the root user as well as normal users. If the `.raku` or `.zef` directories are found in the root user's own `$HOME` directory, he or she will be offered the choice of either deleting them or aborting the installation. 
+
+This module is not designed to be installed by `zef` before its use on a new system. Its repository must be downloaded onto the desired host and then used by the root user from the module's top-level directory following the instructions below.
 
 The package contains programs for the root user to bootstrap the `rakudo` binary download installation by use of a system `rakudo` package installation. After successful bootstrapping, the system's `rakudo` package should be deleted to avoid conflicts.
 

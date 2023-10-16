@@ -17,7 +17,7 @@ install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
 
 =head1 DESCRIPTION
 
-This module distribution can be used in three different scenarios
+This module distribution can be used in several different scenarios
 for installing or upgrading a host to use the Rakudo binary
 download archive containing C<rakudo> and <zef> executables.
 
@@ -27,10 +27,14 @@ download archive containing C<rakudo> and <zef> executables.
 
 =head2 Scenario three - upgrading a system already using the Rakudo binary download
 
+B<WARNING> Note the Rakudo binary download provides its own zef which is normally used
+by both the root user as well as normal users. If the C<.raku> or C<.zef> directories
+are found in the root user's own C<$HOME> directory, he or she will be offered the choice
+of either deleting them or aborting the installation. 
 
-to install or upgrade a host is not designed to be installed by C<zef>. 
+This module is not designed to be installed by C<zef> before its use on a new system.
 Its repository must be downloaded
-onto the desired host and then used by the root user from its top-level directory
+onto the desired host and then used by the root user from the module's top-level directory
 following the instructions below.
 
 The package contains programs for the root user to bootstrap the C<rakudo> binary
@@ -80,8 +84,6 @@ There are three steps to follow.
 
 Since C<zef> depends on C<raku>, all we need to do is install its package (note the package name
 is different):
-
-
 
 =head1 AUTHOR
 
