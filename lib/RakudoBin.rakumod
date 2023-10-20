@@ -882,4 +882,6 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
 
 } # sub verify-signature(:$asc-file!, :$debug) is export {
 
+sub run-cli($args, :$debug) is export {
+} # sub run-cli($args, :$debug) is export {
 
