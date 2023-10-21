@@ -103,7 +103,7 @@ Since `zef` depends on `raku`, all we need to do is install its package (note th
 
         $ sudo aptitude install raku raku-zef
 
-    The result is Raku v2022.12 and zef v0.13.8. Note that version is probably sufficient for beginning Raku users, but this module aims to make upgrading painless.
+    The result is Raku v2022.12 and zef v0.13.8. Note that version is probably sufficient for beginning Raku users, but this module aims to make upgrading to a more recent version painless.
 
 ### Step 2 - Install or upgrade the Rakudo binary system
 

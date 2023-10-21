@@ -122,7 +122,7 @@ Install C<raku> and C<zef>:
 
 The result is Raku v2022.12 and zef v0.13.8.
 Note that version is probably sufficient for beginning Raku users, but this
-module aims to make upgrading painless.
+module aims to make upgrading to a more recent version painless.
 
 =end item 
 
