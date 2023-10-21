@@ -19,7 +19,7 @@ install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
 DESCRIPTION
 ===========
 
-This module distribution can be used in several different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing `rakudo` and <zef> executables.
+This module distribution can be used in several different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing `raku` and <zef> executables.
 
 In fact, it is designed to maintain and use the native Rakudo package to bootstrap the binary downloads. Consider the following scenarios:
 
@@ -57,6 +57,9 @@ Solution:
 
 **WARNING** Note the Rakudo binary download provides its own `zef` which is normally used by both the root user as well as normal users. If the `zef` executable is found in the root user's own `$HOME` directory, he or she will be offered the choice of either deleting it or aborting the installation. Given the oft-upgraded binary version, retaining the personal copy of `zef` should not be of any benefit. As well, its effect on the dual-Rakudo installation is not tested.
 
+Overview
+========
+
 **RakudoBin** currently will install a binary version of Rakudo for Linux hosts. Older versions are available, but the name of a recent Rakudo binary release has the following archive names for the three OSs listed at [https://rakudo.org/downloads](https://rakudo.org/downloads):
 
     rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz
@@ -76,13 +79,13 @@ This module may eventually be able to do the same for MacOS and, hopefully, Wind
 Note this package is designed for the purpose of setting up and standardizing multi-user Linux hosts for classrooms or computer laboratories.
 
 Procedures
-----------
+==========
 
 Normally you will be using this module on a system which has not had Raku installed other than with its normal package installation, but it will uninstall completely any previous `rakudo-pkg` installation in an existing `/opt/rakudo-pkg` directory.
 
 There are three steps to follow.
 
-### Step 1 - Install the Debian `rakudo` package and its `zef`
+### Step 1 - Ensure the system `rakudo` package and its `zef` are installed
 
 Since `zef` depends on `raku`, all we need to do is install its package (note the package name is different for different Debian versions):
 
@@ -101,6 +104,10 @@ Since `zef` depends on `raku`, all we need to do is install its package (note th
         $ sudo aptitude install raku raku-zef
 
     The result is Raku v2022.12 and zef v0.13.8. Note that version is probably sufficient for beginning Raku users, but this module aims to make upgrading painless.
+
+### Step 2 - Install or upgrade the Rakudo binary system
+
+    $ sudo install-rakudo-bin
 
 AUTHOR
 ======

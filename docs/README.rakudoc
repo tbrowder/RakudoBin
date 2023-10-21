@@ -19,7 +19,7 @@ install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
 
 This module distribution can be used in several different scenarios
 for installing or upgrading a host to use the Rakudo binary
-download archive containing C<rakudo> and <zef> executables.
+download archive containing C<raku> and <zef> executables.
 
 In fact, it is designed to maintain and use the native Rakudo package to bootstrap
 the binary downloads. Consider the following scenarios:
@@ -56,9 +56,10 @@ of either deleting it or aborting the installation. Given the oft-upgraded binar
 version, retaining the personal copy of C<zef> should not be of any benefit. As
 well, its effect on the dual-Rakudo installation is not tested.
 
+=head1 Overview
+
 B<RakudoBin> currently will install a binary version of Rakudo for Linux hosts.
-Older versions are available, but
-the name of a recent Rakudo binary release has the following
+Older versions are available, but the name of a recent Rakudo binary release has the following
 archive names for the three OSs listed at L<https://rakudo.org/downloads>:
 
 =begin code
@@ -86,7 +87,7 @@ Note this package is designed for the purpose of setting up and
 standardizing multi-user Linux hosts
 for classrooms or computer laboratories.
 
-=head2 Procedures
+=head1 Procedures
 
 Normally you will be using this module on a system
 which has not had Raku installed other than with its normal
@@ -96,7 +97,7 @@ C</opt/rakudo-pkg> directory.
 
 There are three steps to follow.
 
-=head3 Step 1 - Install the Debian C<rakudo> package and its C<zef>
+=head3 Step 1 - Ensure the system C<rakudo> package and its C<zef> are installed
 
 Since C<zef> depends on C<raku>, all we need to do is install its package (note the package name
 is different for different Debian versions):
@@ -124,6 +125,10 @@ Note that version is probably sufficient for beginning Raku users, but this
 module aims to make upgrading painless.
 
 =end item 
+
+=head3 Step 2 - Install or upgrade the Rakudo binary system
+
+    $ sudo install-rakudo-bin
 
 =head1 AUTHOR
 
