@@ -19,7 +19,7 @@ install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
 DESCRIPTION
 ===========
 
-This module distribution can be used in several different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing `raku` and <zef> executables.
+This module distribution can be used in several different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing the `raku` and `zef` executables.
 
 In fact, it is designed to maintain and use the native Rakudo package to bootstrap the binary downloads. Consider the following scenarios:
 
