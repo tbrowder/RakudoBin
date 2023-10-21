@@ -22,15 +22,32 @@ for installing or upgrading a host to use the Rakudo binary
 download archive containing C<rakudo> and <zef> executables.
 
 In fact, it is designed to maintain and use the native Rakudo package to bootstrap
-the binary downloads.
+the binary downloads. Consider the following scenarios:
 
 =head2 Scenario one - a new system without Rakudo installed
 
+Solution: 
+
+=item install the system Raku and Zef
+=item install module RakudoBin using the system Zef
+=item install the Rakudo binary with the executable program of module RakudoBin
+
 =head2 Scenario two - a new system with its system Rakudo package installed
+
+Solution: 
+
+=item install module RakudoBin using the system Zef
+=item install the Rakudo binary with the executable program of module RakudoBin
 
 =head2 Scenario three - upgrading a system already using the Rakudo binary download
 
+Solution: 
+
+=item upgrade the Rakudo binary with the executable program of module RakudoBin
+
 =head2 Scenario four - a system with another Raku installation method
+
+Solution: 
 
 B<WARNING> Note the Rakudo binary download provides its own C<zef> which is normally used
 by both the root user as well as normal users. If the C<zef> executable
@@ -40,15 +57,16 @@ version, retaining the personal copy of C<zef> should not be of any benefit. As
 well, its effect on the dual-Rakudo installation is not tested.
 
 B<RakudoBin> currently will install a binary version of Rakudo for Linux hosts.
-For example, the name of a recent Rakudo binary release has the following
+Older versions are available, but
+the name of a recent Rakudo binary release has the following
 archive names for the three OSs listed at L<https://rakudo.org/downloads>:
 
 =begin code
-rakudo-moar-2023.09-01-linux-x86_64-gcc.tar.gz
-rakudo-moar-2023.09-01-macos-arm64-clang.tar.gz
-rakudo-moar-2023.09-01-macos-x86_64-clang.tar.gz
-rakudo-moar-2023.09-01-win-x86_64-msvc.msi
-rakudo-moar-2023.09-01-win-x86_64-msvc.zip
+rakudo-moar-2023.10-01-linux-x86_64-gcc.tar.gz
+rakudo-moar-2023.10-01-macos-arm64-clang.tar.gz
+rakudo-moar-2023.10-01-macos-x86_64-clang.tar.gz
+rakudo-moar-2023.10-01-win-x86_64-msvc.msi
+rakudo-moar-2023.10-01-win-x86_64-msvc.zip
 =end code
 
 Generally, the only thing you need to choose is the date and the OS
