@@ -1,7 +1,8 @@
-#!/usr/bin/env raku
+#!/opt/rakudo/bin/raku
 
 use RakudoBin;
 
+=begin comment
 my $user    = $*USER.lc;
 my $is-root = $user eq 'root' ?? True !! False;
 my $host    = $*KERNEL.hostname;
@@ -81,6 +82,7 @@ if $rdir.IO.d {
 
 say "Installing rakudo-pkg in /opt...";
 my $res = prompt "Continue (y/N)? ";
+=end comment
 =finish
 
 handle-prompt :$res;

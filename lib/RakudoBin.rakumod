@@ -883,5 +883,94 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
 } # sub verify-signature(:$asc-file!, :$debug) is export {
 
 sub run-cli($args, :$debug) is export {
+
+=begin comment
+my $user    = $*USER.lc;
+my $is-root = $user eq 'root' ?? True !! False;
+my $host    = $*KERNEL.hostname;
+my $system  = $*KERNEL.hardware // "Unknown system";
+my $distro  = $*DISTRO.name;
+my $version = $*DISTRO.version;
+
+if not @*ARGS {
+    say qq:to/HERE/;
+    Usage: {$*PROGRAM.basename} go
+
+    This is a root-only program currently running on:
+
+        Host:    $host
+        User:    $user
+        Distro:  $distro
+        Version: $version
+        System:  $system
+
+    It requires an installed system package, on Debian:
+
+        'sudo apt-get install rakudo'
+
+    HERE
+    exit
+}
+
+# use this area to test subs without being root
+#=begin comment
+say "Downloading...";
+download-rakudo-bin :date<2023-09>, :os<lin>, :debug;
+
+say "DEBUG exit"; exit;
+#=end comment
+
+# we must be using the Debian rakudo package
+my $rak = "/usr/bin/local/raku";
+unless $rak.IO.f {
+    print qq:to/HERE/;
+    FATAL: This program requires the Debian 'rakudo' package to be installed.
+           As root, run 'sudo apt-get install rakudo' to do so.
+    HERE
+    exit;
+}
+
+unless $is-root {
+    say "FATAL: This program must be executed by the root user.";
+    exit;
+}
+
+my $debug  = 0;
+
+for @*ARGS {
+    when /^ d / { ++$debug }
+    when /^ g / { 
+        ; # ok
+    }
+
+    default {
+        note "FATAL: Unknown arg '$_'";
+        exit;
+    }
+}
+
+my $rdir = "/opt/rakudo-pkg";
+
+say "Installing rakudo-pkg in /opt...";
+if $rdir.IO.d {
+    say "Found an existing '$rdir'";
+    say "It must be removed along with any";
+    say "publicly accessible modules.";
+    my $res = prompt "Continue (y/N)? ";
+    handle-prompt :$res;
+    say "Removing Installing rakudo-pkg in '$rdir'...";
+    shell "rm -rf $rdir";
+}
+
+say "Installing rakudo-pkg in /opt...";
+my $res = prompt "Continue (y/N)? ";
+
+=end comment
+return;
+
+#=finish
+#handle-prompt :$res;
+#install-raku;
+
 } # sub run-cli($args, :$debug) is export {
 
