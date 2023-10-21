@@ -2,7 +2,7 @@
 
 =head1 NAME
 
-B<RakudoBin> - Provides Raku and system scripting bash tools to install and remove the Rakudo binary version
+B<RakudoBin> - Provides Raku tools to install and upgrade the Rakudo binary version
 
 =head1 SYNOPSIS
 
@@ -21,26 +21,23 @@ This module distribution can be used in several different scenarios
 for installing or upgrading a host to use the Rakudo binary
 download archive containing C<rakudo> and <zef> executables.
 
+In fact, it is designed to maintain and use the native Rakudo package to bootstrap
+the binary downloads.
+
 =head2 Scenario one - a new system without Rakudo installed
 
 =head2 Scenario two - a new system with its system Rakudo package installed
 
 =head2 Scenario three - upgrading a system already using the Rakudo binary download
 
-B<WARNING> Note the Rakudo binary download provides its own zef which is normally used
-by both the root user as well as normal users. If the C<.raku> or C<.zef> directories
-are found in the root user's own C<$HOME> directory, he or she will be offered the choice
-of either deleting them or aborting the installation. 
+=head2 Scenario four - a system with another Raku installation method
 
-This module is not designed to be installed by C<zef> before its use on a new system.
-Its repository must be downloaded
-onto the desired host and then used by the root user from the module's top-level directory
-following the instructions below.
-
-The package contains programs for the root user to bootstrap the C<rakudo> binary
-download installation by use of a system C<rakudo> package installation.
-After successful bootstrapping, the system's C<rakudo> package should be deleted
-to avoid conflicts.
+B<WARNING> Note the Rakudo binary download provides its own C<zef> which is normally used
+by both the root user as well as normal users. If the C<zef> executable
+is found in the root user's own C<$HOME> directory, he or she will be offered the choice
+of either deleting it or aborting the installation. Given the oft-upgraded binary
+version, retaining the personal copy of C<zef> should not be of any benefit. As
+well, its effect on the dual-Rakudo installation is not tested.
 
 B<RakudoBin> currently will install a binary version of Rakudo for Linux hosts.
 For example, the name of a recent Rakudo binary release has the following
@@ -62,9 +59,10 @@ The C<:spec> argument has a default of C<msi> for Windows and C<arm> for MacOS.
 The release will be C<01> unless you enter another valid number with C<:release>.
 
 The archive and its sister files will be downloaded into a temporary directory, checked
-for valididty, and unpacked into directory C</opt/rakudo-YYYY-MM-RR>. 
+for valididty, and unpacked into directory C</opt/rakudo>. 
 
 This module may eventually be able to do the same for MacOS and, hopefully, Windows.
+But at this release, it has only been tested on Debian systems (11 and 12).
 
 Note this package is designed for the purpose of setting up and 
 standardizing multi-user Linux hosts
@@ -80,10 +78,34 @@ C</opt/rakudo-pkg> directory.
 
 There are three steps to follow.
 
-=head3 Step 1 - Install the Debian or Ubuntu C<rakudo> package and its C<zef>
+=head3 Step 1 - Install the Debian C<rakudo> package and its C<zef>
 
 Since C<zef> depends on C<raku>, all we need to do is install its package (note the package name
-is different):
+is different for different Debian versions):
+
+=begin item 
+Debian 11
+
+Install C<raku> and C<zef>:
+
+    $ sudo aptitude install perl6-zef
+
+The result is Raku v2020.12 and zef v0.9.4.
+
+=end item 
+
+=begin item 
+Debian 12
+
+Install C<raku> and C<zef>:
+
+    $ sudo aptitude install raku raku-zef
+
+The result is Raku v2022.12 and zef v0.13.8.
+Note that version is probably sufficient for beginning Raku users, but this
+module aims to make upgrading painless.
+
+=end item 
 
 =head1 AUTHOR
 
