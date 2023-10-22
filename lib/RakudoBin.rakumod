@@ -629,17 +629,17 @@ sub download-rakudo-bin(
 
 } # sub download-rakudo-bin(
 
-sub set-path($rak-dir) is export {
+sub set-path($rak-dir = "/opt/rakudo-bin") is export {
     # sets the path for the rakudo-bin installation
     # the path must come BEFORE the /usr/bin path
     # make the path look like this:
     #
-    #  PATH=$PATH:/opt/rakudo-YYYY-MM-RR/bin:/opt/rakudo-YYYY-MM-RR/share/perl6/site/bin:/usr/bin
+    #  PATH=$PATH:/opt/rakudo-bin:/opt/rakudo-bin/share/perl6/site/bin:/usr/bin
     =begin comment
     # To be run in /etc/profile.d/
     RAKUDO_PATHS="$rak-dir/bin:$rak-dir/share/perl6/site/bin:/usr/bin"
     if ! echo "$PATH" | /bin/grep -Eq "(^|:)$RAKUDO_PATHS($|:)" ; then
-        export PATH="$PATH:$RAKUDO_PATHS"
+        export PATH="$RAKUDO_PATHS:$PATH"
     fi
     =end comment
     my $f = "/etc/profile.d/rakudo-paths.sh";
@@ -648,11 +648,10 @@ sub set-path($rak-dir) is export {
     # To be run in /etc/profile.d/
     RAKUDO_PATHS=\"$rak-dir/bin:$rak-dir/share/perl6/site/bin:/usr/bin\"
     if ! echo \"\$PATH\" | /bin/grep -Eq \"(^|:)\$RAKUDO_PATHS(\$|:)\" ; then
-        export PATH=\"\$PATH:\$RAKUDO_PATHS\"
+        export PATH=\"\$RAKUDO_PATHS:\$PATH\"
     fi
     HERE
     $fh.close;
-
 }
 
 =begin comment
