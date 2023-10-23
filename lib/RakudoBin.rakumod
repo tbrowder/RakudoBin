@@ -883,42 +883,42 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
 
 sub run-cli(@args, :$debug) is export {
 
-my $user    = $*USER.lc;
-my $is-root = $user eq 'root' ?? True !! False;
-my $host    = $*KERNEL.hostname;
-my $system  = $*KERNEL.hardware // "Unknown system";
-my $distro  = $*DISTRO.name;
-my $version = $*DISTRO.version;
+    my $user    = $*USER.lc;
+    my $is-root = $user eq 'root' ?? True !! False;
+    my $host    = $*KERNEL.hostname;
+    my $system  = $*KERNEL.hardware // "Unknown system";
+    my $distro  = $*DISTRO.name;
+    my $version = $*DISTRO.version;
 
-#if not @*ARGS {
-if not @args.elems {
-    say qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go
+    #if not @*ARGS {
+    if not @args.elems {
+        say qq:to/HERE/;
+        Usage: {$*PROGRAM.basename} go
 
-    This is a root-only program currently running on:
+        This is a root-only program currently running on:
 
-        Host:    $host
-        User:    $user
-        Distro:  $distro
-        Version: $version
-        System:  $system
+            Host:    $host
+            User:    $user
+            Distro:  $distro
+            Version: $version
+            System:  $system
 
-    It requires an installed system package, on Debian:
-    HERE
+        It requires an installed system package, on Debian:
+        HERE
 
-    # determine version
-    if $version ~~ /11/ {
-        say "    'sudo apt-get install rakudo perl6-zef'";
+        # determine version
+        if $version ~~ /11/ {
+            say "    'sudo apt-get install rakudo perl6-zef'";
+        }
+        elsif $version ~~ /12/ {
+            say "    'sudo apt-get install rakudo'";
+        }
+        else {
+            say "    'sudo apt-get install rakudo perl6-zef'";
+        }
+
+        exit;
     }
-    elsif $version ~~ /12/ {
-        say "    'sudo apt-get install rakudo'";
-    }
-    else {
-        say "    'sudo apt-get install rakudo perl6-zef'";
-    }
-
-    exit
-}
 
 =begin comment
 # use this area to test subs without being root
