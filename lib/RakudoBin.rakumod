@@ -908,13 +908,13 @@ if not @args.elems {
 
     # determine version
     if $version ~~ /11/ {
-        say "  'sudo apt-get install rakudo perl6-zef'";
+        say "    'sudo apt-get install rakudo perl6-zef'";
     }
     elsif $version ~~ /12/ {
-        say "  'sudo apt-get install rakudo'";
+        say "    'sudo apt-get install rakudo'";
     }
     else {
-        say "  'sudo apt-get install rakudo perl6-zef'";
+        say "    'sudo apt-get install rakudo perl6-zef'";
     }
 
     exit
