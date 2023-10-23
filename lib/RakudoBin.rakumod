@@ -904,10 +904,19 @@ if not @args.elems {
         System:  $system
 
     It requires an installed system package, on Debian:
-
-        'sudo apt-get install rakudo'
-
     HERE
+
+    # determine version
+    if $version ~~ /11/ {
+        say "  'sudo apt-get install rakudo perl6-zef'";
+    }
+    elsif $version ~~ /12/ {
+        say "  'sudo apt-get install rakudo'";
+    }
+    else {
+        say "  'sudo apt-get install rakudo perl6-zef'";
+    }
+
     exit
 }
 
