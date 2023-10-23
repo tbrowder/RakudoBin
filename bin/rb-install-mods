@@ -1,4 +1,4 @@
-#!/opt/rakudo/bin/raku
+#!/opt/rakudo-bin/bin/raku
 
 use RakudoBin;
 

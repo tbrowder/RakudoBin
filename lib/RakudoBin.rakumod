@@ -881,9 +881,8 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
 
 } # sub verify-signature(:$asc-file!, :$debug) is export {
 
-sub run-cli($args, :$debug) is export {
+sub run-cli(@args, :$debug) is export {
 
-=begin comment
 my $user    = $*USER.lc;
 my $is-root = $user eq 'root' ?? True !! False;
 my $host    = $*KERNEL.hostname;
@@ -891,7 +890,8 @@ my $system  = $*KERNEL.hardware // "Unknown system";
 my $distro  = $*DISTRO.name;
 my $version = $*DISTRO.version;
 
-if not @*ARGS {
+#if not @*ARGS {
+if not @args.elems {
     say qq:to/HERE/;
     Usage: {$*PROGRAM.basename} go
 
@@ -911,6 +911,7 @@ if not @*ARGS {
     exit
 }
 
+=begin comment
 # use this area to test subs without being root
 #=begin comment
 say "Downloading...";
