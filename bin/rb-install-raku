@@ -2,7 +2,7 @@
 
 use RakudoBin;
 
-run-cli @*ARGS;
+run-cli-inst-raku @*ARGS;
 
 =begin comment
 my $user    = $*USER.lc;

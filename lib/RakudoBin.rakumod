@@ -881,7 +881,7 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
 
 } # sub verify-signature(:$asc-file!, :$debug) is export {
 
-sub run-cli(@args, :$debug) is export {
+sub run-cli-inst-mods(@args) is export {
 
     my $user    = $*USER.lc;
     my $is-root = $user eq 'root' ?? True !! False;
@@ -890,7 +890,52 @@ sub run-cli(@args, :$debug) is export {
     my $distro  = $*DISTRO.name;
     my $version = $*DISTRO.version;
 
-    #if not @*ARGS {
+    # we MUST have /opt/rakudo-bin installed
+    my $raku = "/opt/rakudo-bin/bin/raku".IO.e;
+    my $zef  = "/opt/rakudo-bin/bin/zef".IO.e;
+
+    if not @args.elems {
+        say qq:to/HERE/;
+        Usage: {$*PROGRAM.basename} go
+
+        This is a root-only program currently running on:
+
+            Host:    $host
+            User:    $user
+            Distro:  $distro
+            Version: $version
+            System:  $system
+
+        It requires an installed Rakudo binary package.
+        HERE
+
+
+        if $raku and $zef {
+            say "You have the Rakudo binary installed.";
+        }
+        else {
+            say "You do NOT have the Rakudo binary installed.";
+        }
+
+        exit;
+    }
+
+    unless $raku and $zef {
+        say "FATAL: You do NOT have the Rakudo binary installed.";
+        exit;
+    }
+
+} # sub run-cli-inst-mods(@args) is export {
+
+sub run-cli-inst-raku(@args) is export {
+
+    my $user    = $*USER.lc;
+    my $is-root = $user eq 'root' ?? True !! False;
+    my $host    = $*KERNEL.hostname;
+    my $system  = $*KERNEL.hardware // "Unknown system";
+    my $distro  = $*DISTRO.name;
+    my $version = $*DISTRO.version;
+
     if not @args.elems {
         say qq:to/HERE/;
         Usage: {$*PROGRAM.basename} go
@@ -981,5 +1026,5 @@ return;
 #handle-prompt :$res;
 #install-raku;
 
-} # sub run-cli($args, :$debug) is export {
+} # sub run-cli-inst-raku(@args) is export {
 

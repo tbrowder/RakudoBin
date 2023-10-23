@@ -2,6 +2,8 @@
 
 use RakudoBin;
 
+run-cli-inst-mods @*ARGS;
+
 =begin comment
 my $user    = $*USER.lc;
 my $is-root = $user eq 'root' ?? True !! False;
