@@ -22,17 +22,17 @@ our %key-fingerprints = %(
 
 # Debian releases
 our %debian-vnames is export = %(
-    etch => 4,
-    lenny => 5,
-    squeeze => 6,
-    wheezy => 7,
-    jessie => 8,
-    stretch => 9,
-    buster => 10,
-    bullsye => 11,
+    etch     => 4,
+    lenny    => 5,
+    squeeze  => 6,
+    wheezy   => 7,
+    jessie   => 8,
+    stretch  => 9,
+    buster   => 10,
+    bullsye  => 11,
     bookworm => 12,
-    trixie => 13,
-    forky => 14,
+    trixie   => 13,
+    forky    => 14,
 );
 our %debian-vnum is export = %debian-vnames.invert;
 
@@ -41,9 +41,9 @@ our %ubuntu-vnames is export = %(
    trusty => 14,
    xenial => 16,
    bionic => 18,
-   focal => 20,
-   jammy => 22,
-   lunar => 23,
+   focal  => 20,
+   jammy  => 22,
+   lunar  => 23,
 );
 our %ubuntu-vnum is export = %ubuntu-vnames.invert;
 
@@ -329,7 +329,14 @@ sub remove-raku($dir) is export {
     }
 } #sub remove-raku($dir) is export {
 
+sub set-skel-scripts(:$user, :$restore, :$debug) is export {
+    
+} # sub set-skel-scripts(:$user, :$restore, :$debug) is export {
+
 sub install-path(:$user, :$restore, :$debug) is export {
+    # fix for root user only
+    say "NOT USED NOW. EXITING EARLY"; exit;
+
     # $user is 'root' or other valid user name.
     my $home;
     if $user eq 'root' {
@@ -346,9 +353,8 @@ sub install-path(:$user, :$restore, :$debug) is export {
     # script in FRONT of the existing $PATH
     #=begin comment
     my $rpath = q:to/HERE/;
-    RAKUDO_PATHS=/opt/rakudo-pkg/bin:/opt/rakudo-pkg/share/perl6/bin:/
+    RAKUDO_PATHS=/opt/rakudo/bin:/opt/rakudo/share/perl6/bin:/
     if ! echo "$PATH" | /bin/grep -Eq "(^|:)$RAKUDO_PATHS($|:)" ; then
-        #export PATH="$PATH:$RAKUDO_PATHS"
         export PATH="$RAKUDO_PATHS:$PATH"
     fi
     HERE
@@ -891,8 +897,8 @@ sub run-cli-inst-mods(@args) is export {
     my $version = $*DISTRO.version;
 
     # we MUST have /opt/rakudo-bin installed
-    my $raku = "/opt/rakudo-bin/bin/raku".IO.e;
-    my $zef  = "/opt/rakudo-bin/bin/zef".IO.e;
+    my $raku = "/opt/rakudo/bin/raku".IO.e;
+    my $zef  = "/opt/rakudo/bin/zef".IO.e;
 
     if not @args.elems {
         say qq:to/HERE/;
@@ -908,7 +914,6 @@ sub run-cli-inst-mods(@args) is export {
 
         It requires an installed Rakudo binary package.
         HERE
-
 
         if $raku and $zef {
             say "You have the Rakudo binary installed.";
@@ -936,9 +941,17 @@ sub run-cli-inst-raku(@args) is export {
     my $distro  = $*DISTRO.name;
     my $version = $*DISTRO.version;
 
+    my $rakubin = "/opt/rakudo/bin/raku".IO.e;
+    my $verb1   = $rakubin ?? "Upgrades" !! "Installs";
+    my $rakusys = "/usr/bin/raku".IO.e;
+    my $verb2   = $rakusys ?? "the" !! "an";
+
     if not @args.elems {
         say qq:to/HERE/;
         Usage: {$*PROGRAM.basename} go
+
+        $verb1 the Rakudo binary system using $verb2 
+        installed Rakudo system package.
 
         This is a root-only program currently running on:
 
@@ -947,20 +960,12 @@ sub run-cli-inst-raku(@args) is export {
             Distro:  $distro
             Version: $version
             System:  $system
-
-        It requires an installed system package, on Debian:
         HERE
 
-        # determine version
-        if $version ~~ /11/ {
-            say "    'sudo apt-get install rakudo perl6-zef'";
-        }
-        elsif $version ~~ /12/ {
-            say "    'sudo apt-get install rakudo'";
-        }
-        else {
-            say "    'sudo apt-get install rakudo perl6-zef'";
-        }
+        exit if $rakusys;
+        
+        say "To install the Rakudo system package:\n";
+        say "    sudo apt-get install rakudo";
 
         exit;
     }
@@ -975,7 +980,7 @@ say "DEBUG exit"; exit;
 #=end comment
 
 # we must be using the Debian rakudo package
-my $rak = "/usr/bin/local/raku";
+my $rak = "/usr/bin/raku";
 unless $rak.IO.f {
     print qq:to/HERE/;
     FATAL: This program requires the Debian 'rakudo' package to be installed.
@@ -1003,20 +1008,21 @@ for @*ARGS {
     }
 }
 
-my $rdir = "/opt/rakudo-pkg";
+my $rdir = "/opt/rakudo";
 
-say "Installing rakudo-pkg in /opt...";
+say "Installing Rakudo binary download in $dir...";
 if $rdir.IO.d {
-    say "Found an existing '$rdir'";
+    say "Updating an existing '$rdir'...";
+    =begin comment
     say "It must be removed along with any";
     say "publicly accessible modules.";
     my $res = prompt "Continue (y/N)? ";
     handle-prompt :$res;
     say "Removing Installing rakudo-pkg in '$rdir'...";
     shell "rm -rf $rdir";
+    =end comment
 }
 
-say "Installing rakudo-pkg in /opt...";
 my $res = prompt "Continue (y/N)? ";
 
 =end comment
