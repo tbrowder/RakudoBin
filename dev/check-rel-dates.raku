@@ -2,7 +2,7 @@
 
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go 
+    Usage: {$*PROGRAM.basename} go
 
     Gets latest release date for Rakudo binary release.
 
@@ -10,11 +10,10 @@ if not @*ARGS {
     exit;
 }
 
-#check-https;
-get-latest-release;
-
+my $reldate = get-latest-release;
+say "Latest release: $reldate";
 #=== subroutines =====
-sub get-latest-release() {
+sub get-latest-release(--> Str) {
     # checks dates to get latest release date
 
     # get the latest 6 possible release dates
@@ -32,11 +31,11 @@ sub get-latest-release() {
     for @dates -> $date {
         my $res = check-https :$date;
         if $res {
-            say "Latest release is $date";
-            return;
+            #say "Latest release is $date";
+            return $date.Str; # $res;
         }
     }
-    say "Unknown release date";
+    return "Unknown release date";
 
     =begin comment
         my $year  = $d.year;
@@ -46,10 +45,10 @@ sub get-latest-release() {
     =end comment
 }
 
-sub check-https(:$sys  = 'linux', 
-                :$arch = 'x86_64', 
-                :$tool = 'gcc', 
-                :$type = 'tar.gz', 
+sub check-https(:$sys  = 'linux',
+                :$arch = 'x86_64',
+                :$tool = 'gcc',
+                :$type = 'tar.gz',
            Date :$date!,
                 :$debug
                 --> Bool
@@ -59,7 +58,7 @@ sub check-https(:$sys  = 'linux',
     my $year  = $date.year;
     my $release = "01";
 
-    # check file 
+    # check file
     my $reldate = "{$year}.{$month}";
 
     # actual download file basename on the remote site:
@@ -68,7 +67,7 @@ sub check-https(:$sys  = 'linux',
     # final download file name              backend
     #                                            date    release
     #                                                       sys   arch   tool
-    #                                                       sys   arch       type 
+    #                                                       sys   arch       type
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-linux-x86_64-gcc.tar.gz
     #
     #                                                             spec=arch
@@ -78,7 +77,7 @@ sub check-https(:$sys  = 'linux',
     #                                                                       spec=type
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.msi
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.zip
-    #   
+    #
     #   "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
     #       plus a C<.asc> and C<.checksums.txt> extensions.
 
@@ -87,9 +86,11 @@ sub check-https(:$sys  = 'linux',
     my $remote-dir = "https://rakudo.org/dl/rakudo";
     # files to download:
     my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
+
     # files renamed upon download to:
-    my $f-check   = "{$filebase}.checksums.txt";
+    my $tmpdir = "/tmp/rel-date";
+    mkdir $tmpdir;
+    my $f-check   = "{$tmpdir}/{$filebase}.checksums.txt";
 
     try { so quietly shell "curl -1sLf $r-check   -o $f-check" } // False;
 }
-
