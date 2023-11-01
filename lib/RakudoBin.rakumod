@@ -863,66 +863,77 @@ sub run-cli-inst-raku(@args) is export {
         exit;
     }
 
-=begin comment
-# use this area to test subs without being root
-#=begin comment
-say "Downloading...";
-download-rakudo-bin :date<2023-09>, :os<lin>, :debug;
+    =begin comment
+    # use this area to test subs without being root
+    #=begin comment
+    say "Downloading...";
+    download-rakudo-bin :date<2023-09>, :os<lin>, :debug;
 
-say "DEBUG exit"; exit;
-#=end comment
+    say "DEBUG exit"; exit;
+    #=end comment
 
-# we must be using the Debian rakudo package
-my $rak = "/usr/bin/raku";
-unless $rak.IO.f {
-    print qq:to/HERE/;
-    FATAL: This program requires the Debian 'rakudo' package to be installed.
-           As root, run 'sudo apt-get install rakudo' to do so.
-    HERE
-    exit;
-}
-
-unless $is-root {
-    say "FATAL: This program must be executed by the root user.";
-    exit;
-}
-
-my $debug  = 0;
-
-for @*ARGS {
-    when /^ d / { ++$debug }
-    when /^ g / {
-        ; # ok
-    }
-
-    default {
-        note "FATAL: Unknown arg '$_'";
+    # we must be using the Debian rakudo package
+    my $rak = "/usr/bin/raku";
+    unless $rak.IO.f {
+        print qq:to/HERE/;
+        FATAL: This program requires the Debian 'rakudo' package to be installed.
+               As root, run 'sudo apt-get install rakudo' to do so.
+        HERE
         exit;
     }
-}
 
-my $rdir = "/opt/rakudo";
+    unless $is-root {
+        say "FATAL: This program must be executed by the root user.";
+        exit;
+    }
 
-say "Installing Rakudo binary download in $dir...";
-if $rdir.IO.d {
-    say "Updating an existing '$rdir'...";
-    =begin comment
-    say "It must be removed along with any";
-    say "publicly accessible modules.";
+    my $debug  = 0;
+
+    # date=yyyy-mm
+    # os=
+    # arch=
+    # tool=
+    # type=
+    for @*ARGS {
+        when /^:i de / { ++$debug }
+        when /^:i g / {
+            ; # ok
+        }
+        when /^:i da[te]?'=' (\d**4 '-' \d\d) $/ {
+            $reldate = ~$0;
+        }
+        when /^:i []?'=' (\S+) $/ {
+            $ = ~$0;
+        }
+
+        default {
+            note "FATAL: Unknown arg '$_'";
+            exit;
+        }
+    }
+
+    my $rdir = "/opt/rakudo";
+
+    say "Installing Rakudo binary download in $dir...";
+    if $rdir.IO.d {
+        say "Updating an existing '$rdir'...";
+        =begin comment
+        say "It must be removed along with any";
+        say "publicly accessible modules.";
+        my $res = prompt "Continue (y/N)? ";
+        handle-prompt :$res;
+        say "Removing Installing rakudo-pkg in '$rdir'...";
+        shell "rm -rf $rdir";
+        =end comment
+    }
+
     my $res = prompt "Continue (y/N)? ";
-    handle-prompt :$res;
-    say "Removing Installing rakudo-pkg in '$rdir'...";
-    shell "rm -rf $rdir";
+
     =end comment
-}
+    return;
 
-my $res = prompt "Continue (y/N)? ";
-
-=end comment
-return;
-
-#=finish
-#handle-prompt :$res;
-#install-raku;
+    #=finish
+    #handle-prompt :$res;
+    #install-raku;
 
 } # sub run-cli-inst-raku(@args) is export {
