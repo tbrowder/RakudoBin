@@ -8,11 +8,27 @@ B<RakudoBin> - Provides Raku tools to install or upgrade the Rakudo binary versi
 
 =begin code :lang<raku>
 use RakudoBin;
+rg-install-raku go
+=end code
 
-rb-install-raku :date<2022-09>, :os<linux>;
-rb-install-raku :date<2022-09>, :os<windows>, :spec<msi>; # or :spec<zip>
-rb-install-raku :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
+Installs the latest Rakudo binary download for the host system's
+operating system, architecture, compiler, and type of archive.
 
+Execute the installed binary, C<rb-install-raku>, without arguments, to
+see those defaults for your host system.
+
+=begin table :caption<Installation keys and default values>
+os      | arch | tool  | type | Alternate
+--------+------+-------+------+----------
+linux   | x86  | gcc   | tgz  |
+windows | x86  | msvc  | msi  | type=zip
+macos   | arm  | clang | tgz  | arch=x86
+=end table
+
+=begin code :lang<raku>
+rb-install-raku date=2022-09 os=linux
+rb-install-raku date=2022-09 os=windows type=msi  # or type=zip
+rb-install-raku date=2022-09 os=macos arch=arm    # or arch=x86
 =end code
 
 =head1 DESCRIPTION

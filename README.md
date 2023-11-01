@@ -10,10 +10,27 @@ SYNOPSIS
 
 ```raku
 use RakudoBin;
+rg-install-raku go
+```
 
-rb-install-raku :date<2022-09>, :os<linux>;
-rb-install-raku :date<2022-09>, :os<windows>, :spec<msi>; # or :spec<zip>
-rb-install-raku :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
+Installs the latest Rakudo binary download for the host system's operating system, architecture, compiler, and type of archive.
+
+Execute the installed binary, `rb-install-raku`, without arguments, to see those defaults for your host system.
+
+<table class="pod-table">
+<caption>Installation keys and default values</caption>
+<thead><tr>
+<th>os</th> <th>arch</th> <th>tool</th> <th>type</th> <th>Alternate</th>
+</tr></thead>
+<tbody>
+<tr> <td>linux</td> <td>x86</td> <td>gcc</td> <td>tgz</td> <td></td> </tr> <tr> <td>windows</td> <td>x86</td> <td>msvc</td> <td>msi</td> <td>type=zip</td> </tr> <tr> <td>macos</td> <td>arm</td> <td>clang</td> <td>tgz</td> <td>arch=x86</td> </tr>
+</tbody>
+</table>
+
+```raku
+rb-install-raku date=2022-09 os=linux
+rb-install-raku date=2022-09 os=windows type=msi  # or type=zip
+rb-install-raku date=2022-09 os=macos arch=arm    # or arch=x86
 ```
 
 DESCRIPTION

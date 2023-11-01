@@ -1,7 +1,7 @@
 use Test;
-use RakudoBin;
+use RakudoBin::OS;
 
-my $o = OS.new;
+my $o = RakudoBin::OS.new;
 
 with $o.name {
     # known system names
