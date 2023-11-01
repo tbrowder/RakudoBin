@@ -12,7 +12,8 @@
   "name": "RakudoBin",
   "perl": "6.d",
   "provides": {
-    "RakudoBin": "lib/RakudoBin.rakumod"
+    "RakudoBin": "lib/RakudoBin.rakumod",
+    "Unused": "lib/Unused.rakumod"
   },
   "resources": [
   ],

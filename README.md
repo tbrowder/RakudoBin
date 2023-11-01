@@ -3,7 +3,7 @@
 NAME
 ====
 
-**RakudoBin** - Provides Raku tools to install and upgrade the Rakudo binary version
+**RakudoBin** - Provides Raku tools to install or upgrade the Rakudo binary version
 
 SYNOPSIS
 ========
@@ -11,9 +11,9 @@ SYNOPSIS
 ```raku
 use RakudoBin;
 
-install-rakudo-bin :date<2022-09>, :os<linux>;
-install-rakudo-bin :date<2022-09>, :os<windows>, :spec<msi>; # or :spec<zip>
-install-rakudo-bin :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
+rb-install-raku :date<2022-09>, :os<linux>;
+rb-install-raku :date<2022-09>, :os<windows>, :spec<msi>; # or :spec<zip>
+rb-install-raku :date<2022-09>, :os<macos>, :spec<arm>;   # or :spec<x86>
 ```
 
 DESCRIPTION
@@ -21,7 +21,7 @@ DESCRIPTION
 
 This module distribution can be used in several different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing the `raku` and `zef` executables.
 
-In fact, it is designed to maintain and use the native Rakudo package to bootstrap the binary downloads. Consider the following scenarios:
+In fact, it is designed to maintain and use the native Rakudo system package to bootstrap the binary downloads. Consider the following scenarios:
 
 Scenario one - a new system without Rakudo installed
 ----------------------------------------------------
@@ -34,6 +34,8 @@ Solution:
 
   * install the Rakudo binary with the executable program of module RakudoBin
 
+  * remove the Rakudo system Zef
+
 Scenario two - a new system with its system Rakudo package installed
 --------------------------------------------------------------------
 
@@ -42,6 +44,8 @@ Solution:
   * install module RakudoBin using the system Zef
 
   * install the Rakudo binary with the executable program of module RakudoBin
+
+  * remove the Rakudo system Zef
 
 Scenario three - upgrading a system already using the Rakudo binary download
 ----------------------------------------------------------------------------
@@ -72,7 +76,7 @@ Generally, the only thing you need to choose is the date and the OS and enter it
 
 The `:spec` argument has a default of `msi` for Windows and `arm` for MacOS. The release will be `01` unless you enter another valid number with `:release`.
 
-The archive and its sister files will be downloaded into a temporary directory, checked for valididty, and unpacked into directory `/opt/rakudo`. 
+The archive and its sister files will be downloaded into a temporary directory, checked for validity, and unpacked into directory `/opt/rakudo`. 
 
 This module may eventually be able to do the same for MacOS and, hopefully, Windows. But at this release, it has only been tested on Debian systems (11 and 12).
 
@@ -105,9 +109,23 @@ Since `zef` depends on `raku`, all we need to do is install its package (note th
 
     The result is Raku v2022.12 and zef v0.13.8. Note that version is probably sufficient for beginning Raku users, but this module aims to make upgrading to a more recent version painless.
 
-### Step 2 - Install or upgrade the Rakudo binary system
+### Step 2 - Install this module
 
-    $ sudo install-rakudo-bin
+    $ sudo zef install RakudoBin
+
+### Step 3 - Remove the system zef
+
+    $ sudo apt-get purge raku-zef
+
+OR
+
+    $ sudo apt-get purge perl6-zef
+
+### Step 4 - Install or upgrade the Rakudo binary system
+
+    $ sudo rb-install-raku
+
+Note after the first installation, the system package of `zef` should be removed to avoid possible interference between the two versions.
 
 AUTHOR
 ======

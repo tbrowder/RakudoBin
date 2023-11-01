@@ -22,12 +22,12 @@ our %key-fingerprints = %(
 
 # Debian releases
 our %debian-vnames is export = %(
-    etch     => 4,
-    lenny    => 5,
-    squeeze  => 6,
-    wheezy   => 7,
-    jessie   => 8,
-    stretch  => 9,
+    etch     =>  4,
+    lenny    =>  5,
+    squeeze  =>  6,
+    wheezy   =>  7,
+    jessie   =>  8,
+    stretch  =>  9,
     buster   => 10,
     bullsye  => 11,
     bookworm => 12,
@@ -51,9 +51,9 @@ our %ubuntu-vnum is export = %ubuntu-vnames.invert;
 # sytems confirmed
 # name ; version
 ubuntu; 22.04.3.LTS.Jammy.Jellyfish
-ubuntu; 20.04.6.LTS.Focal.Fossa 
+ubuntu; 20.04.6.LTS.Focal.Fossa
 macos;  12.6.7
-macos;  13.5  
+macos;  13.5
 macos;  11.7.8
 mswin32; 10.0.17763.52
 =end comment
@@ -67,7 +67,6 @@ basically, two methods usable:
   .version
     .Str
     .parts (a list of dot.separated items: integers, then strings)
-
 =end comment
 
 class OS is export {
@@ -106,17 +105,17 @@ class OS is export {
         unless $!name ~~ /:i debian | ubuntu/ {
             note "WARNING: OS $!name is not supported. Please file an issue.";
         }
-  
+
         # other pieces needed for installation by rakudo-pkg
         my %h = os-version-parts($!version.Str); # $n.Num;    # 10, 11, 20.4, ...
-        $!version-serial = %h<version-serial>; 
-        $!version-name   = %h<version-name>; 
+        $!version-serial = %h<version-serial>;
+        $!version-name   = %h<version-name>;
         # we have to support multiple integer chunks for numerical comparison
-        $!vshort-name    = %h<vshort-name>; 
-        $!vnum           = %h<vnum>; 
+        $!vshort-name    = %h<vshort-name>;
+        $!vnum           = %h<vnum>;
     }
 
-    sub os-version-parts(Str $version --> Hash) is export { 
+    sub os-version-parts(Str $version --> Hash) is export {
         # break version.parts into serial and string parts
         # create a numerical part for serial comparison
         my @parts = $version.split('.');
@@ -149,7 +148,7 @@ class OS is export {
             $vshort ~~ s:i/lts//;
             $vshort = $vshort.words.head;
         }
-        
+
         my $vserial = $n; # 10, 11, 20.04.2, ...
         if not @c.elems {
             # not usual, but there is no serial part, so make it zero
@@ -159,7 +158,7 @@ class OS is export {
 
         # for numerical comparison
         # use the first two parts as is, for now add any third part to the
-        # second by concatenation 
+        # second by concatenation
         my $vnum = @c.elems > 1 ?? (@c[0] ~ '.' ~ @c[1]) !! @c.head;
         if @c.elems > 2 {
             $vnum ~= @c[2];
@@ -196,7 +195,7 @@ sub get-dir-paths($dir = '.' --> Hash) is export {
     my %h = files => @fils, dirs => @dirs;
     %h
 } # sub get-dir-paths($dir = '.' --> Hash) is export {
- 
+
 sub my-resources is export {
     %?RESOURCES
 }
@@ -290,7 +289,7 @@ sub install-raku(:$debug) is export {
     HERE
     if not $f.IO.f {
         say "Adding new PATH component in file '$f'...";
-        spurt $f, $rpath;   
+        spurt $f, $rpath;
     }
     else {
         # dang!
@@ -330,7 +329,7 @@ sub remove-raku($dir) is export {
 } #sub remove-raku($dir) is export {
 
 sub set-skel-scripts(:$user, :$restore, :$debug) is export {
-    
+
 } # sub set-skel-scripts(:$user, :$restore, :$debug) is export {
 
 sub install-path(:$user, :$restore, :$debug) is export {
@@ -349,7 +348,7 @@ sub install-path(:$user, :$restore, :$debug) is export {
     # Files needing changing or updating on Debian for Bash users:
     # We add a couple of lines as an embedded Bash action
     # based on the RAKUDO_PKG script:
-    # except: put the rakudo-pkg path 
+    # except: put the rakudo-pkg path
     # script in FRONT of the existing $PATH
     #=begin comment
     my $rpath = q:to/HERE/;
@@ -389,14 +388,14 @@ sub handle-path-file($f, :$user, :$restore, :$debug) is export {
     #   is it original? (it would have a '$f.orig' version in the same directory)
     #   has it been modified? (it would have a line with RAKUDO on it)
     #   shall we restore it to its original form (possibly empty or non-existent)
-    my $exists  = $f.IO.f ?? True !! False;   
+    my $exists  = $f.IO.f ?? True !! False;
     if not $exists {
         say "  Creating non-existent file: $f";
         spurt $f, "";
         $exists = True;
     }
 
-    my $is-orig = "$f.orig".IO.f ?? False !! True;   
+    my $is-orig = "$f.orig".IO.f ?? False !! True;
     my @lines = $f.IO.lines;
     if $debug {
         say "  Inspecting file '$f'";
@@ -426,16 +425,16 @@ sub handle-path-file($f, :$user, :$restore, :$debug) is export {
 
     my $a = q:to/HERE/;
     if [ -f ~/.profile ]; then
-        . ~/.profile 
+        . ~/.profile
     fi
     HERE
 
     my $b = q:to/HERE/;
     if [ -f ~/.bashrc ]; then
-        . ~/.bashrc 
+        . ~/.bashrc
     fi
     HERE
-    
+
     my $mlines = 0; # checking for three matching lines
     for @lines {
     }
@@ -463,9 +462,9 @@ sub get-backup-name($f, :$use-date --> Str) is export {
 } # sub get-backup-name($f, :$use-date --> Str) is export {
 
 sub download-rakudo-bin(
-    :$date! where {/^ \d**4 '-' \d\d $/}, 
-    :OS(:$os)!, 
-    :$spec, 
+    :$date! where {/^ \d**4 '-' \d\d $/},
+    :OS(:$os)!,
+    :$spec,
     :$release is copy where { /^ \d+ $/ } = 1,
     :$force = False,
     :$debug,
@@ -509,11 +508,11 @@ sub download-rakudo-bin(
     }
 
     $release = sprintf "%02d", $release;
-   
+
     # final download file name              backend
     #                                            date    release
     #                                                       sys   arch   tool
-    #                                                       sys   arch       type 
+    #                                                       sys   arch       type
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-linux-x86_64-gcc.tar.gz
     #                                                             spec=arch
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-macos-arm64-clang.tar.gz
@@ -521,7 +520,7 @@ sub download-rakudo-bin(
     #                                                                       spec=type
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.msi
     #   https://rakudo.org/dl/rakudo/rakudo-moar-2023.09-01-win-x86_64-msvc.zip
-    #   
+    #
     #   "https://rakudo.org/dl/rakudo/rakudo-moar-{$date}-{$release}-{$os}-{$arch}-{$tool}.{$type}";
     #       plus a C<.asc> and C<.checksums.txt> extensions.
 
@@ -554,12 +553,12 @@ sub download-rakudo-bin(
 
     # files to download:
     my $r-archive = "{$remote-dir}/{$inbase}";
-    my $r-asc     = "{$remote-dir}/{$inbase}.asc"; 
+    my $r-asc     = "{$remote-dir}/{$inbase}.asc";
     my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
 
     # files renamed upon download to:
     my $f-archive = "{$filebase}";
-    my $f-asc     = "{$filebase}.asc"; 
+    my $f-asc     = "{$filebase}.asc";
     my $f-check   = "{$filebase}.checksums.txt";
 
     # IMPORTANT: change working dir to /opt/rakudo-YYYY-MM-RR
@@ -625,7 +624,7 @@ sub download-rakudo-bin(
     run(
         'tar',
         '--strip-components=1',
-        '-xvzf', 
+        '-xvzf',
         $f-archive,
        );
 
@@ -679,8 +678,8 @@ shell "curl -L1sf -o $desired-name $archive";
 =end comment
 
 sub verify-checksum(:$checksums-file!, :$debug --> Bool) is export {
-    # To verify that a downloaded file is not corrupted, 
-    # download the *.checksums.txt corresponding to the 
+    # To verify that a downloaded file is not corrupted,
+    # download the *.checksums.txt corresponding to the
     # download you want to verify. Then run
     #
     #    $ sha256 -c file_you_downloaded
@@ -716,7 +715,7 @@ sub verify-checksum(:$checksums-file!, :$debug --> Bool) is export {
     my $results = run('sha256sum', '-c', '--', $fcheck-new, :merge, :enc<latin1>).out.slurp.chomp;
 
     # read results from stdout
-    # proper output:  file-name: OK 
+    # proper output:  file-name: OK
     # failure output: file-name: FAILED
     my $is-ok = False;
     if $results ~~ /:i \s* $fnam \s* ':' \s* OK / {
@@ -735,8 +734,8 @@ sub verify-checksum(:$checksums-file!, :$debug --> Bool) is export {
 sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
     # Uses gpg
     #
-    # One can verify the download is authentic 
-    # by checking its signature. One can validate the 
+    # One can verify the download is authentic
+    # by checking its signature. One can validate the
     # .checksums.txt which contains a self contained signature.
     # To verify via the file do
     #
@@ -751,16 +750,16 @@ sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
     my $outfile = "outfile.txt";
     #my $logfile = "logfile.txt";
     # $ gpgv --output file --log-file logfile sigfile datafile
-    my $res = run('gpg', 
-                  #'-vv', 
-                  '--output', $outfile, 
-                  #'--log-file', $logfile, 
+    my $res = run('gpg',
+                  #'-vv',
+                  '--output', $outfile,
+                  #'--log-file', $logfile,
 
-                  '--verify', 
-                  $asc-file, 
-                  $checksums-file, 
+                  '--verify',
+                  $asc-file,
+                  $checksums-file,
                   :merge, :enc<latin1>
-                 ).out.slurp.chomp; 
+                 ).out.slurp.chomp;
 
     if 1 and $debug {
         note "========================================";
@@ -775,8 +774,8 @@ sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
         note "DEBUG: early exit"; exit;
     }
 
-    # We are going to read the outfile signature fingerprints and 
-    # compare them with known Github key fingerprints keys from 
+    # We are going to read the outfile signature fingerprints and
+    # compare them with known Github key fingerprints keys from
     # our releasers.
 
     my @keys;
@@ -805,7 +804,7 @@ sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
             note "DEBUG: signer=$signer; fingerprint: $k";
             $ok = True;
             last;
-        } 
+        }
     }
     die "FATAL: Signer key not found among known signers." unless $ok;;
 
@@ -815,8 +814,8 @@ sub verify-signature-gpg(:$asc-file!, :$checksums-file!, :$debug) is export {
 sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     # Uses gpgv
     #
-    # One can verify the download is authentic 
-    # by checking its signature. One can validate the 
+    # One can verify the download is authentic
+    # by checking its signature. One can validate the
     # .checksums.txt which contains a self contained signature.
     # To verify via the file do
     #
@@ -832,9 +831,9 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
     my $logfile = "logfile.txt";
     my $outfile = "outfile.txt";
     # $ gpgv --output file --log-file logfile sigfile datafile
-    my $res = run('gpgv', '-vv', '--output', $outfile, 
-                  '--log-file', $logfile, '--', 
-                  $checksums-file, :merge, :enc<latin1>).out.slurp.chomp; 
+    my $res = run('gpgv', '-vv', '--output', $outfile,
+                  '--log-file', $logfile, '--',
+                  $checksums-file, :merge, :enc<latin1>).out.slurp.chomp;
 
     if 0 and $debug {
         note "========================================";
@@ -852,8 +851,8 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
         note "========================================";
     }
 
-    # We are going to read the logfile signature fingerprints and 
-    # compare them with known Github key fingerprints keys from 
+    # We are going to read the logfile signature fingerprints and
+    # compare them with known Github key fingerprints keys from
     # our releasers.
 
     my @keys;
@@ -881,7 +880,7 @@ sub verify-signature(:$asc-file!, :$checksums-file!, :$debug) is export {
             note "DEBUG: signer=$signer; fingerprint: $k";
             $ok = True;
             last;
-        } 
+        }
     }
     die "FATAL: Signer key not found among known signers." unless $ok;;
 
@@ -950,7 +949,7 @@ sub run-cli-inst-raku(@args) is export {
         say qq:to/HERE/;
         Usage: {$*PROGRAM.basename} go
 
-        $verb1 the Rakudo binary system using $verb2 
+        $verb1 the Rakudo binary system using $verb2
         installed Rakudo system package.
 
         This is a root-only program currently running on:
@@ -963,7 +962,7 @@ sub run-cli-inst-raku(@args) is export {
         HERE
 
         exit if $rakusys;
-        
+
         say "To install the Rakudo system package:\n";
         say "    sudo apt-get install rakudo";
 
@@ -998,7 +997,7 @@ my $debug  = 0;
 
 for @*ARGS {
     when /^ d / { ++$debug }
-    when /^ g / { 
+    when /^ g / {
         ; # ok
     }
 
@@ -1033,4 +1032,3 @@ return;
 #install-raku;
 
 } # sub run-cli-inst-raku(@args) is export {
-
