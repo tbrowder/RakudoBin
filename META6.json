@@ -14,7 +14,8 @@
   "provides": {
     "RakudoBin": "lib/RakudoBin.rakumod",
     "RakudoBin::OS": "lib/RakudoBin/OS.rakumod",
-    "Unused": "lib/Unused.rakumod"
+    "RakudoBin::Subs": "lib/RakudoBin/Subs.rakumod",
+    "RakudoBin::Unused": "lib/RakudoBin/Unused.rakumod"
   },
   "resources": [
   ],

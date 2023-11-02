@@ -1,8 +1,12 @@
 unit module RakudoBin;
 
 use RakudoBin::Subs;
+use RakudoBin::OS;
 
 sub run-cli-inst-raku(@args) is export {
+
+    my $os = RakudoBin::OS.new;
+    my $is-debian = $os.is-debian;
 
     my $user    = $*USER.lc;
     my $is-root = $user eq 'root' ?? True !! False;
@@ -32,6 +36,14 @@ sub run-cli-inst-raku(@args) is export {
             System:  $system
         HERE
 
+        unless $is-debian {
+            print qq:to/HERE/;
+            Note even though this is not a Debian system,
+            you can use this module to aid in downloading
+            Rakudo binary files for your system.
+            HERE
+        }
+
         exit if $rakusys;
 
         say "To install the Rakudo system package:\n";
@@ -42,12 +54,12 @@ sub run-cli-inst-raku(@args) is export {
 
     =begin comment
     # use this area to test subs without being root
-    #=begin comment
+    =begin comment
     say "Downloading...";
     download-rakudo-bin :date<2023-09>, :os<lin>, :debug;
 
     say "DEBUG exit"; exit;
-    #=end comment
+    =end comment
 
     # we must be using the Debian rakudo package
     my $rak = "/usr/bin/raku";
@@ -72,7 +84,7 @@ sub run-cli-inst-raku(@args) is export {
     # tool=
     # type=
     my $reldate;
-    my $os;
+    #my $os;
     my $arch;
     my $tool;
     my $type;
@@ -105,7 +117,7 @@ sub run-cli-inst-raku(@args) is export {
 
     my $rdir = "/opt/rakudo";
 
-    say "Installing Rakudo binary download in $dir...";
+    say "Installing Rakudo binary download in $rdir...";
     if $rdir.IO.d {
         say "Updating an existing '$rdir'...";
         =begin comment
@@ -120,7 +132,7 @@ sub run-cli-inst-raku(@args) is export {
 
     my $res = prompt "Continue (y/N)? ";
 
-    =end comment
+    #=end comment
     return;
 
     #=finish

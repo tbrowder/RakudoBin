@@ -1,7 +1,7 @@
 unit module RakudoBin::Sub;
 
 
-%pub-keys = set %(
+our %pub-keys is export = set %(
     'alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc',
     'justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc',
     'patrick_boeker-DB2BA39D1ED967B584D65D71C09FF113BB6410D0.asc',
@@ -10,7 +10,7 @@ unit module RakudoBin::Sub;
 
 # remove spaces between four-character sets
 # to make sets of 40-character fingerprints
-our %key-fingerprints = %(
+our %key-fingerprints is export = %(
     '59E634736AFDCF9C6DBAC382602D51EACA887C01' => 'Justin DeVuyst',
     'DB2BA39D1ED967B584D65D71C09FF113BB6410D0' => 'Patrick Böker',
     'FE750D152426F3E50953176ADE8F8F5E97A8FCDE' => 'Alexander Kiryuhin',

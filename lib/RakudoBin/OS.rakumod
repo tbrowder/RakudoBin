@@ -110,22 +110,22 @@ method is-linux(--> Bool) {
 
 method is-macos(--> Bool) {
     my $vnam = $*DISTRO.name.lc;
-    $vnam ~~ /macos/
+    so $vnam ~~ /macos/
 }
 
 method is-windows(--> Bool) {
     my $vnam = $*DISTRO.name.lc;
-    $vnam ~~ /mswin/
+    so $vnam ~~ /mswin/
 }
 
 method is-debian(--> Bool) {
     my $vnam = $*DISTRO.name.lc;
-    $vnam ~~ /debian/
+    so $vnam ~~ /debian/
 }
 
 method is-ubuntu(--> Bool) {
     my $vnam = $*DISTRO.name.lc;
-    $vnam ~~ /ubuntu/
+    so $vnam ~~ /ubuntu/
 }
 
 # end of class OS definition
