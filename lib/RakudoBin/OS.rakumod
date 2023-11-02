@@ -118,4 +118,14 @@ method is-windows(--> Bool) {
     $vnam ~~ /mswin/
 }
 
+method is-debian(--> Bool) {
+    my $vnam = $*DISTRO.name.lc;
+    $vnam ~~ /debian/
+}
+
+method is-ubuntu(--> Bool) {
+    my $vnam = $*DISTRO.name.lc;
+    $vnam ~~ /ubuntu/
+}
+
 # end of class OS definition
