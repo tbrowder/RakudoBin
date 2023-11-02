@@ -10,12 +10,12 @@ SYNOPSIS
 
 ```raku
 use RakudoBin;
-rg-install-raku go
+rb-install-raku go
 ```
 
-Installs the latest Rakudo binary download for the host system's operating system, architecture, compiler, and type of archive.
+Installs the latest Rakudo binary download for the host system's operating system, architecture, compiler, and type of archive. For Debian systems only, ensures paths are set correctly and the system's adduser configuration has correct settings for Raku.
 
-Execute the installed binary, `rb-install-raku`, without arguments, to see those defaults for your host system.
+Execute the installed binary, `rb-install-raku`, without arguments, to see those download defaults for your host system.
 
 <table class="pod-table">
 <caption>Installation keys and default values</caption>
@@ -89,7 +89,7 @@ Overview
     rakudo-moar-2023.10-01-win-x86_64-msvc.msi
     rakudo-moar-2023.10-01-win-x86_64-msvc.zip
 
-Generally, the only thing you need to choose is the date and the OS and enter it into the binary `install-rakudo-bin :$date, :$os` and it will be downloaded along with the accompanying files for checking the validity of the archive.
+Generally, the only thing you need to is accept the defaults unless you want an older release for some reason. The correct version for your system will be downloaded along with the accompanying files for checking the validity of the archive.
 
 The `:spec` argument has a default of `msi` for Windows and `arm` for MacOS. The release will be `01` unless you enter another valid number with `:release`.
 

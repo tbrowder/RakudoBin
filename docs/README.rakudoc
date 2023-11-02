@@ -8,14 +8,16 @@ B<RakudoBin> - Provides Raku tools to install or upgrade the Rakudo binary versi
 
 =begin code :lang<raku>
 use RakudoBin;
-rg-install-raku go
+rb-install-raku go
 =end code
 
 Installs the latest Rakudo binary download for the host system's
 operating system, architecture, compiler, and type of archive.
+For Debian systems only, ensures paths are set correctly and the
+system's adduser configuration has correct settings for Raku.
 
 Execute the installed binary, C<rb-install-raku>, without arguments, to
-see those defaults for your host system.
+see those download defaults for your host system.
 
 =begin table :caption<Installation keys and default values>
 os      | arch | tool  | type | Alternate
@@ -88,9 +90,10 @@ rakudo-moar-2023.10-01-win-x86_64-msvc.msi
 rakudo-moar-2023.10-01-win-x86_64-msvc.zip
 =end code
 
-Generally, the only thing you need to choose is the date and the OS
-and enter it into the binary C<install-rakudo-bin :$date, :$os> and it will be downloaded along
-with the accompanying files for checking the validity of the archive.
+Generally, the only thing you need to is accept the defaults unless you
+want an older release for some reason. 
+The correct version for your system will be downloaded 
+along with the accompanying files for checking the validity of the archive.
 
 The C<:spec> argument has a default of C<msi> for Windows and C<arm> for MacOS. 
 The release will be C<01> unless you enter another valid number with C<:release>.
