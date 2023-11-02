@@ -50,18 +50,17 @@ our %ubuntu-vnum is export = %ubuntu-vnames.invert;
 =begin comment
 # sytems confirmed
 # name ; version
-ubuntu; 22.04.3.LTS.Jammy.Jellyfish
-ubuntu; 20.04.6.LTS.Focal.Fossa
-macos;  12.6.7
-macos;  13.5
-macos;  11.7.8
+ubuntu;  22.04.3.LTS.Jammy.Jellyfish
+ubuntu;  20.04.6.LTS.Focal.Fossa
+macos;   12.6.7
+macos;   13.5
+macos;   11.7.8
 mswin32; 10.0.17763.52
 =end comment
 
 =begin comment
 from docs: var $*DISTRO
 from docs: role Version does Systemic
-
 basically, two methods usable:
   .name
   .version
@@ -117,6 +116,7 @@ sub handle-prompt(:$res) is export {
 }
 
 =begin comment
+# this is from the RakudoPkg effort, discontinued
 sub install-raku(:$debug) is export {
     my $dir = "/opt/rakudo-bin";
     if $dir.IO.d {
@@ -894,6 +894,11 @@ sub run-cli-inst-raku(@args) is export {
     # arch=
     # tool=
     # type=
+    my $reldate;
+    my $os;
+    my $arch;
+    my $tool;
+    my $type;
     for @*ARGS {
         when /^:i de / { ++$debug }
         when /^:i g / {
@@ -902,8 +907,17 @@ sub run-cli-inst-raku(@args) is export {
         when /^:i da[te]?'=' (\d**4 '-' \d\d) $/ {
             $reldate = ~$0;
         }
-        when /^:i []?'=' (\S+) $/ {
-            $ = ~$0;
+        when /^:i os?'=' (\S+) $/ {
+            $os = ~$0;
+        }
+        when /^:i ar[ch]?'=' (\S+) $/ {
+            $arch = ~$0;
+        }
+        when /^:i to[ol]?'=' (\S+) $/ {
+            $tool = ~$0;
+        }
+        when /^:i ty[pe]?'=' (\S+) $/ {
+            $tool = ~$0;
         }
 
         default {
