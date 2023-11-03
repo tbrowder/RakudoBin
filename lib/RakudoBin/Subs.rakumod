@@ -790,5 +790,12 @@ sub get-release-number(Date $reldate --> Str) is export {
     my $mon = sprintf "%02d", $reldate.month;
     "{$reldate.year}-$mon.01"
 } # sub get-release-number(Date $reldate --> Str) is export {
-    # input Date, return "yyyy-mm"
+
+sub run-help is export {
+    print qq:to/HELP/;
+    Other modes and options:
+
+
+    HELP
+} # sub run-help {
 

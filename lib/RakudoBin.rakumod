@@ -78,6 +78,11 @@ sub run-cli-inst-raku(@args) is export {
         exit;
     }
 
+    if @*ARGS.head ~~ /^ :i h / {
+        run-help;
+        exit;
+    }
+
     unless $is-root {
         say "FATAL: This program must be executed by the root user.";
         exit;
