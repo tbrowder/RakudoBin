@@ -17,7 +17,6 @@ our %key-fingerprints is export = %(
     '3E7E3C6EAF916676AC549285A2919382E961E2EE' => 'Rakudo GitHub automation',
 );
 
-
 # need the public key files
 =begin comment
 =end comment
@@ -71,7 +70,6 @@ basically, two methods usable:
     .parts (a list of dot.separated items: integers, then strings)
 =end comment
 
-
 sub get-dir-paths($dir = '.' --> Hash) is export {
     # Given any directory, recursively collect all files
     # and directories below it.
@@ -109,7 +107,6 @@ sub handle-prompt(:$res) is export {
     }
 }
 
-
 sub remove-raku($dir) is export {
     my $pkg = "rakudo-pkg";
     if $dir.IO.d {
@@ -141,6 +138,8 @@ sub remove-raku($dir) is export {
 } #sub remove-raku($dir) is export {
 
 sub set-skel-scripts(:$user, :$restore, :$debug) is export {
+    # add a .xsessionrc file as a copy of the 
+    # .profile file
 
 } # sub set-skel-scripts(:$user, :$restore, :$debug) is export {
 
@@ -401,7 +400,13 @@ sub set-path($rak-dir = "/opt/rakudo-bin") is export {
     # the path must come BEFORE the /usr/bin path
     # make the path look like this:
     #
-    #  PATH=$PATH:/opt/rakudo-bin:/opt/rakudo-bin/share/perl6/site/bin:/usr/bin
+    #  PATH=/opt/rakudo-pkg/bin:/opt/rakudo-pkg/share/perl6/site/bin:/usr/local/bin:/usr/bin:/bin\
+    #    :/usr/local/games:/usr/games
+    #
+    # make it the same in two files:
+    #    /etc/environment
+    #    /etc/profile
+
     =begin comment
     # To be run in /etc/profile.d/
     RAKUDO_PATHS="$rak-dir/bin:$rak-dir/share/perl6/site/bin:/usr/bin"
@@ -409,6 +414,8 @@ sub set-path($rak-dir = "/opt/rakudo-bin") is export {
         export PATH="$RAKUDO_PATHS:$PATH"
     fi
     =end comment
+
+    =begin comment
     my $f = "/etc/profile.d/rakudo-paths.sh";
     my $fh = open $f, :w;
     $fh.print: qq:to/HERE/;
@@ -419,6 +426,8 @@ sub set-path($rak-dir = "/opt/rakudo-bin") is export {
     fi
     HERE
     $fh.close;
+    =end comment
+
 } # sub set-path($rak-dir = "/opt/rakudo-bin") is export {
 
 
