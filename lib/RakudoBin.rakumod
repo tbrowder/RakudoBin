@@ -5,6 +5,10 @@ use RakudoBin::OS;
 
 sub run-cli-inst-raku(@args) is export {
 
+    # get the latest release date
+    my $reldate = get-latest-release;
+    my $relnum = get-release-number $reldate.Date;
+
     my $os = RakudoBin::OS.new;
     my $is-debian = $os.is-debian;
 
@@ -16,24 +20,27 @@ sub run-cli-inst-raku(@args) is export {
     my $version = $*DISTRO.version;
 
     my $rakubin = "/opt/rakudo/bin/raku".IO.e;
-    my $verb1   = $rakubin ?? "Upgrades" !! "Installs";
+    my $verb1   = $rakubin ?? "upgrades" !! "installs";
+
     my $rakusys = "/usr/bin/raku".IO.e;
     my $verb2   = $rakusys ?? "the" !! "an";
 
     if not @args.elems {
         say qq:to/HERE/;
-        Usage: {$*PROGRAM.basename} go
+        Usage: {$*PROGRAM.basename} go | <other modes> | help
 
-        $verb1 the Rakudo binary system using $verb2
-        installed Rakudo system package.
+        Mode 'go' $verb1 the Rakudo binary system (release 
+        $relnum) using $verb2 installed Rakudo system package.
 
-        This is a root-only program currently running on:
+        Use mode 'help' to see other modes and options.
 
-            Host:    $host
+        This is a root-only program:
+
             User:    $user
             Distro:  $distro
             Version: $version
             System:  $system
+
         HERE
 
         unless $is-debian {
@@ -83,7 +90,6 @@ sub run-cli-inst-raku(@args) is export {
     # arch=
     # tool=
     # type=
-    my $reldate;
     #my $os;
     my $arch;
     my $tool;
@@ -115,6 +121,7 @@ sub run-cli-inst-raku(@args) is export {
         }
     }
 
+    # need a reldate
     my $rdir = "/opt/rakudo";
 
     say "Installing Rakudo binary download in $rdir...";
@@ -133,10 +140,25 @@ sub run-cli-inst-raku(@args) is export {
     my $res = prompt "Continue (y/N)? ";
 
     #=end comment
-    return;
-
+    #return;
     #=finish
-    #handle-prompt :$res;
+
+    handle-prompt :$res;
+
     #install-raku;
+
+    download-rakudo-bin :$reldate;
+
+=begin comment
+sub download-rakudo-bin(
+    :$date! where {/^ \d**4 '-' \d\d $/},
+    :OS(:$os)!,
+    :$spec,
+    :$release is copy where { /^ \d+ $/ } = 1,
+    :$force = False,
+    :$debug,
+    ) is export {
+=end comment
+
 
 } # sub run-cli-inst-raku(@args) is export {

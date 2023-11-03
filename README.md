@@ -89,9 +89,7 @@ Overview
     rakudo-moar-2023.10-01-win-x86_64-msvc.msi
     rakudo-moar-2023.10-01-win-x86_64-msvc.zip
 
-Generally, the only thing you need to is accept the defaults unless you want an older release for some reason. The correct version for your system will be downloaded along with the accompanying files for checking the validity of the archive.
-
-The `:spec` argument has a default of `msi` for Windows and `arm` for MacOS. The release will be `01` unless you enter another valid number with `:release`.
+Generally, the only thing you need to do is accept the defaults unless you want an older release for some reason. The correct version for your system will be downloaded along with the accompanying files for checking the validity of the archive.
 
 The archive and its sister files will be downloaded into a temporary directory, checked for validity, and unpacked into directory `/opt/rakudo`. 
 
