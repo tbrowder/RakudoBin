@@ -15,9 +15,9 @@ Downloads the latest Rakudo binary archive the host system's
 operating system, architecture, compiler, and type of archive.
 Checks the archive for proper sha256 hash value.
 
-For Linux systems only, unpacks the archive into directory
+Unpacks the archive into directory
 C</opt/rakudo>. The paths required to use the installed binaries
-are C</opt/rakudo/bin> and C</opt/rakudo/share/lib/perl6/site/bin>. ?????
+are C</opt/rakudo/bin> and C</opt/rakudo/share/perl6/site/bin>.
 
 For Debian systems only, ensures paths are het correctly and the
 system's adduser configuration has correct settings for Raku.
