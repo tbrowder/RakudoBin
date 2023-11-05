@@ -5,6 +5,10 @@ use RakudoBin::OS;
 
 sub run-cli-inst-raku(@args) is export {
 
+    # default directory, may be changed by the user
+    # TODO not fully tested yet
+    my $rdir = "/opt/rakudo";
+
     # get the latest release date
     my $reldate = get-latest-release;
     my $relnum = get-release-number $reldate.Date;
@@ -27,7 +31,7 @@ sub run-cli-inst-raku(@args) is export {
 
     if not @args.elems {
         say qq:to/HERE/;
-        Usage: {$*PROGRAM.basename} go | <other modes> | help
+        Usage: {$*PROGRAM.basename} go | <other modes, options> | help
 
         Mode 'go' $verb1 the Rakudo binary system (release 
         $relnum) using $verb2 installed Rakudo system package.
@@ -127,7 +131,6 @@ sub run-cli-inst-raku(@args) is export {
     }
 
     # need a reldate
-    my $rdir = "/opt/rakudo";
 
     say "Installing Rakudo binary download in $rdir...";
     if $rdir.IO.d {
