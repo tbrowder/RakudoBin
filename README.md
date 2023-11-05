@@ -13,9 +13,19 @@ use RakudoBin;
 rb-install-raku go
 ```
 
-Installs the latest Rakudo binary download for the host system's operating system, architecture, compiler, and type of archive. For Debian systems only, ensures paths are set correctly and the system's adduser configuration has correct settings for Raku.
+System dependency
+=================
 
-Execute the installed binary, `rb-install-raku`, without arguments, to see those download defaults for your host system.
+This module requires system executable `curl` to be available. Install it on a Debian system with:
+
+    sudo apt-get install curl
+
+DESCRIPTION
+===========
+
+Downloads the latest Rakudo binary archive the host system's operating system, architecture, compiler, and type of archive. Checks the archive for the proper sha256 hash value.
+
+Execute the installed binary, `rb-install-raku`, without arguments, to see those download defaults for your host system. They are also shown below.
 
 <table class="pod-table">
 <caption>Installation keys and default values</caption>
@@ -27,14 +37,22 @@ Execute the installed binary, `rb-install-raku`, without arguments, to see those
 </tbody>
 </table>
 
+Follwing are examples of specifying the desired values:
+
 ```raku
 rb-install-raku date=2022-09 os=linux
 rb-install-raku date=2022-09 os=windows type=msi  # or type=zip
 rb-install-raku date=2022-09 os=macos arch=arm    # or arch=x86
 ```
 
-DESCRIPTION
-===========
+Unpacks the archive into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`. The download location may be specified with the `dir=/path` option.
+
+  * Note for non-Debian systems Currently only Debian systems are further modified in the following steps. Interested users of other systems are encouraged to create a PR for their system.
+
+For Debian systems only, ensures paths are set correctly and the system's `adduser` configuration (in directory `/etc/skel`) has the correct settings for Raku.
+
+Details
+=======
 
 This module distribution can be used in several different scenarios for installing or upgrading a host to use the Rakudo binary download archive containing the `raku` and `zef` executables.
 

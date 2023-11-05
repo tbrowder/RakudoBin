@@ -11,19 +11,22 @@ use RakudoBin;
 rb-install-raku go
 =end code
 
+=head1 System dependency
+
+This module requires system executable C<curl> to be available. Install
+it on a Debian system with:
+
+=code sudo apt-get install curl
+
+=head1 DESCRIPTION
+
 Downloads the latest Rakudo binary archive the host system's
 operating system, architecture, compiler, and type of archive.
-Checks the archive for proper sha256 hash value.
-
-Unpacks the archive into directory
-C</opt/rakudo>. The paths required to use the installed binaries
-are C</opt/rakudo/bin> and C</opt/rakudo/share/perl6/site/bin>.
-
-For Debian systems only, ensures paths are het correctly and the
-system's adduser configuration has correct settings for Raku.
+Checks the archive for the proper sha256 hash value.
 
 Execute the installed binary, C<rb-install-raku>, without arguments, to
 see those download defaults for your host system.
+They are also shown below.
 
 =begin table :caption<Installation keys and default values>
 os      | arch | tool  | type | Alternate
@@ -33,13 +36,31 @@ windows | x86  | msvc  | msi  | type=zip
 macos   | arm  | clang | tgz  | arch=x86
 =end table
 
+Follwing are examples of specifying the desired values:
+
 =begin code :lang<raku>
 rb-install-raku date=2022-09 os=linux
 rb-install-raku date=2022-09 os=windows type=msi  # or type=zip
 rb-install-raku date=2022-09 os=macos arch=arm    # or arch=x86
 =end code
 
-=head1 DESCRIPTION
+Unpacks the archive into directory
+C</opt/rakudo>. The paths required to use the installed binaries
+are C</opt/rakudo/bin> and C</opt/rakudo/share/perl6/site/bin>.
+The download location may be specified with the C<dir=/path> option.
+
+=begin item
+Note for non-Debian systems
+Currently only Debian systems are further modified
+in the following steps. Interested users of other
+systems are encouraged to create a PR for their system.
+=end item
+
+For Debian systems only, ensures paths are set correctly and the
+system's C<adduser> configuration (in directory C</etc/skel>) has 
+the correct settings for Raku.
+
+=head1 Details
 
 This module distribution can be used in several different scenarios
 for installing or upgrading a host to use the Rakudo binary
