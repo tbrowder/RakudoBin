@@ -2,7 +2,7 @@
 
 if not @*ARGS {
     print qq:to/HERE/;
-    Usage: {$*PROGRAM.basename} go
+    Usage: {$*PROGRAM.basename} go | <secs>
 
     Shows all release dates from the latest
 
@@ -10,49 +10,24 @@ if not @*ARGS {
     exit;
 }
 
-my $reldate = get-latest-release;
-say "Latest release: $reldate";
+my $arg = @*ARGS.shift;
+my $sec = $arg ~~ /\d+/ ?? $arg !! 1;
+show-reldates $sec;
 #=== subroutines =====
-sub get-latest-release(--> Str) {
+sub show-reldates($sec = 1) {
     # checks dates to get latest release date
 
-    # get the latest 6 possible release dates
     my @dates;
 
     my $d = Date.new(now);
     while 1 {
-        my $res = check-https :$date;
+        my $res = check-https :date($d);
         if $res {
-            #say "Latest release is $date";
-            my $ds = $date.Str;
+            say sprintf("%04d-%02d.01", $d.year, $d.month), 
         }
         $d = $d.earlier(months => 1);
+        sleep $sec;
     }
-
-    =begin comment
-    @dates.push: $d;
-    for 1..5 -> $n {
-        @dates.push: $d.earlier(months => $n);
-    }
-
-    #say "Last six dates:";
-    #say "  $_" for @dates;
-
-    for @dates -> $date {
-        my $res = check-https :$date;
-        if $res {
-            #say "Latest release is $date";
-            return $date.Str; # $res;
-        }
-    }
-    return "Unknown release date";
-
-    =begin comment
-        my $year  = $d.year;
-        my $month = sprintf "%2d", $d.month;
-        # dotted date
-        my $reldate = "{$year}.{$month}";
-    =end comment
 }
 
 sub check-https(:$sys  = 'linux',
@@ -94,13 +69,17 @@ sub check-https(:$sys  = 'linux',
     my $filebase = "rakudo-{$reldate}-{$release}.{$type}";
     # remote download directory
     my $remote-dir = "https://rakudo.org/dl/rakudo";
+    #my $remote-dir = "https://rakudo.org/downloads/rakudo";
+
     # files to download:
-    my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
+    #my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
+    my $r-check   = "{$remote-dir}/{$inbase}.asc";
 
     # files renamed upon download to:
     my $tmpdir = "/tmp/rel-date";
     mkdir $tmpdir;
-    my $f-check   = "{$tmpdir}/{$filebase}.checksums.txt";
+    #my $f-check   = "{$tmpdir}/{$filebase}.checksums.txt";
+    my $f-check   = "{$tmpdir}/{$filebase}.asc";
 
     try { so quietly shell "curl -1sLf $r-check   -o $f-check" } // False;
 }
