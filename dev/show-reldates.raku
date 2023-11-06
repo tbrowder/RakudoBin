@@ -13,6 +13,7 @@ if not @*ARGS {
 my $arg = @*ARGS.shift;
 my $sec = $arg ~~ /\d+/ ?? $arg !! 1;
 show-reldates $sec;
+
 #=== subroutines =====
 sub show-reldates($sec = 1) {
     # checks dates to get latest release date
@@ -23,7 +24,7 @@ sub show-reldates($sec = 1) {
     while 1 {
         my $res = check-https :date($d);
         if $res {
-            say sprintf("%04d-%02d.01", $d.year, $d.month), 
+            say sprintf("%04d-%02d.01", $d.year, $d.month),
         }
         $d = $d.earlier(months => 1);
         sleep $sec;
@@ -39,7 +40,7 @@ sub check-https(:$sys  = 'linux',
                 --> Bool
                ) is export {
     # checks if a date has a release
-    my $month = sprintf "%2d", $date.month;
+    my $month = sprintf "%02d", $date.month;
     my $year  = $date.year;
     my $release = "01";
 
@@ -74,12 +75,19 @@ sub check-https(:$sys  = 'linux',
     # files to download:
     #my $r-check   = "{$remote-dir}/{$inbase}.checksums.txt";
     my $r-check   = "{$remote-dir}/{$inbase}.asc";
+    note "Remote download: '$r-check'";
 
     # files renamed upon download to:
-    my $tmpdir = "/tmp/rel-date";
-    mkdir $tmpdir;
+    #my $tmpdir = "/tmp/rel-date";
+    my $tmpdir = "."; #/tmp/rel-date";
+
+    mkdir $tmpdir if not $tmpdir.IO.d;
     #my $f-check   = "{$tmpdir}/{$filebase}.checksums.txt";
     my $f-check   = "{$tmpdir}/{$filebase}.asc";
 
-    try { so quietly shell "curl -1sLf $r-check   -o $f-check" } // False;
+    my $res1 = try { so quietly shell "curl -1sLf $r-check   -o $f-check" } // False;
+    note "\$res1 = $res1";
+    my $res2 = try { so shell "curl -1sLf $r-check   -o $f-check" } // False;
+    note "\$res2 = $res2";
+    $res1
 }
