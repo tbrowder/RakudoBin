@@ -47,7 +47,9 @@ rb-install-raku date=2022-09 os=macos arch=arm    # or arch=x86
 
 Unpacks the archive into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`. The download location may be specified with the `dir=/path` option.
 
-  * Note for non-Debian systems Currently only Debian systems are further modified in the following steps. Interested users of other systems are encouraged to create a PR for their system.
+  * Note for non-Debian systems
+
+    Currently only Debian systems are further modified in the following steps. Interested users of other systems are encouraged to create a PR for their system.
 
 For Debian systems only, ensures paths are set correctly and the system's `adduser` configuration (in directory `/etc/skel`) has the correct settings for Raku.
 
