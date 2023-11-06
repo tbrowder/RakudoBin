@@ -1,5 +1,29 @@
 unit module RakudoBin::Sub;
 
+our constant $EARLIEST-RELEASE is export = '2021-12.01';
+#| Releases which have signed
+#| archives and all flavors
+#| of archive file types.
+#| It may be updated to add
+#| later ones; otherwise, it
+#| will query the download 
+#| website.
+our @releases is export = <
+    2023-10.01
+    2023-09.01
+    2023-08.01
+    2023-06.01
+    2023-04.01
+    2023-02.01
+    2022-12.01
+    2022-07.01
+    2022-06.01
+    2022-04.01
+    2022-03.01
+    2022-02.01
+    2021-12.01
+>;
+
 our %pub-keys is export = set %(
     'alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc',
     'justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc',
