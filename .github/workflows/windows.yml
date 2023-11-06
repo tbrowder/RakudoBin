@@ -23,6 +23,7 @@ jobs:
         with:
           raku-version: ${{ matrix.raku-version }}
       - name: Install Dependencies
+        run: choco install curl
         run: zef install --/test --test-depends --deps-only .
       - name: Run Tests
         run: zef --debug install .
