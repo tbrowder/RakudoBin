@@ -3,15 +3,17 @@ unit module RakudoBin;
 use RakudoBin::Subs;
 use RakudoBin::OS;
 
+constant $RDIR = "/opt/rakudo";
 sub run-cli-inst-raku(@args) is export {
 
     # default directory, may be changed by the user
+    # with option dir=/path
     # TODO not fully tested yet
-    my $rdir = "/opt/rakudo";
+    my $rdir = $RDIR; #"/opt/rakudo";
 
     # get the latest release date
     my $reldate = get-latest-release;
-    my $relnum = get-release-number $reldate.Date;
+    my $relnum  = get-release-number $reldate.Date;
 
     my $os = RakudoBin::OS.new;
     my $is-debian = $os.is-debian;
@@ -99,7 +101,7 @@ sub run-cli-inst-raku(@args) is export {
     # arch=
     # tool=
     # type=
-    #my $os;
+    # dir=/path
     my $arch;
     my $tool;
     my $type;
@@ -121,7 +123,10 @@ sub run-cli-inst-raku(@args) is export {
             $tool = ~$0;
         }
         when /^:i ty[pe]?'=' (\S+) $/ {
-            $tool = ~$0;
+            $type = ~$0;
+        }
+        when /^:i dir'=' (\S+) $/ {
+            $rdir = ~$0;
         }
 
         default {
@@ -155,15 +160,19 @@ sub run-cli-inst-raku(@args) is export {
 
     #install-raku;
 
-    download-rakudo-bin :$reldate;
+    download-rakudo-bin :$reldate, :$os, 
+        #:$spec,
+        :$release, :$debug;
 
 =begin comment
 sub download-rakudo-bin(
-    :$date! where {/^ \d**4 '-' \d\d $/},
+    :reldate($date)! where {/^ \d**4 '-' \d\d $/},
     :OS(:$os)!,
-    :$spec,
+    :$rdir!,
+    :$arch, :$tool, :$type,
+    #:$spec,
     :$release is copy where { /^ \d+ $/ } = 1,
-    :$force = False,
+    #:$force = False,
     :$debug,
     ) is export {
 =end comment

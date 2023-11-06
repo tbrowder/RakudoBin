@@ -158,7 +158,7 @@ OR
 
 ### Step 4 - Install or upgrade the Rakudo binary system
 
-    $ sudo rb-install-raku
+    $ sudo rb-install-raku go
 
 Note after the first installation, the system package of `zef` should be removed to avoid possible interference between the two versions.
 

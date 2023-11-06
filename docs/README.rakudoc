@@ -184,7 +184,7 @@ OR
 
 =head3 Step 4 - Install or upgrade the Rakudo binary system
 
-    $ sudo rb-install-raku
+    $ sudo rb-install-raku go
 
 Note after the first installation, the system package of C<zef>
 should be removed to avoid possible interference between the two

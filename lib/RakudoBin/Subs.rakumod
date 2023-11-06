@@ -1,6 +1,5 @@
 unit module RakudoBin::Sub;
 
-
 our %pub-keys is export = set %(
     'alexander_kiryuhin-FE750D152426F3E50953176ADE8F8F5E97A8FCDE.asc',
     'justin_devuyst-59E634736AFDCF9C6DBAC382602D51EACA887C01.asc',
@@ -222,12 +221,20 @@ sub get-backup-name($f, :$use-date --> Str) is export {
      $nam
 } # sub get-backup-name($f, :$use-date --> Str) is export {
 
-sub download-rakudo-bin(
+multi sub download-rakudo-bin(
+) {
+}
+
+multi sub download-rakudo-bin(
     :reldate($date)! where {/^ \d**4 '-' \d\d $/},
     :OS(:$os)!,
-    :$spec,
+    :$rdir!,
+    :$arch,
+    :$tool,
+    :$type,
+    #:$spec,
     :$release is copy where { /^ \d+ $/ } = 1,
-    :$force = False,
+    #:$force = False,
     :$debug,
     ) is export {
 
