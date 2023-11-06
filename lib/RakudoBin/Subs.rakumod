@@ -736,7 +736,7 @@ sub get-latest-release(--> Str) is export {
 
     =begin comment
         my $year  = $d.year;
-        my $month = sprintf "%2d", $d.month;
+        my $month = sprintf "%02d", $d.month;
         # dotted date
         my $reldate = "{$year}.{$month}";
     =end comment
@@ -751,7 +751,7 @@ sub check-https(:$sys  = 'linux',
                 --> Bool
                ) is export {
     # checks if a date has a release
-    my $month = sprintf "%2d", $date.month;
+    my $month = sprintf "%02d", $date.month;
     my $year  = $date.year;
     my $release = "01";
 
