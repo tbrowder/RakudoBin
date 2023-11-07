@@ -20,7 +20,7 @@ it on a Debian system with:
 
 =head1 DESCRIPTION
 
-Downloads the latest Rakudo binary archive the host system's
+Downloads the latest Rakudo binary archive for the host system's
 operating system, architecture, compiler, and type of archive.
 Checks the archive for the proper sha256 hash value.
 
@@ -47,12 +47,13 @@ rb-install-raku date=2022-09 os=macos arch=arm    # or arch=x86
 Unpacks the archive into directory
 C</opt/rakudo>. The paths required to use the installed binaries
 are C</opt/rakudo/bin> and C</opt/rakudo/share/perl6/site/bin>.
-The download location may be specified with the C<dir=/path> option.
+The download location may be specified with the C<dir=/path> option
+(which may be useful for non-Linux systems).
 
 =begin item
 Note for non-Debian systems
 
-Currently only Debian systems are further modified
+Currently, only Debian systems are further modified
 in the following steps. Interested users of other
 systems are encouraged to create a PR for their system.
 =end item
@@ -74,18 +75,18 @@ the binary downloads. Consider the following scenarios:
 
 Solution: 
 
-=item install the system Raku and Zef
-=item install module RakudoBin using the system Zef
+=item install the system C<raku> and C<zef>
+=item install module RakudoBin using the system C<zef>
 =item install the Rakudo binary with the executable program of module RakudoBin
-=item remove the Rakudo system Zef
+=item remove the Rakudo system C<zef>
 
 =head2 Scenario two - a new system with its system Rakudo package installed
 
 Solution: 
 
-=item install module RakudoBin using the system Zef
+=item install module RakudoBin using the system C<zef>
 =item install the Rakudo binary with the executable program of module RakudoBin
-=item remove the Rakudo system Zef
+=item remove the Rakudo system C<zef>
 
 =head2 Scenario three - upgrading a system already using the Rakudo binary download
 
@@ -153,7 +154,7 @@ Debian 11
 
 Install C<raku> and C<zef>:
 
-    $ sudo aptitude install perl6-zef
+    $ sudo aptitude install rakudo perl6-zef
 
 The result is Raku v2020.12 and zef v0.9.4.
 =end item 
@@ -163,7 +164,7 @@ Debian 12
 
 Install C<raku> and C<zef>:
 
-    $ sudo aptitude install raku raku-zef
+    $ sudo aptitude install rakudo raku-zef
 
 The result is Raku v2022.12 and zef v0.13.8.
 Note that version is probably sufficient for beginning Raku users, but this
@@ -176,11 +177,11 @@ module aims to make upgrading to a more recent version painless.
 
 =head3 Step 3 - Remove the system zef
 
-    $ sudo apt-get purge raku-zef
+    $ sudo apt-get purge raku-zef # Debian 11
 
 OR
 
-    $ sudo apt-get purge perl6-zef
+    $ sudo apt-get purge perl6-zef # Debian 12
 
 =head3 Step 4 - Install or upgrade the Rakudo binary system
 
@@ -189,6 +190,13 @@ OR
 Note after the first installation, the system package of C<zef>
 should be removed to avoid possible interference between the two
 versions.
+
+    $ sudo apt-get purge raku-zef # Debian 11
+
+OR
+
+    $ sudo apt-get purge perl6-zef # Debian 12
+
 
     
 =head1 AUTHOR

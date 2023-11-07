@@ -23,7 +23,7 @@ This module requires system executable `curl` to be available. Install it on a D
 DESCRIPTION
 ===========
 
-Downloads the latest Rakudo binary archive the host system's operating system, architecture, compiler, and type of archive. Checks the archive for the proper sha256 hash value.
+Downloads the latest Rakudo binary archive for the host system's operating system, architecture, compiler, and type of archive. Checks the archive for the proper sha256 hash value.
 
 Execute the installed binary, `rb-install-raku`, without arguments, to see those download defaults for your host system. They are also shown below.
 
@@ -45,11 +45,11 @@ rb-install-raku date=2022-09 os=windows type=msi  # or type=zip
 rb-install-raku date=2022-09 os=macos arch=arm    # or arch=x86
 ```
 
-Unpacks the archive into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`. The download location may be specified with the `dir=/path` option.
+Unpacks the archive into directory `/opt/rakudo`. The paths required to use the installed binaries are `/opt/rakudo/bin` and `/opt/rakudo/share/perl6/site/bin`. The download location may be specified with the `dir=/path` option (which may be useful for non-Linux systems).
 
   * Note for non-Debian systems
 
-    Currently only Debian systems are further modified in the following steps. Interested users of other systems are encouraged to create a PR for their system.
+    Currently, only Debian systems are further modified in the following steps. Interested users of other systems are encouraged to create a PR for their system.
 
 For Debian systems only, ensures paths are set correctly and the system's `adduser` configuration (in directory `/etc/skel`) has the correct settings for Raku.
 
@@ -65,24 +65,24 @@ Scenario one - a new system without Rakudo installed
 
 Solution: 
 
-  * install the system Raku and Zef
+  * install the system `raku` and `zef`
 
-  * install module RakudoBin using the system Zef
+  * install module RakudoBin using the system `zef`
 
   * install the Rakudo binary with the executable program of module RakudoBin
 
-  * remove the Rakudo system Zef
+  * remove the Rakudo system `zef`
 
 Scenario two - a new system with its system Rakudo package installed
 --------------------------------------------------------------------
 
 Solution: 
 
-  * install module RakudoBin using the system Zef
+  * install module RakudoBin using the system `zef`
 
   * install the Rakudo binary with the executable program of module RakudoBin
 
-  * remove the Rakudo system Zef
+  * remove the Rakudo system `zef`
 
 Scenario three - upgrading a system already using the Rakudo binary download
 ----------------------------------------------------------------------------
@@ -132,7 +132,7 @@ Since `zef` depends on `raku`, all we need to do is install its package (note th
 
     Install `raku` and `zef`:
 
-        $ sudo aptitude install perl6-zef
+        $ sudo aptitude install rakudo perl6-zef
 
     The result is Raku v2020.12 and zef v0.9.4.
 
@@ -140,7 +140,7 @@ Since `zef` depends on `raku`, all we need to do is install its package (note th
 
     Install `raku` and `zef`:
 
-        $ sudo aptitude install raku raku-zef
+        $ sudo aptitude install rakudo raku-zef
 
     The result is Raku v2022.12 and zef v0.13.8. Note that version is probably sufficient for beginning Raku users, but this module aims to make upgrading to a more recent version painless.
 
@@ -150,17 +150,23 @@ Since `zef` depends on `raku`, all we need to do is install its package (note th
 
 ### Step 3 - Remove the system zef
 
-    $ sudo apt-get purge raku-zef
+    $ sudo apt-get purge raku-zef # Debian 11
 
 OR
 
-    $ sudo apt-get purge perl6-zef
+    $ sudo apt-get purge perl6-zef # Debian 12
 
 ### Step 4 - Install or upgrade the Rakudo binary system
 
     $ sudo rb-install-raku go
 
 Note after the first installation, the system package of `zef` should be removed to avoid possible interference between the two versions.
+
+    $ sudo apt-get purge raku-zef # Debian 11
+
+OR
+
+    $ sudo apt-get purge perl6-zef # Debian 12
 
 AUTHOR
 ======
