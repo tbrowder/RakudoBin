@@ -27,4 +27,4 @@ jobs:
             choco install curl
             zef install --/test --test-depends --deps-only .
       - name: Run Tests
-        run: zef --debug install .
+        run: zef install .
