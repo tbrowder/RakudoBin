@@ -96,6 +96,7 @@ sub run-cli-inst-raku(@args) is export {
 
     my $debug  = 0;
 
+    my $release = '01';
     # date=yyyy-mm
     # os=
     # arch=

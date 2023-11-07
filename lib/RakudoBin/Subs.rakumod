@@ -258,14 +258,14 @@ multi sub download-rakudo-bin(
     :$type,
     #:$spec,
     :$release is copy where { /^ \d+ $/ } = 1,
-    #:$force = False,
+    :$force = False,
     :$debug,
     ) is export {
 
     my $dotted-date = $date;
     $dotted-date ~~ s/'-'/./;
     my $err;
-    my ($sys, $arch, $tool, $type);
+    my ($sys); #, $arch, $tool, $type);
     if $os ~~ /:i lin/ {
         $sys = "linux";
         $arch = "x86_64";
@@ -294,10 +294,12 @@ multi sub download-rakudo-bin(
         exit;
     }
 
+    =begin comment
     if $spec.defined {
         $arch = "x86_84" if $os eq "macos";
         $type = "zip" if $os eq "win";
     }
+    =end comment
 
     $release = sprintf "%02d", $release;
 
