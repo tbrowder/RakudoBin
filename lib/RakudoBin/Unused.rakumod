@@ -2,6 +2,7 @@ unit module Unused;
 
 # temp storage for unused code from earlier attempt
 
+=begin comment
 sub install-path(:$user, :$restore, :$debug) is export {
     # fix for root user only
     say "NOT USED NOW. EXITING EARLY"; exit;
@@ -51,7 +52,7 @@ sub install-path(:$user, :$restore, :$debug) is export {
         handle-path-file $f, :$user, :$restore, :$debug;
     }
 }
-
+=end comment
 
 =begin comment
 # this is from the RakudoPkg effort, discontinued
