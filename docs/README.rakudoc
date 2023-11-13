@@ -22,7 +22,7 @@ it on a Debian system with:
 
 Downloads the latest Rakudo binary archive for the host system's
 operating system, architecture, compiler, and type of archive.
-Checks the archive for the proper sha256 hash value.
+Checks the archive for the proper SHA256 hash value.
 
 Execute the installed binary, C<rb-install-raku>, without arguments, to
 see those download defaults for your host system.
@@ -59,7 +59,7 @@ systems are encouraged to create a PR for their system.
 =end item
 
 For Debian systems only, ensures paths are set correctly and the
-system's C<adduser> configuration (in directory C</etc/skel>) has 
+system's C<adduser> configuration (in directory C</etc/skel>) has
 the correct settings for Raku.
 
 =head1 Details
@@ -73,7 +73,7 @@ the binary downloads. Consider the following scenarios:
 
 =head2 Scenario one - a new system without Rakudo installed
 
-Solution: 
+Solution:
 
 =item install the system C<raku> and C<zef>
 =item install module RakudoBin using the system C<zef>
@@ -82,7 +82,7 @@ Solution:
 
 =head2 Scenario two - a new system with its system Rakudo package installed
 
-Solution: 
+Solution:
 
 =item install module RakudoBin using the system C<zef>
 =item install the Rakudo binary with the executable program of module RakudoBin
@@ -90,13 +90,13 @@ Solution:
 
 =head2 Scenario three - upgrading a system already using the Rakudo binary download
 
-Solution: 
+Solution:
 
 =item upgrade the Rakudo binary with the executable program of module RakudoBin
 
 =head2 Scenario four - a system with another Raku installation method
 
-Solution: 
+Solution:
 
 B<WARNING> Note the Rakudo binary download provides its own C<zef> which is normally used
 by both the root user as well as normal users. If the C<zef> executable
@@ -120,17 +120,17 @@ rakudo-moar-2023.10-01-win-x86_64-msvc.zip
 =end code
 
 Generally, the only thing you need to do is accept the defaults unless you
-want an older release for some reason. 
-The correct version for your system will be downloaded 
+want an older release for some reason.
+The correct version for your system will be downloaded
 along with the accompanying files for checking the validity of the archive.
 
 The archive and its sister files will be downloaded into a temporary directory, checked
-for validity, and unpacked into directory C</opt/rakudo>. 
+for validity, and unpacked into directory C</opt/rakudo>.
 
 This module may eventually be able to do the same for MacOS and, hopefully, Windows.
 But at this release, it has only been tested on Debian systems (11 and 12).
 
-Note this package is designed for the purpose of setting up and 
+Note this package is designed for the purpose of setting up and
 standardizing multi-user Linux hosts
 for classrooms or computer laboratories.
 
@@ -149,7 +149,7 @@ There are three steps to follow.
 Since C<zef> depends on C<raku>, all we need to do is install its package (note the package name
 is different for different Debian versions):
 
-=begin item 
+=begin item
 Debian 11
 
 Install C<raku> and C<zef>:
@@ -157,9 +157,9 @@ Install C<raku> and C<zef>:
     $ sudo aptitude install rakudo perl6-zef
 
 The result is Raku v2020.12 and zef v0.9.4.
-=end item 
+=end item
 
-=begin item 
+=begin item
 Debian 12
 
 Install C<raku> and C<zef>:
@@ -169,7 +169,7 @@ Install C<raku> and C<zef>:
 The result is Raku v2022.12 and zef v0.13.8.
 Note that version is probably sufficient for beginning Raku users, but this
 module aims to make upgrading to a more recent version painless.
-=end item 
+=end item
 
 =head3 Step 2 - Install this module
 
@@ -197,8 +197,6 @@ OR
 
     $ sudo apt-get purge perl6-zef # Debian 12
 
-
-    
 =head1 AUTHOR
 
 Tom Browder <tbrowder@acm.org>
