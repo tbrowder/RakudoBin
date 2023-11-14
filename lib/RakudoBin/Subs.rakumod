@@ -6,7 +6,7 @@ our constant $EARLIEST-RELEASE is export = '2021-12.01';
 #| of archive file types.
 #| It may be updated to add
 #| later ones; otherwise, it
-#| will query the download 
+#| will query the download
 #| website.
 our @releases is export = <
     2023-10.01
@@ -161,8 +161,25 @@ sub remove-raku($dir) is export {
 } #sub remove-raku($dir) is export {
 
 sub set-skel-scripts(:$user, :$restore, :$debug) is export {
-    # add a .xsessionrc file as a copy of the 
+    # add a .xsessionrc file as a copy of the
     # .profile file
+    my $dot-profile       = ".profile";
+    my $dot-xsessionrc    = ".xsessionrc";
+    my $profile-exists    = $dot-profile.IO.f     ?? True !! False;
+    my $xsessionrc-exists = $dot-xsessionrc.IO.f  ?? True !! False;
+
+    unless $xsessionrc-exists.IO.f {
+        my $str = slurp $dot-profile;
+        spurt $dot-xsessionrc, $str;
+    }
+
+    =begin comment
+    my $dot-bashrc      = ".bashrc";
+    my $dot-bash_logout = ".bash_logout";
+
+    my $bashrc-exists       = $dot-bashrc.IO.f      ?? True !! False;
+    my $bash_logout-exists  = $dot-bash_logout.IO.f ?? True !! False;
+    =end comment
 
 } # sub set-skel-scripts(:$user, :$restore, :$debug) is export {
 
@@ -831,4 +848,3 @@ sub run-help is export {
 
     HELP
 } # sub run-help {
-

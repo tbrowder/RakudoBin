@@ -23,7 +23,7 @@ This module requires system executable `curl` to be available. Install it on a D
 DESCRIPTION
 ===========
 
-Downloads the latest Rakudo binary archive for the host system's operating system, architecture, compiler, and type of archive. Checks the archive for the proper sha256 hash value.
+Downloads the latest Rakudo binary archive for the host system's operating system, architecture, compiler, and type of archive. Checks the archive for the proper SHA256 hash value.
 
 Execute the installed binary, `rb-install-raku`, without arguments, to see those download defaults for your host system. They are also shown below.
 
@@ -63,7 +63,7 @@ In fact, it is designed to maintain and use the native Rakudo system package to 
 Scenario one - a new system without Rakudo installed
 ----------------------------------------------------
 
-Solution: 
+Solution:
 
   * install the system `raku` and `zef`
 
@@ -76,7 +76,7 @@ Solution:
 Scenario two - a new system with its system Rakudo package installed
 --------------------------------------------------------------------
 
-Solution: 
+Solution:
 
   * install module RakudoBin using the system `zef`
 
@@ -87,14 +87,14 @@ Solution:
 Scenario three - upgrading a system already using the Rakudo binary download
 ----------------------------------------------------------------------------
 
-Solution: 
+Solution:
 
   * upgrade the Rakudo binary with the executable program of module RakudoBin
 
 Scenario four - a system with another Raku installation method
 --------------------------------------------------------------
 
-Solution: 
+Solution:
 
 **WARNING** Note the Rakudo binary download provides its own `zef` which is normally used by both the root user as well as normal users. If the `zef` executable is found in the root user's own `$HOME` directory, he or she will be offered the choice of either deleting it or aborting the installation. Given the oft-upgraded binary version, retaining the personal copy of `zef` should not be of any benefit. As well, its effect on the dual-Rakudo installation is not tested.
 
@@ -111,7 +111,7 @@ Overview
 
 Generally, the only thing you need to do is accept the defaults unless you want an older release for some reason. The correct version for your system will be downloaded along with the accompanying files for checking the validity of the archive.
 
-The archive and its sister files will be downloaded into a temporary directory, checked for validity, and unpacked into directory `/opt/rakudo`. 
+The archive and its sister files will be downloaded into a temporary directory, checked for validity, and unpacked into directory `/opt/rakudo`.
 
 This module may eventually be able to do the same for MacOS and, hopefully, Windows. But at this release, it has only been tested on Debian systems (11 and 12).
 
